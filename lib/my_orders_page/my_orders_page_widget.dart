@@ -62,6 +62,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                   fontFamily: 'Outfit',
                   color: Colors.white,
                   fontSize: 22.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],
@@ -100,6 +101,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -113,6 +115,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         fontSize: 18.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
@@ -137,6 +140,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                           ),
                                     ),
@@ -151,6 +155,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -181,6 +186,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -194,6 +200,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         fontSize: 18.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
@@ -218,6 +225,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                           ),
                                     ),
@@ -234,6 +242,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -264,6 +273,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -277,6 +287,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         fontSize: 18.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
@@ -301,6 +312,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                           ),
                                     ),
@@ -317,6 +329,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -347,6 +360,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -360,6 +374,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         fontSize: 18.0,
+                                        letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
@@ -384,6 +399,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                           ),
                                     ),
@@ -400,6 +416,7 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),

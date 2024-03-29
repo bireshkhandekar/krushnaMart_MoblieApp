@@ -136,6 +136,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                             context)
                                                         .primary,
                                                     fontSize: 45.0,
+                                                    letterSpacing: 0.0,
                                                     fontWeight: FontWeight.w800,
                                                   ),
                                             ),
@@ -174,10 +175,17 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                       obscureText: false,
                                                       decoration:
                                                           InputDecoration(
+                                                        isDense: false,
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .labelMedium,
+                                                                .labelMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                         hintText:
                                                             'Moblie Number :',
                                                         hintStyle:
@@ -189,6 +197,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                       'Readex Pro',
                                                                   fontSize:
                                                                       18.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                 ),
                                                         enabledBorder:
                                                             OutlineInputBorder(
@@ -257,15 +267,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                           Icons.person,
                                                         ),
                                                       ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                fontSize: 18.0,
-                                                              ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            fontSize: 18.0,
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                      minLines: null,
                                                       keyboardType:
                                                           TextInputType.number,
                                                       validator: _model
@@ -300,6 +311,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -389,7 +402,9 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 18.0,
+                                                          letterSpacing: 0.0,
                                                         ),
+                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
@@ -433,6 +448,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               fontFamily:
                                                                   'Readex Pro',
                                                               fontSize: 18.0,
+                                                              letterSpacing:
+                                                                  0.0,
                                                             ),
                                                       ),
                                                     ),
@@ -489,7 +506,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .titleMedium,
+                                                                .titleMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                         elevation: 3.0,
                                                         borderSide: const BorderSide(
                                                           color: Colors
@@ -544,7 +567,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .titleMedium,
+                                                                .titleMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                         elevation: 3.0,
                                                         borderSide: const BorderSide(
                                                           color: Colors

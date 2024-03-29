@@ -92,6 +92,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                     fontSize: 24.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                   ),
                             ),
@@ -143,6 +144,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -198,6 +200,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -253,6 +256,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -283,7 +287,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed('SubscribeItems');
+                                context.pushNamed(
+                                  'SubscribeItems',
+                                  queryParameters: {
+                                    'id': serializeParam(
+                                      0,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -308,6 +320,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -355,6 +368,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -401,6 +415,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -454,6 +469,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           fontFamily: 'Readex Pro',
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           fontSize: 26.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -716,6 +732,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -744,6 +762,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           14.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w300,
@@ -768,6 +788,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           16.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w300,
@@ -820,6 +842,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                             .primaryText,
                                                                         fontSize:
                                                                             14.0,
+                                                                        letterSpacing:
+                                                                            0.0,
                                                                         fontWeight:
                                                                             FontWeight.w300,
                                                                       ),
@@ -841,9 +865,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                               flex: 5,
                                                               child:
                                                                   FFButtonWidget(
-                                                                onPressed: () {
-                                                                  print(
-                                                                      'Button pressed ...');
+                                                                onPressed:
+                                                                    () async {
+                                                                  context
+                                                                      .pushNamed(
+                                                                    'SubscribeItems',
+                                                                    queryParameters:
+                                                                        {
+                                                                      'id':
+                                                                          serializeParam(
+                                                                        getJsonField(
+                                                                          eachProductItem,
+                                                                          r'''$.id''',
+                                                                        ),
+                                                                        ParamType
+                                                                            .int,
+                                                                      ),
+                                                                    }.withoutNulls,
+                                                                  );
                                                                 },
                                                                 text:
                                                                     'Subscribe',
@@ -873,6 +912,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                             'Readex Pro',
                                                                         fontSize:
                                                                             14.0,
+                                                                        letterSpacing:
+                                                                            0.0,
                                                                         fontWeight:
                                                                             FontWeight.w300,
                                                                       ),

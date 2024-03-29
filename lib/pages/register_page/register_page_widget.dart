@@ -150,6 +150,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                           context)
                                                       .primary,
                                                   fontSize: 45.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w800,
                                                 ),
                                           ),
@@ -180,15 +181,15 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     hintText: 'Name:',
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 18.0,
-                                                            ),
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     enabledBorder:
                                                         UnderlineInputBorder(
                                                       borderSide: BorderSide(
@@ -253,7 +254,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontFamily:
                                                             'Readex Pro',
                                                         fontSize: 18.0,
+                                                        letterSpacing: 0.0,
                                                       ),
+                                                  minLines: null,
                                                   validator: _model
                                                       .nameControllerValidator
                                                       .asValidator(context),
@@ -273,20 +276,24 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                       TextCapitalization.none,
                                                   obscureText: false,
                                                   decoration: InputDecoration(
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium,
+                                                    labelStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     hintText: 'Moblie Number :',
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 18.0,
-                                                            ),
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     enabledBorder:
                                                         UnderlineInputBorder(
                                                       borderSide: BorderSide(
@@ -351,7 +358,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontFamily:
                                                             'Readex Pro',
                                                         fontSize: 18.0,
+                                                        letterSpacing: 0.0,
                                                       ),
+                                                  minLines: null,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   validator: _model
@@ -392,7 +401,13 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                             labelStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelMedium,
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                             hintText:
                                                                 'Flat No / Name :',
                                                             hintStyle:
@@ -404,6 +419,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                     ),
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
@@ -476,7 +493,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
+                                                          minLines: null,
                                                           validator: _model
                                                               .flatnoControllerValidator
                                                               .asValidator(
@@ -505,7 +525,13 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                             labelStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelMedium,
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                             hintText:
                                                                 'Line No :',
                                                             hintStyle:
@@ -517,6 +543,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                     ),
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
@@ -589,7 +617,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
+                                                          minLines: null,
                                                           validator: _model
                                                               .lineNoControllerValidator
                                                               .asValidator(
@@ -612,20 +643,24 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                   autofocus: true,
                                                   obscureText: false,
                                                   decoration: InputDecoration(
-                                                    labelStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium,
+                                                    labelStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     hintText: 'Land Mark:',
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 18.0,
-                                                            ),
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     enabledBorder:
                                                         UnderlineInputBorder(
                                                       borderSide: BorderSide(
@@ -690,7 +725,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontFamily:
                                                             'Readex Pro',
                                                         fontSize: 18.0,
+                                                        letterSpacing: 0.0,
                                                       ),
+                                                  minLines: null,
                                                   validator: _model
                                                       .landMarkControllerValidator
                                                       .asValidator(context),
@@ -725,7 +762,13 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                             labelStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelMedium,
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                             hintText: 'City :',
                                                             hintStyle:
                                                                 FlutterFlowTheme.of(
@@ -736,6 +779,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                     ),
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
@@ -808,7 +853,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
+                                                          minLines: null,
                                                           validator: _model
                                                               .cityControllerValidator
                                                               .asValidator(
@@ -837,7 +885,13 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                             labelStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelMedium,
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                             hintText:
                                                                 'Pin Code :',
                                                             hintStyle:
@@ -849,6 +903,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                     ),
                                                             enabledBorder:
                                                                 UnderlineInputBorder(
@@ -921,7 +977,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
+                                                          minLines: null,
                                                           keyboardType:
                                                               TextInputType
                                                                   .number,
@@ -953,15 +1012,15 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                   obscureText: false,
                                                   decoration: InputDecoration(
                                                     hintText: 'State :',
-                                                    hintStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 18.0,
-                                                            ),
+                                                    hintStyle: FlutterFlowTheme
+                                                            .of(context)
+                                                        .labelMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
                                                     enabledBorder:
                                                         UnderlineInputBorder(
                                                       borderSide: BorderSide(
@@ -1026,7 +1085,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontFamily:
                                                             'Readex Pro',
                                                         fontSize: 18.0,
+                                                        letterSpacing: 0.0,
                                                       ),
+                                                  minLines: null,
                                                   validator: _model
                                                       .stateControllerValidator
                                                       .asValidator(context),
@@ -1088,7 +1149,13 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                       textStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .titleMedium,
+                                                              .titleMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                       elevation: 3.0,
                                                       borderSide: const BorderSide(
                                                         color:

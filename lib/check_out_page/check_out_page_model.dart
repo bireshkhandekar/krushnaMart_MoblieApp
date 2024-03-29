@@ -9,8 +9,6 @@ class CheckOutPageModel extends FlutterFlowModel<CheckOutPageWidget> {
   // State field(s) for Checkbox widget.
   bool? checkboxValue;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {}
 
@@ -18,8 +16,4 @@ class CheckOutPageModel extends FlutterFlowModel<CheckOutPageWidget> {
   void dispose() {
     unfocusNode.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

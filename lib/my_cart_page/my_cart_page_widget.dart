@@ -65,6 +65,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                   fontFamily: 'Outfit',
                   color: Colors.white,
                   fontSize: 22.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],
@@ -181,6 +182,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                       'Readex Pro',
                                                                   fontSize:
                                                                       16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
@@ -198,18 +201,18 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                     ),
                                                     Text(
                                                       '500 ml',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                fontSize: 16.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
                                                     ),
                                                     Row(
                                                       mainAxisSize:
@@ -235,6 +238,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                         'Readex Pro',
                                                                     fontSize:
                                                                         16.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                   ),
                                                             ),
                                                           ].addToEnd(const SizedBox(
@@ -336,6 +341,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                                 FlutterFlowTheme.of(context).primaryText,
                                                                             fontSize:
                                                                                 18.0,
+                                                                            letterSpacing:
+                                                                                0.0,
                                                                           ),
                                                                     ),
                                                                     count: _model
@@ -451,6 +458,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -476,6 +485,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 16.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                         ),
@@ -504,6 +514,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                       'Readex Pro',
                                                                   fontSize:
                                                                       16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                 ),
                                                           ),
                                                         ].addToEnd(const SizedBox(
@@ -604,6 +616,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                               FlutterFlowTheme.of(context).primaryText,
                                                                           fontSize:
                                                                               18.0,
+                                                                          letterSpacing:
+                                                                              0.0,
                                                                         ),
                                                                   ),
                                                                   count: _model
@@ -718,6 +732,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600,
@@ -743,6 +759,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 16.0,
+                                                          letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                         ),
@@ -771,6 +788,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                       'Readex Pro',
                                                                   fontSize:
                                                                       16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
                                                                 ),
                                                           ),
                                                         ].addToEnd(const SizedBox(
@@ -871,6 +890,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                                               FlutterFlowTheme.of(context).primaryText,
                                                                           fontSize:
                                                                               18.0,
+                                                                          letterSpacing:
+                                                                              0.0,
                                                                         ),
                                                                   ),
                                                                   count: _model
@@ -955,6 +976,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
+                                              letterSpacing: 0.0,
                                             ),
                                       ),
                                     ),
@@ -969,6 +991,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 16.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
                                           ),
                                     ),
@@ -993,6 +1016,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 16.0,
+                                                letterSpacing: 0.0,
                                               ),
                                         ),
                                         Text(
@@ -1002,6 +1026,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 16.0,
+                                                letterSpacing: 0.0,
                                               ),
                                         ),
                                       ],
@@ -1033,6 +1058,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             color: Colors.white,
+                                            letterSpacing: 0.0,
                                           ),
                                       elevation: 3.0,
                                       borderSide: const BorderSide(

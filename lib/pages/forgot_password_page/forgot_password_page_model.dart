@@ -74,8 +74,6 @@ class ForgotPasswordPageModel
     return null;
   }
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {
     mobileNumberControllerValidator = _mobileNumberControllerValidator;
@@ -101,8 +99,4 @@ class ForgotPasswordPageModel
     conformpinFocusNode?.dispose();
     conformpinController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

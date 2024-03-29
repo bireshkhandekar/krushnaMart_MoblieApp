@@ -61,8 +61,6 @@ class SetPINPageModel extends FlutterFlowModel<SetPINPageWidget> {
     return null;
   }
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {
     mobileNumberControllerValidator = _mobileNumberControllerValidator;
@@ -84,8 +82,4 @@ class SetPINPageModel extends FlutterFlowModel<SetPINPageWidget> {
     conformpinFocusNode?.dispose();
     conformpinController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

@@ -140,6 +140,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           context)
                                                       .primary,
                                                   fontSize: 45.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w800,
                                                 ),
                                           ),
@@ -176,7 +177,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .labelMedium,
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                       hintText:
                                                           'Moblie Number :',
                                                       hintStyle:
@@ -187,6 +194,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -254,7 +263,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 18.0,
+                                                          letterSpacing: 0.0,
                                                         ),
+                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
@@ -292,7 +303,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                             labelStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .labelMedium,
+                                                                    .labelMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                             hintText:
                                                                 'Enter OTP :',
                                                             hintStyle:
@@ -304,6 +321,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                           'Readex Pro',
                                                                       fontSize:
                                                                           18.0,
+                                                                      letterSpacing:
+                                                                          0.0,
                                                                     ),
                                                             enabledBorder:
                                                                 OutlineInputBorder(
@@ -376,7 +395,10 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
+                                                          minLines: null,
                                                           keyboardType:
                                                               TextInputType
                                                                   .number,
@@ -435,6 +457,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                         'Readex Pro',
                                                                     color: Colors
                                                                         .white,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                   ),
                                                           elevation: 3.0,
                                                           borderSide:
@@ -474,6 +498,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -563,7 +589,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 18.0,
+                                                          letterSpacing: 0.0,
                                                         ),
+                                                    minLines: null,
                                                     keyboardType: TextInputType
                                                         .visiblePassword,
                                                     validator: _model
@@ -624,6 +652,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                 fontFamily:
                                                                     'Readex Pro',
                                                                 fontSize: 18.0,
+                                                                letterSpacing:
+                                                                    0.0,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
@@ -725,7 +755,9 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontFamily:
                                                               'Readex Pro',
                                                           fontSize: 18.0,
+                                                          letterSpacing: 0.0,
                                                         ),
+                                                    minLines: null,
                                                     keyboardType: TextInputType
                                                         .visiblePassword,
                                                     validator: _model
@@ -778,6 +810,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                         .error,
                                                                     fontSize:
                                                                         11.0,
+                                                                    letterSpacing:
+                                                                        0.0,
                                                                   ),
                                                             ),
                                                           ],
@@ -833,7 +867,13 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .titleMedium,
+                                                                .titleMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
                                                         elevation: 3.0,
                                                         borderSide: const BorderSide(
                                                           color: Colors

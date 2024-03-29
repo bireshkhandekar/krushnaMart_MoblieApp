@@ -93,7 +93,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'SubscribeItems',
           path: '/subscribeItems',
-          builder: (context, params) => const SubscribeItemsWidget(),
+          builder: (context, params) => SubscribeItemsWidget(
+            id: params.getParam(
+              'id',
+              ParamType.int,
+            ),
+          ),
         ),
         FFRoute(
           name: 'MyOrdersPage',

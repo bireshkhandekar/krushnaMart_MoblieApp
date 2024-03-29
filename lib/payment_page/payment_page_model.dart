@@ -15,8 +15,6 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   // State field(s) for Checkbox widget.
   bool? checkboxValue4;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {}
 
@@ -24,8 +22,4 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   void dispose() {
     unfocusNode.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

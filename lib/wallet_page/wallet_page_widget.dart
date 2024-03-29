@@ -93,6 +93,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                     fontSize: 24.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                   ),
                             ),
@@ -144,6 +145,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -199,6 +201,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -254,6 +257,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -284,7 +288,15 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed('SubscribeItems');
+                                context.pushNamed(
+                                  'SubscribeItems',
+                                  queryParameters: {
+                                    'id': serializeParam(
+                                      0,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -309,6 +321,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -356,6 +369,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -402,6 +416,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -455,6 +470,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                           fontFamily: 'Readex Pro',
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           fontSize: 26.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -490,9 +506,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                     Container(
                       width: double.infinity,
                       height: 100.0,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                      ),
+                      decoration: const BoxDecoration(),
                       child: Padding(
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 0.0),
@@ -536,6 +550,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -547,6 +562,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                             .override(
                                               fontFamily: 'Readex Pro',
                                               fontSize: 20.0,
+                                              letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                             ),
                                       ),
@@ -564,10 +580,8 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                           const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                       child: Container(
                         width: double.infinity,
-                        height: 238.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                        ),
+                        height: 250.0,
+                        decoration: const BoxDecoration(),
                         child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               8.0, 0.0, 8.0, 0.0),
@@ -597,6 +611,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -609,7 +624,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                     child: TextFormField(
                                       controller: _model.textController,
                                       focusNode: _model.textFieldFocusNode,
-                                      autofocus: true,
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelStyle: FlutterFlowTheme.of(context)
@@ -619,6 +634,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
+                                              letterSpacing: 0.0,
                                             ),
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
@@ -627,6 +643,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryText,
+                                              letterSpacing: 0.0,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -675,7 +692,9 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                           ),
+                                      minLines: null,
                                       validator: _model.textControllerValidator
                                           .asValidator(context),
                                     ),
@@ -715,6 +734,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                           context)
                                                       .primaryText,
                                                   fontSize: 12.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                             borderSide: BorderSide(
@@ -754,6 +774,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                           context)
                                                       .primaryText,
                                                   fontSize: 12.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                             borderSide: BorderSide(
@@ -793,6 +814,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                           context)
                                                       .primaryText,
                                                   fontSize: 12.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                             borderSide: BorderSide(
@@ -832,6 +854,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                           context)
                                                       .primaryText,
                                                   fontSize: 12.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
                                                 ),
                                             borderSide: BorderSide(
@@ -871,6 +894,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                               fontFamily: 'Readex Pro',
                                               color: Colors.white,
                                               fontSize: 18.0,
+                                              letterSpacing: 0.0,
                                             ),
                                         elevation: 3.0,
                                         borderSide: const BorderSide(

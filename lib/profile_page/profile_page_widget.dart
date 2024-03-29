@@ -115,6 +115,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                     fontSize: 24.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                   ),
                             ),
@@ -166,6 +167,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -221,6 +223,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -276,6 +279,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -306,7 +310,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed('SubscribeItems');
+                                context.pushNamed(
+                                  'SubscribeItems',
+                                  queryParameters: {
+                                    'id': serializeParam(
+                                      0,
+                                      ParamType.int,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -331,6 +343,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 18.0,
+                                            letterSpacing: 0.0,
                                             fontWeight: FontWeight.w300,
                                           ),
                                     ),
@@ -378,6 +391,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -424,6 +438,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         .override(
                                           fontFamily: 'Readex Pro',
                                           fontSize: 18.0,
+                                          letterSpacing: 0.0,
                                           fontWeight: FontWeight.w300,
                                         ),
                                   ),
@@ -477,6 +492,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           fontFamily: 'Readex Pro',
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           fontSize: 26.0,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -561,6 +577,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               child: TextFormField(
                                 controller: _model.textController1,
                                 focusNode: _model.textFieldFocusNode1,
+                                autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Name',
@@ -570,6 +587,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
+                                        letterSpacing: 0.0,
                                       ),
                                   hintText: 'Name',
                                   hintStyle: FlutterFlowTheme.of(context)
@@ -578,6 +596,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryBackground,
+                                        letterSpacing: 0.0,
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -618,7 +637,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 16.0,
+                                      letterSpacing: 0.0,
                                     ),
+                                minLines: null,
                                 validator: _model.textController1Validator
                                     .asValidator(context),
                               ),
@@ -629,6 +650,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               child: TextFormField(
                                 controller: _model.textController2,
                                 focusNode: _model.textFieldFocusNode2,
+                                autofocus: false,
                                 readOnly: true,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -639,10 +661,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
+                                        letterSpacing: 0.0,
                                       ),
                                   hintText: 'Moblie Number',
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -682,7 +709,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 16.0,
+                                      letterSpacing: 0.0,
                                     ),
+                                minLines: null,
                                 validator: _model.textController2Validator
                                     .asValidator(context),
                               ),
@@ -697,6 +726,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     child: TextFormField(
                                       controller: _model.textController3,
                                       focusNode: _model.textFieldFocusNode3,
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'House No',
@@ -707,10 +737,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
+                                              letterSpacing: 0.0,
                                             ),
                                         hintText: 'House No',
                                         hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium,
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              letterSpacing: 0.0,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
@@ -756,7 +791,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 16.0,
+                                            letterSpacing: 0.0,
                                           ),
+                                      minLines: null,
                                       validator: _model.textController3Validator
                                           .asValidator(context),
                                     ),
@@ -769,6 +806,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     child: TextFormField(
                                       controller: _model.textController4,
                                       focusNode: _model.textFieldFocusNode4,
+                                      autofocus: false,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'Line No',
@@ -779,10 +817,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
+                                              letterSpacing: 0.0,
                                             ),
                                         hintText: 'Line No',
                                         hintStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium,
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Readex Pro',
+                                              letterSpacing: 0.0,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
@@ -828,7 +871,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           .override(
                                             fontFamily: 'Readex Pro',
                                             fontSize: 16.0,
+                                            letterSpacing: 0.0,
                                           ),
+                                      minLines: null,
                                       validator: _model.textController4Validator
                                           .asValidator(context),
                                     ),
@@ -842,6 +887,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               child: TextFormField(
                                 controller: _model.textController5,
                                 focusNode: _model.textFieldFocusNode5,
+                                autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Land Mark',
@@ -851,10 +897,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
+                                        letterSpacing: 0.0,
                                       ),
                                   hintText: 'Land Mark',
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -894,7 +945,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 16.0,
+                                      letterSpacing: 0.0,
                                     ),
+                                minLines: null,
                                 validator: _model.textController5Validator
                                     .asValidator(context),
                               ),
@@ -905,6 +958,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               child: TextFormField(
                                 controller: _model.textController6,
                                 focusNode: _model.textFieldFocusNode6,
+                                autofocus: false,
                                 textCapitalization: TextCapitalization.none,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -915,10 +969,15 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                         fontFamily: 'Readex Pro',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
+                                        letterSpacing: 0.0,
                                       ),
                                   hintText: 'City',
-                                  hintStyle:
-                                      FlutterFlowTheme.of(context).labelMedium,
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        letterSpacing: 0.0,
+                                      ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                       color: FlutterFlowTheme.of(context)
@@ -958,7 +1017,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 16.0,
+                                      letterSpacing: 0.0,
                                     ),
+                                minLines: null,
                                 validator: _model.textController6Validator
                                     .asValidator(context),
                               ),
@@ -976,6 +1037,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       child: TextFormField(
                                         controller: _model.textController7,
                                         focusNode: _model.textFieldFocusNode7,
+                                        autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
                                           labelText: 'State',
@@ -987,11 +1049,16 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryText,
+                                                letterSpacing: 0.0,
                                               ),
                                           hintText: 'State',
                                           hintStyle:
                                               FlutterFlowTheme.of(context)
-                                                  .labelMedium,
+                                                  .labelMedium
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    letterSpacing: 0.0,
+                                                  ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color:
@@ -1043,7 +1110,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                             .override(
                                               fontFamily: 'Readex Pro',
                                               fontSize: 16.0,
+                                              letterSpacing: 0.0,
                                             ),
+                                        minLines: null,
                                         validator: _model
                                             .textController7Validator
                                             .asValidator(context),
@@ -1057,6 +1126,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       child: TextFormField(
                                         controller: _model.textController8,
                                         focusNode: _model.textFieldFocusNode8,
+                                        autofocus: false,
                                         obscureText: false,
                                         decoration: InputDecoration(
                                           labelText: 'Pin Code',
@@ -1068,11 +1138,16 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryText,
+                                                letterSpacing: 0.0,
                                               ),
                                           hintText: 'Pin Code',
                                           hintStyle:
                                               FlutterFlowTheme.of(context)
-                                                  .labelMedium,
+                                                  .labelMedium
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    letterSpacing: 0.0,
+                                                  ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color:
@@ -1124,7 +1199,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                             .override(
                                               fontFamily: 'Readex Pro',
                                               fontSize: 16.0,
+                                              letterSpacing: 0.0,
                                             ),
+                                        minLines: null,
                                         validator: _model
                                             .textController8Validator
                                             .asValidator(context),
@@ -1155,6 +1232,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                       .override(
                                         fontFamily: 'Readex Pro',
                                         color: Colors.white,
+                                        letterSpacing: 0.0,
                                       ),
                                   elevation: 3.0,
                                   borderSide: const BorderSide(

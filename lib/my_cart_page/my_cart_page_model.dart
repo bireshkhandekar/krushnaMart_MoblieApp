@@ -13,8 +13,6 @@ class MyCartPageModel extends FlutterFlowModel<MyCartPageWidget> {
   // State field(s) for CountController widget.
   int? countControllerValue3;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {}
 
@@ -22,8 +20,4 @@ class MyCartPageModel extends FlutterFlowModel<MyCartPageWidget> {
   void dispose() {
     unfocusNode.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

@@ -55,6 +55,25 @@ class ProductListCall {
       ) as List?;
 }
 
+class ProductSubscribeCall {
+  static Future<ApiCallResponse> call({
+    int? id,
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'ProductSubscribe',
+      apiUrl: 'https://dummyjson.com/products/$id',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 class ApiPagingParams {
   int nextPageNumber = 0;
   int numItems = 0;

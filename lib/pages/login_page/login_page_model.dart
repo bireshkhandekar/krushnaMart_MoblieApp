@@ -40,8 +40,6 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
     return null;
   }
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {
     mobileNumberControllerValidator = _mobileNumberControllerValidator;
@@ -58,8 +56,4 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
     pinFocusNode?.dispose();
     pinController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

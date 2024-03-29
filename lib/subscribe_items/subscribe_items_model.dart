@@ -9,8 +9,6 @@ class SubscribeItemsModel extends FlutterFlowModel<SubscribeItemsWidget> {
   // Stores action output result for [Bottom Sheet - Everyday] action in Button widget.
   int? qty;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {}
 
@@ -18,8 +16,4 @@ class SubscribeItemsModel extends FlutterFlowModel<SubscribeItemsWidget> {
   void dispose() {
     unfocusNode.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

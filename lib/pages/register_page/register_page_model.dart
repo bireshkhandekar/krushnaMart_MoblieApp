@@ -99,8 +99,6 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     return null;
   }
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {
     nameControllerValidator = _nameControllerValidator;
@@ -139,8 +137,4 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     stateFocusNode?.dispose();
     stateController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

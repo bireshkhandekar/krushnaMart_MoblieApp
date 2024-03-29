@@ -67,6 +67,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Readex Pro',
                       fontSize: 18.0,
+                      letterSpacing: 0.0,
                       fontWeight: FontWeight.w500,
                     ),
               ),
@@ -86,6 +87,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Readex Pro',
                           fontSize: 18.0,
+                          letterSpacing: 0.0,
                         ),
                   ),
                   Align(
@@ -95,7 +97,6 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                           const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                       child: Material(
                         color: Colors.transparent,
-                        elevation: 0.0,
                         child: Container(
                           width: 100.0,
                           decoration: BoxDecoration(
@@ -131,6 +132,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     fontSize: 18.0,
+                                    letterSpacing: 0.0,
                                   ),
                             ),
                             count: _model.countControllerValue ??= widget.qty,
@@ -168,6 +170,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily: 'Readex Pro',
                           color: Colors.white,
+                          letterSpacing: 0.0,
                         ),
                     elevation: 3.0,
                     borderSide: const BorderSide(

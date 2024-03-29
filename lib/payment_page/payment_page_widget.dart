@@ -64,6 +64,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                   fontFamily: 'Outfit',
                   color: Colors.white,
                   fontSize: 22.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],
@@ -104,6 +105,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 20.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -117,6 +119,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     fontSize: 20.0,
+                                    letterSpacing: 0.0,
                                   ),
                             ),
                           ),
@@ -147,6 +150,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 20.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                               ),
@@ -195,6 +199,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -209,13 +214,18 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                                 .override(
                                                   fontFamily: 'Readex Pro',
                                                   fontSize: 18.0,
+                                                  letterSpacing: 0.0,
                                                 ),
                                           ),
                                         ),
                                         Text(
                                           'Available Balance ',
                                           style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                letterSpacing: 0.0,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -281,6 +291,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     .override(
                                       fontFamily: 'Readex Pro',
                                       fontSize: 20.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                               ),
@@ -333,6 +344,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -417,6 +429,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -501,6 +514,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                               .override(
                                                 fontFamily: 'Readex Pro',
                                                 fontSize: 20.0,
+                                                letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -569,6 +583,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                           FlutterFlowTheme.of(context).titleSmall.override(
                                 fontFamily: 'Readex Pro',
                                 color: Colors.white,
+                                letterSpacing: 0.0,
                               ),
                       elevation: 3.0,
                       borderSide: const BorderSide(
