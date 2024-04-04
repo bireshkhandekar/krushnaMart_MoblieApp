@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="KrishnaMartApp"
+        android:label="KrishnaMartapp"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">

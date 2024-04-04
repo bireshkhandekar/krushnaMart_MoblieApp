@@ -515,91 +515,102 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             child: Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 1.0, 0.0, 1.0),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.27,
-                                child: CarouselSlider(
-                                  items: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(0.0),
-                                        bottomRight: Radius.circular(0.0),
-                                        topLeft: Radius.circular(0.0),
-                                        topRight: Radius.circular(0.0),
+                              child: FutureBuilder<ApiCallResponse>(
+                                future: KMartAPIsGroup
+                                    .getAllHeroImagesFromTheServerCall
+                                    .call(),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
                                       ),
-                                      child: Image.network(
-                                        'https://img.freepik.com/free-vector/farm-milk-poster_1284-74094.jpg?size=338&ext=jpg&ga=GA1.1.735520172.1710720000&semt=ais',
-                                        width: 300.0,
-                                        height: 200.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(0.0),
-                                        bottomRight: Radius.circular(0.0),
-                                        topLeft: Radius.circular(0.0),
-                                        topRight: Radius.circular(0.0),
-                                      ),
-                                      child: Image.network(
-                                        'https://agrifresh.ae/wp-content/uploads/2021/06/agrifresh-amul-butter-banner-1024x480.jpg',
-                                        width: 300.0,
-                                        height: 200.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(0.0),
-                                        bottomRight: Radius.circular(0.0),
-                                        topLeft: Radius.circular(0.0),
-                                        topRight: Radius.circular(0.0),
-                                      ),
-                                      child: Image.network(
-                                        'https://content3.jdmagicbox.com/comp/kolhapur/z3/0231px231.x231.101024010017.g1z3/catalogue/kolhapur-zilla-sahakari-dudh-utpadak-sangh-ltd-gokul-shirgaon-midc-kolhapur-dairy-product-retailers-9ohl4itej7.jpg',
-                                        width: 300.0,
-                                        height: 200.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(0.0),
-                                        bottomRight: Radius.circular(0.0),
-                                        topLeft: Radius.circular(0.0),
-                                        topRight: Radius.circular(0.0),
-                                      ),
-                                      child: Image.network(
-                                        'https://agrifresh.ae/wp-content/uploads/2021/06/agrifresh-amul-paneer-banner-1024x480.jpg',
-                                        width: 300.0,
-                                        height: 200.0,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ],
-                                  carouselController:
-                                      _model.carouselController ??=
-                                          CarouselController(),
-                                  options: CarouselOptions(
-                                    initialPage: 1,
-                                    viewportFraction: 1.0,
-                                    disableCenter: true,
-                                    enlargeCenterPage: true,
-                                    enlargeFactor: 0.16,
-                                    enableInfiniteScroll: true,
-                                    scrollDirection: Axis.horizontal,
-                                    autoPlay: true,
-                                    autoPlayAnimationDuration:
-                                        const Duration(milliseconds: 500),
-                                    autoPlayInterval:
-                                        const Duration(milliseconds: (500 + 2000)),
-                                    autoPlayCurve: Curves.linear,
-                                    pauseAutoPlayInFiniteScroll: true,
-                                    onPageChanged: (index, _) =>
-                                        _model.carouselCurrentIndex = index,
-                                  ),
-                                ),
+                                    );
+                                  }
+                                  final carouselGetAllHeroImagesFromTheServerResponse =
+                                      snapshot.data!;
+                                  return Builder(
+                                    builder: (context) {
+                                      final heroImages = getJsonField(
+                                        carouselGetAllHeroImagesFromTheServerResponse
+                                            .jsonBody,
+                                        r'''$''',
+                                      ).toList();
+                                      return SizedBox(
+                                        width: double.infinity,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.27,
+                                        child: CarouselSlider.builder(
+                                          itemCount: heroImages.length,
+                                          itemBuilder:
+                                              (context, heroImagesIndex, _) {
+                                            final heroImagesItem =
+                                                heroImages[heroImagesIndex];
+                                            return ClipRRect(
+                                              borderRadius: const BorderRadius.only(
+                                                bottomLeft:
+                                                    Radius.circular(0.0),
+                                                bottomRight:
+                                                    Radius.circular(0.0),
+                                                topLeft: Radius.circular(0.0),
+                                                topRight: Radius.circular(0.0),
+                                              ),
+                                              child: Image.network(
+                                                'http://api.rajastechnologies.com:5001${getJsonField(
+                                                  heroImagesItem,
+                                                  r'''$''',
+                                                ).toString()}',
+                                                width: 300.0,
+                                                height: 200.0,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
+                                                    Image.asset(
+                                                  'assets/images/error_image.jpg',
+                                                  width: 300.0,
+                                                  height: 200.0,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          carouselController:
+                                              _model.carouselController ??=
+                                                  CarouselController(),
+                                          options: CarouselOptions(
+                                            initialPage:
+                                                min(1, heroImages.length - 1),
+                                            viewportFraction: 1.0,
+                                            disableCenter: true,
+                                            enlargeCenterPage: true,
+                                            enlargeFactor: 0.16,
+                                            enableInfiniteScroll: true,
+                                            scrollDirection: Axis.horizontal,
+                                            autoPlay: true,
+                                            autoPlayAnimationDuration:
+                                                const Duration(milliseconds: 500),
+                                            autoPlayInterval: const Duration(
+                                                milliseconds: (500 + 2000)),
+                                            autoPlayCurve: Curves.linear,
+                                            pauseAutoPlayInFiniteScroll: true,
+                                            onPageChanged: (index, _) => _model
+                                                .carouselCurrentIndex = index,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ),
                           ),
