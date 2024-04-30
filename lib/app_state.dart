@@ -17,7 +17,7 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     prefs = await SharedPreferences.getInstance();
     _safeInit(() {
-      _qty = prefs.getInt('ff_qty') ?? _qty;
+      _userId = prefs.getInt('ff_userId') ?? _userId;
     });
   }
 
@@ -27,35 +27,6 @@ class FFAppState extends ChangeNotifier {
   }
 
   late SharedPreferences prefs;
-
-  List<DateTime> _pickedDates = [];
-  List<DateTime> get pickedDates => _pickedDates;
-  set pickedDates(List<DateTime> value) {
-    _pickedDates = value;
-  }
-
-  void addToPickedDates(DateTime value) {
-    _pickedDates.add(value);
-  }
-
-  void removeFromPickedDates(DateTime value) {
-    _pickedDates.remove(value);
-  }
-
-  void removeAtIndexFromPickedDates(int index) {
-    _pickedDates.removeAt(index);
-  }
-
-  void updatePickedDatesAtIndex(
-    int index,
-    DateTime Function(DateTime) updateFn,
-  ) {
-    _pickedDates[index] = updateFn(_pickedDates[index]);
-  }
-
-  void insertAtIndexInPickedDates(int index, DateTime value) {
-    _pickedDates.insert(index, value);
-  }
 
   List<DateTime> _selectedDate = [];
   List<DateTime> get selectedDate => _selectedDate;
@@ -86,17 +57,82 @@ class FFAppState extends ChangeNotifier {
     _selectedDate.insert(index, value);
   }
 
-  int _qty = 0;
-  int get qty => _qty;
-  set qty(int value) {
-    _qty = value;
-    prefs.setInt('ff_qty', value);
-  }
-
   bool _customdatesshow = false;
   bool get customdatesshow => _customdatesshow;
   set customdatesshow(bool value) {
     _customdatesshow = value;
+  }
+
+  int _qty = 0;
+  int get qty => _qty;
+  set qty(int value) {
+    _qty = value;
+  }
+
+  bool _everydayshow = false;
+  bool get everydayshow => _everydayshow;
+  set everydayshow(bool value) {
+    _everydayshow = value;
+  }
+
+  String _startDate = '';
+  String get startDate => _startDate;
+  set startDate(String value) {
+    _startDate = value;
+  }
+
+  int _userId = 0;
+  int get userId => _userId;
+  set userId(int value) {
+    _userId = value;
+    prefs.setInt('ff_userId', value);
+  }
+
+  String _sudscribeType = '';
+  String get sudscribeType => _sudscribeType;
+  set sudscribeType(String value) {
+    _sudscribeType = value;
+  }
+
+  String _endDate = '';
+  String get endDate => _endDate;
+  set endDate(String value) {
+    _endDate = value;
+  }
+
+  List<int> _selectedqty = [];
+  List<int> get selectedqty => _selectedqty;
+  set selectedqty(List<int> value) {
+    _selectedqty = value;
+  }
+
+  void addToSelectedqty(int value) {
+    _selectedqty.add(value);
+  }
+
+  void removeFromSelectedqty(int value) {
+    _selectedqty.remove(value);
+  }
+
+  void removeAtIndexFromSelectedqty(int index) {
+    _selectedqty.removeAt(index);
+  }
+
+  void updateSelectedqtyAtIndex(
+    int index,
+    int Function(int) updateFn,
+  ) {
+    _selectedqty[index] = updateFn(_selectedqty[index]);
+  }
+
+  void insertAtIndexInSelectedqty(int index, int value) {
+    _selectedqty.insert(index, value);
+  }
+
+  int _cartcount = 0;
+  int get cartcount => _cartcount;
+  set cartcount(int value) {
+    _cartcount = value;
   }
 }
 

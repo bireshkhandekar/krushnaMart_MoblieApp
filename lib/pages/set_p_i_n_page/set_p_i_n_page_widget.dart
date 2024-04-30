@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -8,7 +9,12 @@ import 'set_p_i_n_page_model.dart';
 export 'set_p_i_n_page_model.dart';
 
 class SetPINPageWidget extends StatefulWidget {
-  const SetPINPageWidget({super.key});
+  const SetPINPageWidget({
+    super.key,
+    required this.mobileNumber,
+  });
+
+  final String? mobileNumber;
 
   @override
   State<SetPINPageWidget> createState() => _SetPINPageWidgetState();
@@ -24,13 +30,14 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
     super.initState();
     _model = createModel(context, () => SetPINPageModel());
 
-    _model.mobileNumberController ??= TextEditingController();
+    _model.mobileNumberTextController ??=
+        TextEditingController(text: widget.mobileNumber);
     _model.mobileNumberFocusNode ??= FocusNode();
 
-    _model.pinController ??= TextEditingController();
+    _model.pinTextController ??= TextEditingController();
     _model.pinFocusNode ??= FocusNode();
 
-    _model.conformpinController ??= TextEditingController();
+    _model.conformpinTextController ??= TextEditingController();
     _model.conformpinFocusNode ??= FocusNode();
   }
 
@@ -164,10 +171,11 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                           8.0, 0.0, 8.0, 20.0),
                                                   child: TextFormField(
                                                     controller: _model
-                                                        .mobileNumberController,
+                                                        .mobileNumberTextController,
                                                     focusNode: _model
                                                         .mobileNumberFocusNode,
                                                     autofocus: true,
+                                                    readOnly: true,
                                                     obscureText: false,
                                                     decoration: InputDecoration(
                                                       labelStyle:
@@ -261,11 +269,10 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
-                                                        .mobileNumberControllerValidator
+                                                        .mobileNumberTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -279,8 +286,8 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                       .fromSTEB(
                                                           8.0, 20.0, 8.0, 20.0),
                                                   child: TextFormField(
-                                                    controller:
-                                                        _model.pinController,
+                                                    controller: _model
+                                                        .pinTextController,
                                                     focusNode:
                                                         _model.pinFocusNode,
                                                     autofocus: true,
@@ -389,11 +396,10 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
-                                                        .pinControllerValidator
+                                                        .pinTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -408,19 +414,20 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                           8.0, 20.0, 8.0, 8.0),
                                                   child: TextFormField(
                                                     controller: _model
-                                                        .conformpinController,
+                                                        .conformpinTextController,
                                                     focusNode: _model
                                                         .conformpinFocusNode,
                                                     onChanged: (_) =>
                                                         EasyDebounce.debounce(
-                                                      '_model.conformpinController',
+                                                      '_model.conformpinTextController',
                                                       const Duration(
                                                           milliseconds: 400),
                                                       () async {
-                                                        if (_model.pinController
+                                                        if (_model
+                                                                .pinTextController
                                                                 .text ==
                                                             _model
-                                                                .conformpinController
+                                                                .conformpinTextController
                                                                 .text) {
                                                           setState(() {
                                                             _model.pinMatch =
@@ -554,11 +561,10 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
-                                                        .conformpinControllerValidator
+                                                        .conformpinTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -639,6 +645,54 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                                 .validate()) {
                                                           return;
                                                         }
+                                                        _model.setPinApiResponce =
+                                                            await KMartAPIsGroup
+                                                                .userSetPinAPICall
+                                                                .call(
+                                                          moblieNumber: _model
+                                                              .mobileNumberTextController
+                                                              .text,
+                                                          pin: _model
+                                                              .conformpinTextController
+                                                              .text,
+                                                        );
+                                                        if ((_model
+                                                                .setPinApiResponce
+                                                                ?.succeeded ??
+                                                            true)) {
+                                                          context.pushNamed(
+                                                              'LoginPage');
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                getJsonField(
+                                                                  (_model.setPinApiResponce
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                  r'''$.message''',
+                                                                ).toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                ),
+                                                              ),
+                                                              duration: const Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                            ),
+                                                          );
+                                                        }
+
+                                                        setState(() {});
                                                       },
                                                       text: 'Save',
                                                       options: FFButtonOptions(

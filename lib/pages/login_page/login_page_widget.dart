@@ -1,3 +1,6 @@
+import '/auth/custom_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -23,10 +26,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     super.initState();
     _model = createModel(context, () => LoginPageModel());
 
-    _model.mobileNumberController ??= TextEditingController();
+    _model.mobileNumberTextController ??= TextEditingController();
     _model.mobileNumberFocusNode ??= FocusNode();
 
-    _model.pinController ??= TextEditingController();
+    _model.pinTextController ??= TextEditingController();
     _model.pinFocusNode ??= FocusNode();
   }
 
@@ -165,7 +168,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 8.0, 20.0),
                                                     child: TextFormField(
                                                       controller: _model
-                                                          .mobileNumberController,
+                                                          .mobileNumberTextController,
                                                       focusNode: _model
                                                           .mobileNumberFocusNode,
                                                       autofocus: true,
@@ -276,11 +279,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                             fontSize: 18.0,
                                                             letterSpacing: 0.0,
                                                           ),
-                                                      minLines: null,
                                                       keyboardType:
                                                           TextInputType.number,
                                                       validator: _model
-                                                          .mobileNumberControllerValidator
+                                                          .mobileNumberTextControllerValidator
                                                           .asValidator(context),
                                                       inputFormatters: [
                                                         FilteringTextInputFormatter
@@ -294,8 +296,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                       .fromSTEB(
                                                           8.0, 20.0, 8.0, 8.0),
                                                   child: TextFormField(
-                                                    controller:
-                                                        _model.pinController,
+                                                    controller: _model
+                                                        .pinTextController,
                                                     focusNode:
                                                         _model.pinFocusNode,
                                                     autofocus: true,
@@ -404,11 +406,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
-                                                        .pinControllerValidator
+                                                        .pinTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -477,9 +478,105 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 .validate()) {
                                                           return;
                                                         }
+                                                        _model.apiResult =
+                                                            await KMartAPIsGroup
+                                                                .userLoginAPICall
+                                                                .call(
+                                                          moblieNumber: _model
+                                                              .mobileNumberTextController
+                                                              .text,
+                                                          pin: _model
+                                                              .pinTextController
+                                                              .text,
+                                                        );
+                                                        if ((_model.apiResult
+                                                                ?.succeeded ??
+                                                            true)) {
+                                                          setState(() {
+                                                            FFAppState()
+                                                                    .userId =
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.id''',
+                                                            );
+                                                          });
+                                                          GoRouter.of(context)
+                                                              .prepareAuthEvent();
+                                                          await authManager
+                                                              .signIn(
+                                                            authenticationToken:
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.access_token''',
+                                                            ).toString(),
+                                                            refreshToken:
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.refresh_token''',
+                                                            ).toString(),
+                                                            authUid:
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.id''',
+                                                            ).toString(),
+                                                            userData:
+                                                                UserStruct(
+                                                              id: getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.id''',
+                                                              ),
+                                                              userName:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.username''',
+                                                              ).toString(),
+                                                            ),
+                                                          );
+                                                          Navigator.pop(
+                                                              context);
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                getJsonField(
+                                                                  (_model.apiResult
+                                                                          ?.jsonBody ??
+                                                                      ''),
+                                                                  r'''$.message''',
+                                                                ).toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                ),
+                                                              ),
+                                                              duration: const Duration(
+                                                                  milliseconds:
+                                                                      4000),
+                                                              backgroundColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                            ),
+                                                          );
+                                                        }
 
-                                                        context.pushNamed(
-                                                            'HomePage');
+                                                        setState(() {});
                                                       },
                                                       text: 'SIGN IN',
                                                       options: FFButtonOptions(

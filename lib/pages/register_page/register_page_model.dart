@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'register_page_widget.dart' show RegisterPageWidget;
 import 'package:flutter/material.dart';
@@ -9,9 +10,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
   final formKey = GlobalKey<FormState>();
   // State field(s) for Name widget.
   FocusNode? nameFocusNode;
-  TextEditingController? nameController;
-  String? Function(BuildContext, String?)? nameControllerValidator;
-  String? _nameControllerValidator(BuildContext context, String? val) {
+  TextEditingController? nameTextController;
+  String? Function(BuildContext, String?)? nameTextControllerValidator;
+  String? _nameTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your Name';
     }
@@ -21,9 +22,10 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for mobileNumber widget.
   FocusNode? mobileNumberFocusNode;
-  TextEditingController? mobileNumberController;
-  String? Function(BuildContext, String?)? mobileNumberControllerValidator;
-  String? _mobileNumberControllerValidator(BuildContext context, String? val) {
+  TextEditingController? mobileNumberTextController;
+  String? Function(BuildContext, String?)? mobileNumberTextControllerValidator;
+  String? _mobileNumberTextControllerValidator(
+      BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your Moblie Number';
     }
@@ -37,9 +39,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for flatno widget.
   FocusNode? flatnoFocusNode;
-  TextEditingController? flatnoController;
-  String? Function(BuildContext, String?)? flatnoControllerValidator;
-  String? _flatnoControllerValidator(BuildContext context, String? val) {
+  TextEditingController? flatnoTextController;
+  String? Function(BuildContext, String?)? flatnoTextControllerValidator;
+  String? _flatnoTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your flat no / name';
     }
@@ -49,13 +51,13 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for lineNo widget.
   FocusNode? lineNoFocusNode;
-  TextEditingController? lineNoController;
-  String? Function(BuildContext, String?)? lineNoControllerValidator;
+  TextEditingController? lineNoTextController;
+  String? Function(BuildContext, String?)? lineNoTextControllerValidator;
   // State field(s) for landMark widget.
   FocusNode? landMarkFocusNode;
-  TextEditingController? landMarkController;
-  String? Function(BuildContext, String?)? landMarkControllerValidator;
-  String? _landMarkControllerValidator(BuildContext context, String? val) {
+  TextEditingController? landMarkTextController;
+  String? Function(BuildContext, String?)? landMarkTextControllerValidator;
+  String? _landMarkTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your Land Mark';
     }
@@ -65,9 +67,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for City widget.
   FocusNode? cityFocusNode;
-  TextEditingController? cityController;
-  String? Function(BuildContext, String?)? cityControllerValidator;
-  String? _cityControllerValidator(BuildContext context, String? val) {
+  TextEditingController? cityTextController;
+  String? Function(BuildContext, String?)? cityTextControllerValidator;
+  String? _cityTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your City';
     }
@@ -77,9 +79,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for pinCode widget.
   FocusNode? pinCodeFocusNode;
-  TextEditingController? pinCodeController;
-  String? Function(BuildContext, String?)? pinCodeControllerValidator;
-  String? _pinCodeControllerValidator(BuildContext context, String? val) {
+  TextEditingController? pinCodeTextController;
+  String? Function(BuildContext, String?)? pinCodeTextControllerValidator;
+  String? _pinCodeTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your Pin code';
     }
@@ -89,9 +91,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
 
   // State field(s) for state widget.
   FocusNode? stateFocusNode;
-  TextEditingController? stateController;
-  String? Function(BuildContext, String?)? stateControllerValidator;
-  String? _stateControllerValidator(BuildContext context, String? val) {
+  TextEditingController? stateTextController;
+  String? Function(BuildContext, String?)? stateTextControllerValidator;
+  String? _stateTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter your State';
     }
@@ -99,42 +101,45 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     return null;
   }
 
+  // Stores action output result for [Backend Call - API (User Register API)] action in register widget.
+  ApiCallResponse? registerApiResponce;
+
   @override
   void initState(BuildContext context) {
-    nameControllerValidator = _nameControllerValidator;
-    mobileNumberControllerValidator = _mobileNumberControllerValidator;
-    flatnoControllerValidator = _flatnoControllerValidator;
-    landMarkControllerValidator = _landMarkControllerValidator;
-    cityControllerValidator = _cityControllerValidator;
-    pinCodeControllerValidator = _pinCodeControllerValidator;
-    stateControllerValidator = _stateControllerValidator;
+    nameTextControllerValidator = _nameTextControllerValidator;
+    mobileNumberTextControllerValidator = _mobileNumberTextControllerValidator;
+    flatnoTextControllerValidator = _flatnoTextControllerValidator;
+    landMarkTextControllerValidator = _landMarkTextControllerValidator;
+    cityTextControllerValidator = _cityTextControllerValidator;
+    pinCodeTextControllerValidator = _pinCodeTextControllerValidator;
+    stateTextControllerValidator = _stateTextControllerValidator;
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
     nameFocusNode?.dispose();
-    nameController?.dispose();
+    nameTextController?.dispose();
 
     mobileNumberFocusNode?.dispose();
-    mobileNumberController?.dispose();
+    mobileNumberTextController?.dispose();
 
     flatnoFocusNode?.dispose();
-    flatnoController?.dispose();
+    flatnoTextController?.dispose();
 
     lineNoFocusNode?.dispose();
-    lineNoController?.dispose();
+    lineNoTextController?.dispose();
 
     landMarkFocusNode?.dispose();
-    landMarkController?.dispose();
+    landMarkTextController?.dispose();
 
     cityFocusNode?.dispose();
-    cityController?.dispose();
+    cityTextController?.dispose();
 
     pinCodeFocusNode?.dispose();
-    pinCodeController?.dispose();
+    pinCodeTextController?.dispose();
 
     stateFocusNode?.dispose();
-    stateController?.dispose();
+    stateTextController?.dispose();
   }
 }

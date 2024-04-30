@@ -253,6 +253,11 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                           setState(() => _model.checkboxValue1 =
                                               newValue!);
                                         },
+                                        side: BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                        ),
                                         activeColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,
@@ -374,6 +379,11 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                           setState(() => _model.checkboxValue2 =
                                               newValue!);
                                         },
+                                        side: BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                        ),
                                         activeColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,
@@ -459,6 +469,11 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                           setState(() => _model.checkboxValue3 =
                                               newValue!);
                                         },
+                                        side: BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                        ),
                                         activeColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,
@@ -544,6 +559,11 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                           setState(() => _model.checkboxValue4 =
                                               newValue!);
                                         },
+                                        side: BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                        ),
                                         activeColor:
                                             FlutterFlowTheme.of(context)
                                                 .primary,

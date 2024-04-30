@@ -13,3 +13,7 @@ export '/subscribe_items/subscribe_items_widget.dart' show SubscribeItemsWidget;
 export '/my_orders_page/my_orders_page_widget.dart' show MyOrdersPageWidget;
 export '/check_out_page/check_out_page_widget.dart' show CheckOutPageWidget;
 export '/payment_page/payment_page_widget.dart' show PaymentPageWidget;
+export '/contact_page/contact_page_widget.dart' show ContactPageWidget;
+export '/my_subscribed_items/my_subscribed_items_widget.dart'
+    show MySubscribedItemsWidget;
+export '/demo/demo_widget.dart' show DemoWidget;

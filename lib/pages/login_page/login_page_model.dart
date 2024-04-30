@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'login_page_widget.dart' show LoginPageWidget;
 import 'package:flutter/material.dart';
@@ -9,9 +10,10 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
   final formKey = GlobalKey<FormState>();
   // State field(s) for mobileNumber widget.
   FocusNode? mobileNumberFocusNode;
-  TextEditingController? mobileNumberController;
-  String? Function(BuildContext, String?)? mobileNumberControllerValidator;
-  String? _mobileNumberControllerValidator(BuildContext context, String? val) {
+  TextEditingController? mobileNumberTextController;
+  String? Function(BuildContext, String?)? mobileNumberTextControllerValidator;
+  String? _mobileNumberTextControllerValidator(
+      BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Field is required';
     }
@@ -25,10 +27,10 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
 
   // State field(s) for pin widget.
   FocusNode? pinFocusNode;
-  TextEditingController? pinController;
+  TextEditingController? pinTextController;
   late bool pinVisibility;
-  String? Function(BuildContext, String?)? pinControllerValidator;
-  String? _pinControllerValidator(BuildContext context, String? val) {
+  String? Function(BuildContext, String?)? pinTextControllerValidator;
+  String? _pinTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Field is required';
     }
@@ -40,20 +42,23 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
     return null;
   }
 
+  // Stores action output result for [Backend Call - API (User login API)] action in signin widget.
+  ApiCallResponse? apiResult;
+
   @override
   void initState(BuildContext context) {
-    mobileNumberControllerValidator = _mobileNumberControllerValidator;
+    mobileNumberTextControllerValidator = _mobileNumberTextControllerValidator;
     pinVisibility = false;
-    pinControllerValidator = _pinControllerValidator;
+    pinTextControllerValidator = _pinTextControllerValidator;
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
     mobileNumberFocusNode?.dispose();
-    mobileNumberController?.dispose();
+    mobileNumberTextController?.dispose();
 
     pinFocusNode?.dispose();
-    pinController?.dispose();
+    pinTextController?.dispose();
   }
 }

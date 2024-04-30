@@ -14,9 +14,10 @@ class ForgotPasswordPageModel
   final formKey = GlobalKey<FormState>();
   // State field(s) for mobileNumber widget.
   FocusNode? mobileNumberFocusNode;
-  TextEditingController? mobileNumberController;
-  String? Function(BuildContext, String?)? mobileNumberControllerValidator;
-  String? _mobileNumberControllerValidator(BuildContext context, String? val) {
+  TextEditingController? mobileNumberTextController;
+  String? Function(BuildContext, String?)? mobileNumberTextControllerValidator;
+  String? _mobileNumberTextControllerValidator(
+      BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please Enter your moblie number';
     }
@@ -30,9 +31,9 @@ class ForgotPasswordPageModel
 
   // State field(s) for otp widget.
   FocusNode? otpFocusNode;
-  TextEditingController? otpController;
-  String? Function(BuildContext, String?)? otpControllerValidator;
-  String? _otpControllerValidator(BuildContext context, String? val) {
+  TextEditingController? otpTextController;
+  String? Function(BuildContext, String?)? otpTextControllerValidator;
+  String? _otpTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please Enter OTP ';
     }
@@ -42,10 +43,10 @@ class ForgotPasswordPageModel
 
   // State field(s) for setpin widget.
   FocusNode? setpinFocusNode;
-  TextEditingController? setpinController;
+  TextEditingController? setpinTextController;
   late bool setpinVisibility;
-  String? Function(BuildContext, String?)? setpinControllerValidator;
-  String? _setpinControllerValidator(BuildContext context, String? val) {
+  String? Function(BuildContext, String?)? setpinTextControllerValidator;
+  String? _setpinTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please set your 4 digit  PIN';
     }
@@ -59,10 +60,11 @@ class ForgotPasswordPageModel
 
   // State field(s) for conformpin widget.
   FocusNode? conformpinFocusNode;
-  TextEditingController? conformpinController;
+  TextEditingController? conformpinTextController;
   late bool conformpinVisibility;
-  String? Function(BuildContext, String?)? conformpinControllerValidator;
-  String? _conformpinControllerValidator(BuildContext context, String? val) {
+  String? Function(BuildContext, String?)? conformpinTextControllerValidator;
+  String? _conformpinTextControllerValidator(
+      BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please conform your 4 digit  PIN';
     }
@@ -76,27 +78,27 @@ class ForgotPasswordPageModel
 
   @override
   void initState(BuildContext context) {
-    mobileNumberControllerValidator = _mobileNumberControllerValidator;
-    otpControllerValidator = _otpControllerValidator;
+    mobileNumberTextControllerValidator = _mobileNumberTextControllerValidator;
+    otpTextControllerValidator = _otpTextControllerValidator;
     setpinVisibility = false;
-    setpinControllerValidator = _setpinControllerValidator;
+    setpinTextControllerValidator = _setpinTextControllerValidator;
     conformpinVisibility = false;
-    conformpinControllerValidator = _conformpinControllerValidator;
+    conformpinTextControllerValidator = _conformpinTextControllerValidator;
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
     mobileNumberFocusNode?.dispose();
-    mobileNumberController?.dispose();
+    mobileNumberTextController?.dispose();
 
     otpFocusNode?.dispose();
-    otpController?.dispose();
+    otpTextController?.dispose();
 
     setpinFocusNode?.dispose();
-    setpinController?.dispose();
+    setpinTextController?.dispose();
 
     conformpinFocusNode?.dispose();
-    conformpinController?.dispose();
+    conformpinTextController?.dispose();
   }
 }

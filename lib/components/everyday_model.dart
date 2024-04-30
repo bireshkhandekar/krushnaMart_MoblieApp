@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class EverydayModel extends FlutterFlowModel<EverydayWidget> {
   ///  State fields for stateful widgets in this component.
 
+  final formKey = GlobalKey<FormState>();
   DateTime? datePicked1;
   DateTime? datePicked2;
   // State field(s) for CountController widget.

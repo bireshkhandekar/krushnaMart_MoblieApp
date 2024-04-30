@@ -25,16 +25,16 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
     super.initState();
     _model = createModel(context, () => ForgotPasswordPageModel());
 
-    _model.mobileNumberController ??= TextEditingController();
+    _model.mobileNumberTextController ??= TextEditingController();
     _model.mobileNumberFocusNode ??= FocusNode();
 
-    _model.otpController ??= TextEditingController();
+    _model.otpTextController ??= TextEditingController();
     _model.otpFocusNode ??= FocusNode();
 
-    _model.setpinController ??= TextEditingController();
+    _model.setpinTextController ??= TextEditingController();
     _model.setpinFocusNode ??= FocusNode();
 
-    _model.conformpinController ??= TextEditingController();
+    _model.conformpinTextController ??= TextEditingController();
     _model.conformpinFocusNode ??= FocusNode();
   }
 
@@ -168,7 +168,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           8.0, 0.0, 8.0, 20.0),
                                                   child: TextFormField(
                                                     controller: _model
-                                                        .mobileNumberController,
+                                                        .mobileNumberTextController,
                                                     focusNode: _model
                                                         .mobileNumberFocusNode,
                                                     autofocus: true,
@@ -265,11 +265,10 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType:
                                                         TextInputType.number,
                                                     validator: _model
-                                                        .mobileNumberControllerValidator
+                                                        .mobileNumberTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -293,7 +292,7 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                     0.0),
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .otpController,
+                                                              .otpTextController,
                                                           focusNode: _model
                                                               .otpFocusNode,
                                                           autofocus: true,
@@ -398,12 +397,11 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
-                                                          minLines: null,
                                                           keyboardType:
                                                               TextInputType
                                                                   .number,
                                                           validator: _model
-                                                              .otpControllerValidator
+                                                              .otpTextControllerValidator
                                                               .asValidator(
                                                                   context),
                                                           inputFormatters: [
@@ -481,8 +479,8 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                       .fromSTEB(
                                                           8.0, 20.0, 8.0, 20.0),
                                                   child: TextFormField(
-                                                    controller:
-                                                        _model.setpinController,
+                                                    controller: _model
+                                                        .setpinTextController,
                                                     focusNode:
                                                         _model.setpinFocusNode,
                                                     autofocus: true,
@@ -591,11 +589,10 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType: TextInputType
                                                         .visiblePassword,
                                                     validator: _model
-                                                        .setpinControllerValidator
+                                                        .setpinTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter
@@ -610,20 +607,20 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           8.0, 0.0, 8.0, 8.0),
                                                   child: TextFormField(
                                                     controller: _model
-                                                        .conformpinController,
+                                                        .conformpinTextController,
                                                     focusNode: _model
                                                         .conformpinFocusNode,
                                                     onChanged: (_) =>
                                                         EasyDebounce.debounce(
-                                                      '_model.conformpinController',
+                                                      '_model.conformpinTextController',
                                                       const Duration(
                                                           milliseconds: 2000),
                                                       () async {
                                                         if (_model
-                                                                .setpinController
+                                                                .setpinTextController
                                                                 .text ==
                                                             _model
-                                                                .conformpinController
+                                                                .conformpinTextController
                                                                 .text) {
                                                           setState(() {
                                                             _model.pinMatch =
@@ -757,11 +754,10 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
                                                           fontSize: 18.0,
                                                           letterSpacing: 0.0,
                                                         ),
-                                                    minLines: null,
                                                     keyboardType: TextInputType
                                                         .visiblePassword,
                                                     validator: _model
-                                                        .conformpinControllerValidator
+                                                        .conformpinTextControllerValidator
                                                         .asValidator(context),
                                                     inputFormatters: [
                                                       FilteringTextInputFormatter

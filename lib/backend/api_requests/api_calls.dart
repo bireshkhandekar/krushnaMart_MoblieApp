@@ -12,60 +12,29 @@ const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 class KMartAPIsGroup {
   static String baseUrl = 'http://api.rajastechnologies.com:5001';
   static Map<String, String> headers = {};
-  static CategoryPOSTCall categoryPOSTCall = CategoryPOSTCall();
-  static CategoriesGETCall categoriesGETCall = CategoriesGETCall();
-  static CategorycategoryIdGETCall categorycategoryIdGETCall =
-      CategorycategoryIdGETCall();
-  static CategorycategoryIdPUTCall categorycategoryIdPUTCall =
-      CategorycategoryIdPUTCall();
-  static CategorycategoryIdDELETECall categorycategoryIdDELETECall =
-      CategorycategoryIdDELETECall();
-  static TagsPOSTCall tagsPOSTCall = TagsPOSTCall();
-  static TagsGETCall tagsGETCall = TagsGETCall();
-  static TagstagNameGETCall tagstagNameGETCall = TagstagNameGETCall();
-  static TagstagNameDELETECall tagstagNameDELETECall = TagstagNameDELETECall();
-  static UploadAHeroImageToTheServerCall uploadAHeroImageToTheServerCall =
-      UploadAHeroImageToTheServerCall();
-  static DeleteAHeroImageFromTheServerCall deleteAHeroImageFromTheServerCall =
-      DeleteAHeroImageFromTheServerCall();
-  static GetAHeroImageFromTheServerByIdCall getAHeroImageFromTheServerByIdCall =
-      GetAHeroImageFromTheServerByIdCall();
-  static GetAllHeroImagesFromTheServerCall getAllHeroImagesFromTheServerCall =
-      GetAllHeroImagesFromTheServerCall();
-  static GetAHeroImageFromTheServerByNameCall
-      getAHeroImageFromTheServerByNameCall =
-      GetAHeroImageFromTheServerByNameCall();
+  static GetItemsAPICall getItemsAPICall = GetItemsAPICall();
+  static ItemByIdCall itemByIdCall = ItemByIdCall();
+  static GetHeroImagesCall getHeroImagesCall = GetHeroImagesCall();
+  static TagsApiCall tagsApiCall = TagsApiCall();
+  static SubscribeItemsAPICall subscribeItemsAPICall = SubscribeItemsAPICall();
+  static UserProfileAPICall userProfileAPICall = UserProfileAPICall();
+  static UserRegisterAPICall userRegisterAPICall = UserRegisterAPICall();
+  static UserSetPinAPICall userSetPinAPICall = UserSetPinAPICall();
+  static UserLoginAPICall userLoginAPICall = UserLoginAPICall();
+  static GetWalletBalanceCall getWalletBalanceCall = GetWalletBalanceCall();
+  static GetWalletTransectionAPICall getWalletTransectionAPICall =
+      GetWalletTransectionAPICall();
+  static UpdateUserProfileCall updateUserProfileCall = UpdateUserProfileCall();
+  static SubscribeItemscustomApiCall subscribeItemscustomApiCall =
+      SubscribeItemscustomApiCall();
+  static OrderApiCall orderApiCall = OrderApiCall();
 }
 
-class CategoryPOSTCall {
-  Future<ApiCallResponse> call() async {
-    const ffApiRequestBody = '''
-{
-  "id": 0,
-  "name": ""
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: '/category POST',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/category',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class CategoriesGETCall {
+class GetItemsAPICall {
   Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
-      callName: '/categories GET',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/categories',
+      callName: 'Get items API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/items',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -76,196 +45,21 @@ class CategoriesGETCall {
       alwaysAllowBody: false,
     );
   }
+
+  List? allitems(dynamic response) => getJsonField(
+        response,
+        r'''$''',
+        true,
+      ) as List?;
 }
 
-class CategorycategoryIdGETCall {
-  Future<ApiCallResponse> call({
-    int? categoryId,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/category/{category_id} GET',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/category/$categoryId',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class CategorycategoryIdPUTCall {
-  Future<ApiCallResponse> call({
-    int? categoryId,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/category/{category_id} PUT',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/category/$categoryId',
-      callType: ApiCallType.PUT,
-      headers: {},
-      params: {},
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class CategorycategoryIdDELETECall {
-  Future<ApiCallResponse> call({
-    int? categoryId,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/category/{category_id} DELETE',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/category/$categoryId',
-      callType: ApiCallType.DELETE,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class TagsPOSTCall {
-  Future<ApiCallResponse> call() async {
-    const ffApiRequestBody = '''
-{
-  "id": 0,
-  "tag_name": "",
-  "category_id": 0
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: '/tags POST',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/tags',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class TagsGETCall {
-  Future<ApiCallResponse> call() async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/tags GET',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/tags',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class TagstagNameGETCall {
-  Future<ApiCallResponse> call({
-    String? tagName = '',
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/tags/{tag_name} GET',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/tags/$tagName',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class TagstagNameDELETECall {
-  Future<ApiCallResponse> call({
-    String? tagName = '',
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: '/tags/{tag_name} DELETE',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/tags/$tagName',
-      callType: ApiCallType.DELETE,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class UploadAHeroImageToTheServerCall {
-  Future<ApiCallResponse> call() async {
-    const ffApiRequestBody = '''
-{
-  "id": 0,
-  "hero_image_url": ""
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'Upload a hero image to the server',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/image',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class DeleteAHeroImageFromTheServerCall {
+class ItemByIdCall {
   Future<ApiCallResponse> call({
     int? id,
   }) async {
     return ApiManager.instance.makeApiCall(
-      callName: 'Delete a hero image from the server',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/image/$id',
-      callType: ApiCallType.DELETE,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class GetAHeroImageFromTheServerByIdCall {
-  Future<ApiCallResponse> call({
-    int? imageId,
-  }) async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'Get a hero image from the server by id',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/image/$imageId',
+      callName: 'Item By id',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/item/$id',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -278,10 +72,10 @@ class GetAHeroImageFromTheServerByIdCall {
   }
 }
 
-class GetAllHeroImagesFromTheServerCall {
+class GetHeroImagesCall {
   Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
-      callName: 'Get all hero images from the server',
+      callName: 'Get hero images',
       apiUrl: '${KMartAPIsGroup.baseUrl}/images',
       callType: ApiCallType.GET,
       headers: {},
@@ -294,9 +88,9 @@ class GetAllHeroImagesFromTheServerCall {
     );
   }
 
-  List<String>? images(dynamic response) => (getJsonField(
+  List<String>? heroimage(dynamic response) => (getJsonField(
         response,
-        r'''$''',
+        r'''$[:].hero_image_url''',
         true,
       ) as List?)
           ?.withoutNulls
@@ -305,16 +99,398 @@ class GetAllHeroImagesFromTheServerCall {
           .toList();
 }
 
-class GetAHeroImageFromTheServerByNameCall {
+class TagsApiCall {
   Future<ApiCallResponse> call({
-    String? imageName = '',
+    String? tagName = '',
   }) async {
     return ApiManager.instance.makeApiCall(
-      callName: 'Get a hero image from the server by name',
-      apiUrl: '${KMartAPIsGroup.baseUrl}/image/$imageName',
+      callName: 'Tags api',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/tags/$tagName',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List<double>? discount(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].discount''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<double>(x))
+          .withoutNulls
+          .toList();
+}
+
+class SubscribeItemsAPICall {
+  Future<ApiCallResponse> call({
+    int? userId,
+    int? itemsId,
+    String? subscribeType = '',
+    double? itemsPrice,
+    String? startDate = '',
+    String? endDate = '',
+    int? quantity,
+    double? totalPrice,
+    List<String>? customDatesList,
+    List<int>? customQtyList,
+    int? customitemprice,
+  }) async {
+    final customDates = _serializeList(customDatesList);
+    final customQty = _serializeList(customQtyList);
+
+    final ffApiRequestBody = '''
+{
+  "user_id": $userId,
+  "item_id": $itemsId,
+  "subscribe_type": "$subscribeType",
+  "item_price": $itemsPrice,
+  "start_date": "$startDate",
+  "end_date": "$endDate",
+  "quantity": $quantity
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'SubscribeItems API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/subscriptions/create',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class UserProfileAPICall {
+  Future<ApiCallResponse> call({
+    int? userId,
+    String? token = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'UserProfile API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/user/profile/$userId',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class UserRegisterAPICall {
+  Future<ApiCallResponse> call({
+    String? username = '',
+    String? moblienumber = '',
+    String? city = '',
+    String? state = '',
+    int? pincode,
+    String? houseno = '',
+    String? lineno = '',
+    String? landmark = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "username": "$username",
+  "mobile_number": "$moblienumber",
+  "address": {
+    "houseno": "$houseno",
+    "lineno": "$lineno",
+    "landmark": "$landmark"
+  },
+  "city": "$city",
+  "state": "$state",
+  "pincode": $pincode
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'User Register API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/user/register',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class UserSetPinAPICall {
+  Future<ApiCallResponse> call({
+    String? moblieNumber = '',
+    String? pin = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "mobile_number": "$moblieNumber",
+  "pin": "$pin"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'User Set Pin API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/user/set_pin',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class UserLoginAPICall {
+  Future<ApiCallResponse> call({
+    String? moblieNumber = '',
+    String? pin = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "mobile_number": "$moblieNumber",
+  "pin": "$pin"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'User login API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/user/login',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetWalletBalanceCall {
+  Future<ApiCallResponse> call({
+    int? userId,
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Wallet Balance',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/wallet/balance/$userId',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetWalletTransectionAPICall {
+  Future<ApiCallResponse> call({
+    int? userId,
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get Wallet Transection API',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/wallet/transactions/$userId',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? transaction(dynamic response) => getJsonField(
+        response,
+        r'''$.transactions''',
+        true,
+      ) as List?;
+  List<String>? time(dynamic response) => (getJsonField(
+        response,
+        r'''$.transactions[:].timestamp''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+  List<double>? amount(dynamic response) => (getJsonField(
+        response,
+        r'''$.transactions[:].amount''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<double>(x))
+          .withoutNulls
+          .toList();
+  List<double>? availableBalance(dynamic response) => (getJsonField(
+        response,
+        r'''$.transactions[:].available_balance''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<double>(x))
+          .withoutNulls
+          .toList();
+  List<String>? mode(dynamic response) => (getJsonField(
+        response,
+        r'''$.transactions[:].transaction_mode''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
+}
+
+class UpdateUserProfileCall {
+  Future<ApiCallResponse> call({
+    int? userId,
+    String? address = '',
+    String? city = '',
+    int? pincode,
+    String? state = '',
+    String? username = '',
+    String? token = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "address": "$address",
+  "city": "$city",
+  "pincode": "$pincode",
+  "state": "$state",
+  "username": "$username"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'Update user profile ',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/user/update/$userId',
+      callType: ApiCallType.PUT,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class SubscribeItemscustomApiCall {
+  Future<ApiCallResponse> call({
+    int? userId,
+    int? itemId,
+    String? subscribeType = '',
+    double? itemPrice,
+    List<String>? customdatesList,
+    List<int>? customqtyList,
+  }) async {
+    final customdates = _serializeList(customdatesList);
+    final customqty = _serializeList(customqtyList);
+
+    final ffApiRequestBody = '''
+{
+  "user_id": $userId,
+  "item_id": $itemId,
+  "subscribe_type": "$subscribeType",
+  "item_price": $itemPrice,
+  "custom_dates": [
+    {
+      "Dates": $customdates,
+      "quantity": $customqty
+    }
+  ]
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'SubscribeItemscustomApi',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/subscriptions/create',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class OrderApiCall {
+  Future<ApiCallResponse> call({
+    int? customerId,
+    String? customerName = '',
+    String? mobileNumber = '',
+    String? shippingAddress = '',
+    double? orderTotal,
+    int? itemId,
+    String? itemName = '',
+    int? itemPrice,
+    int? quantity,
+    String? paymentMode = '',
+    String? paymentStatus = '',
+    String? orderType = '',
+  }) async {
+    final ffApiRequestBody = '''
+{
+  "customer_id": $customerId,
+  "customer_name": "$customerName",
+  "mobile_number": "$mobileNumber",
+  "shipping_address": "$shippingAddress",
+  "order_total": $orderTotal,
+  "order_items": [
+    {
+      "item_id": $itemId,
+      "item_name": "$itemName",
+      "item_price": $itemPrice,
+      "quantity": $quantity,
+      "total_price": 360
+    }
+  ],
+  "payment_mode": "$paymentMode",
+  "payment_status": "$paymentStatus",
+  "order_type": "$orderType"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'orderApi',
+      apiUrl: '${KMartAPIsGroup.baseUrl}/order',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -393,72 +569,11 @@ class ProductSubscribeCall {
   }
 }
 
-class LoginApiCall {
-  static Future<ApiCallResponse> call({
-    String? moblienumber = '',
-    String? pin = '',
-  }) async {
-    final ffApiRequestBody = '''
-{
-  "mobile_number": "$moblienumber",
-  "pin": "$pin"
-}''';
-    return ApiManager.instance.makeApiCall(
-      callName: 'loginApi',
-      apiUrl: 'http://192.168.1.8:5000/login',
-      callType: ApiCallType.POST,
-      headers: {},
-      params: {},
-      body: ffApiRequestBody,
-      bodyType: BodyType.JSON,
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
 class TagsCall {
   static Future<ApiCallResponse> call() async {
     return ApiManager.instance.makeApiCall(
       callName: 'tags',
       apiUrl: 'http://api.rajastechnologies.com:5001/categories',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class GetheroimageCall {
-  static Future<ApiCallResponse> call() async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'getheroimage',
-      apiUrl: 'http://192.168.1.6:5001/categories',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {},
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: true,
-      cache: false,
-      alwaysAllowBody: false,
-    );
-  }
-}
-
-class DemoCall {
-  static Future<ApiCallResponse> call() async {
-    return ApiManager.instance.makeApiCall(
-      callName: 'demo',
-      apiUrl: 'http://192.168.1.6:5001/images',
       callType: ApiCallType.GET,
       headers: {},
       params: {},

@@ -6,12 +6,6 @@ class MyCartPageModel extends FlutterFlowModel<MyCartPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for CountController widget.
-  int? countControllerValue1;
-  // State field(s) for CountController widget.
-  int? countControllerValue2;
-  // State field(s) for CountController widget.
-  int? countControllerValue3;
 
   @override
   void initState(BuildContext context) {}

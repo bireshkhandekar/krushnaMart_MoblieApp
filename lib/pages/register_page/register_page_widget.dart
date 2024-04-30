@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -23,28 +24,28 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
     super.initState();
     _model = createModel(context, () => RegisterPageModel());
 
-    _model.nameController ??= TextEditingController();
+    _model.nameTextController ??= TextEditingController();
     _model.nameFocusNode ??= FocusNode();
 
-    _model.mobileNumberController ??= TextEditingController();
+    _model.mobileNumberTextController ??= TextEditingController();
     _model.mobileNumberFocusNode ??= FocusNode();
 
-    _model.flatnoController ??= TextEditingController();
+    _model.flatnoTextController ??= TextEditingController();
     _model.flatnoFocusNode ??= FocusNode();
 
-    _model.lineNoController ??= TextEditingController();
+    _model.lineNoTextController ??= TextEditingController();
     _model.lineNoFocusNode ??= FocusNode();
 
-    _model.landMarkController ??= TextEditingController();
+    _model.landMarkTextController ??= TextEditingController();
     _model.landMarkFocusNode ??= FocusNode();
 
-    _model.cityController ??= TextEditingController();
+    _model.cityTextController ??= TextEditingController();
     _model.cityFocusNode ??= FocusNode();
 
-    _model.pinCodeController ??= TextEditingController();
+    _model.pinCodeTextController ??= TextEditingController();
     _model.pinCodeFocusNode ??= FocusNode();
 
-    _model.stateController ??= TextEditingController();
+    _model.stateTextController ??= TextEditingController();
     _model.stateFocusNode ??= FocusNode();
   }
 
@@ -174,7 +175,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         8.0, 8.0, 8.0, 8.0),
                                                 child: TextFormField(
                                                   controller:
-                                                      _model.nameController,
+                                                      _model.nameTextController,
                                                   focusNode:
                                                       _model.nameFocusNode,
                                                   autofocus: true,
@@ -256,9 +257,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                       ),
-                                                  minLines: null,
                                                   validator: _model
-                                                      .nameControllerValidator
+                                                      .nameTextControllerValidator
                                                       .asValidator(context),
                                                 ),
                                               ),
@@ -268,7 +268,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         8.0, 0.0, 8.0, 8.0),
                                                 child: TextFormField(
                                                   controller: _model
-                                                      .mobileNumberController,
+                                                      .mobileNumberTextController,
                                                   focusNode: _model
                                                       .mobileNumberFocusNode,
                                                   autofocus: true,
@@ -360,11 +360,10 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                       ),
-                                                  minLines: null,
                                                   keyboardType:
                                                       TextInputType.number,
                                                   validator: _model
-                                                      .mobileNumberControllerValidator
+                                                      .mobileNumberTextControllerValidator
                                                       .asValidator(context),
                                                   inputFormatters: [
                                                     FilteringTextInputFormatter
@@ -391,7 +390,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                     0.0),
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .flatnoController,
+                                                              .flatnoTextController,
                                                           focusNode: _model
                                                               .flatnoFocusNode,
                                                           autofocus: true,
@@ -496,9 +495,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
-                                                          minLines: null,
                                                           validator: _model
-                                                              .flatnoControllerValidator
+                                                              .flatnoTextControllerValidator
                                                               .asValidator(
                                                                   context),
                                                         ),
@@ -515,7 +513,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                     0.0),
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .lineNoController,
+                                                              .lineNoTextController,
                                                           focusNode: _model
                                                               .lineNoFocusNode,
                                                           autofocus: true,
@@ -620,9 +618,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
-                                                          minLines: null,
                                                           validator: _model
-                                                              .lineNoControllerValidator
+                                                              .lineNoTextControllerValidator
                                                               .asValidator(
                                                                   context),
                                                         ),
@@ -636,8 +633,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                     .fromSTEB(
                                                         8.0, 0.0, 8.0, 8.0),
                                                 child: TextFormField(
-                                                  controller:
-                                                      _model.landMarkController,
+                                                  controller: _model
+                                                      .landMarkTextController,
                                                   focusNode:
                                                       _model.landMarkFocusNode,
                                                   autofocus: true,
@@ -727,9 +724,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                       ),
-                                                  minLines: null,
                                                   validator: _model
-                                                      .landMarkControllerValidator
+                                                      .landMarkTextControllerValidator
                                                       .asValidator(context),
                                                 ),
                                               ),
@@ -752,7 +748,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                     0.0),
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .cityController,
+                                                              .cityTextController,
                                                           focusNode: _model
                                                               .cityFocusNode,
                                                           autofocus: true,
@@ -856,9 +852,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
-                                                          minLines: null,
                                                           validator: _model
-                                                              .cityControllerValidator
+                                                              .cityTextControllerValidator
                                                               .asValidator(
                                                                   context),
                                                         ),
@@ -875,7 +870,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                     0.0),
                                                         child: TextFormField(
                                                           controller: _model
-                                                              .pinCodeController,
+                                                              .pinCodeTextController,
                                                           focusNode: _model
                                                               .pinCodeFocusNode,
                                                           autofocus: true,
@@ -980,12 +975,11 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
-                                                          minLines: null,
                                                           keyboardType:
                                                               TextInputType
                                                                   .number,
                                                           validator: _model
-                                                              .pinCodeControllerValidator
+                                                              .pinCodeTextControllerValidator
                                                               .asValidator(
                                                                   context),
                                                           inputFormatters: [
@@ -1004,8 +998,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                     .fromSTEB(
                                                         8.0, 0.0, 8.0, 8.0),
                                                 child: TextFormField(
-                                                  controller:
-                                                      _model.stateController,
+                                                  controller: _model
+                                                      .stateTextController,
                                                   focusNode:
                                                       _model.stateFocusNode,
                                                   autofocus: true,
@@ -1087,9 +1081,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                         fontSize: 18.0,
                                                         letterSpacing: 0.0,
                                                       ),
-                                                  minLines: null,
                                                   validator: _model
-                                                      .stateControllerValidator
+                                                      .stateTextControllerValidator
                                                       .asValidator(context),
                                                 ),
                                               ),
@@ -1110,20 +1103,95 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                               .validate()) {
                                                         return;
                                                       }
-
-                                                      context.pushNamed(
-                                                        'SetPINPage',
-                                                        extra: <String,
-                                                            dynamic>{
-                                                          kTransitionInfoKey:
-                                                              const TransitionInfo(
-                                                            hasTransition: true,
-                                                            transitionType:
-                                                                PageTransitionType
-                                                                    .bottomToTop,
-                                                          ),
-                                                        },
+                                                      _model.registerApiResponce =
+                                                          await KMartAPIsGroup
+                                                              .userRegisterAPICall
+                                                              .call(
+                                                        username: _model
+                                                            .nameTextController
+                                                            .text,
+                                                        moblienumber: _model
+                                                            .mobileNumberTextController
+                                                            .text,
+                                                        city: _model
+                                                            .cityTextController
+                                                            .text,
+                                                        state: _model
+                                                            .stateTextController
+                                                            .text,
+                                                        pincode: int.tryParse(_model
+                                                            .pinCodeTextController
+                                                            .text),
+                                                        houseno: _model
+                                                            .flatnoTextController
+                                                            .text,
+                                                        lineno: _model
+                                                            .lineNoTextController
+                                                            .text,
+                                                        landmark: _model
+                                                            .landMarkTextController
+                                                            .text,
                                                       );
+                                                      if ((_model
+                                                              .registerApiResponce
+                                                              ?.succeeded ??
+                                                          true)) {
+                                                        context.pushNamed(
+                                                          'SetPINPage',
+                                                          queryParameters: {
+                                                            'mobileNumber':
+                                                                serializeParam(
+                                                              getJsonField(
+                                                                (_model.registerApiResponce
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.mobile_number''',
+                                                              ).toString(),
+                                                              ParamType.String,
+                                                            ),
+                                                          }.withoutNulls,
+                                                          extra: <String,
+                                                              dynamic>{
+                                                            kTransitionInfoKey:
+                                                                const TransitionInfo(
+                                                              hasTransition:
+                                                                  true,
+                                                              transitionType:
+                                                                  PageTransitionType
+                                                                      .bottomToTop,
+                                                            ),
+                                                          },
+                                                        );
+                                                      } else {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              getJsonField(
+                                                                (_model.registerApiResponce
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.message''',
+                                                              ).toString(),
+                                                              style: TextStyle(
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                              ),
+                                                            ),
+                                                            duration: const Duration(
+                                                                milliseconds:
+                                                                    5000),
+                                                            backgroundColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondary,
+                                                          ),
+                                                        );
+                                                      }
+
+                                                      setState(() {});
                                                     },
                                                     text: 'Register',
                                                     options: FFButtonOptions(

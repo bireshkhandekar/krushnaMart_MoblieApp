@@ -506,6 +506,11 @@ class _CheckOutPageWidgetState extends State<CheckOutPageWidget> {
                                         setState(() =>
                                             _model.checkboxValue = newValue!);
                                       },
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
                                       activeColor:
                                           FlutterFlowTheme.of(context).primary,
                                       checkColor:
