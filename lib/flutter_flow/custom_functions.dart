@@ -56,3 +56,61 @@ double? handletotalpricenull(double? totalprice) {
     return totalprice;
   }
 }
+
+List<dynamic>? convertToitem(
+  List<int> itemid,
+  List<String> itemName,
+  List<double> itemsPrice,
+  List<int> itemqty,
+) {
+  // list to json convert
+  List<dynamic> order_items = [];
+  for (int i = 0; i < itemid.length; i++) {
+    Map<String, dynamic> item = {
+      'item_id': itemid[i],
+      'item_name': itemName[i],
+      'item_price': itemsPrice[i],
+      'quantity': itemqty[i],
+    };
+    order_items.add(item);
+  }
+  return order_items;
+}
+
+bool paymentcondition(String status) {
+  // status is equal to success then true otherwise false
+  if (status == 'success') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+DateTime limitDateselect(DateTime currentDate) {
+  // 60th date from current date
+  return currentDate.add(Duration(days: 60));
+}
+
+bool toggleCheckBoxes(
+  bool isFirstCheckbox,
+  bool isSecondCheckboxChecked,
+) {
+  // I have two check boxes. When one is checked, the other will be unchecked
+  if (isFirstCheckbox) {
+    return true;
+  } else {
+    return !isSecondCheckboxChecked;
+  }
+}
+
+bool? checkWalletBalence(
+  double totalAmount,
+  double walletBalence,
+) {
+  // totalAmount less then equal to walletBalence is true otherwise false
+  if (totalAmount <= walletBalence) {
+    return true;
+  } else {
+    return false;
+  }
+}

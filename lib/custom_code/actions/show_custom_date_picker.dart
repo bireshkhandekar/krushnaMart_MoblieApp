@@ -42,8 +42,10 @@ Future showCustomDatePicker(BuildContext context) async {
                           // Check if selected dates are in the future
                           final now = DateTime.now();
                           _multiDatePickerValueWithDefaultValue = dates
-                              .where(
-                                  (date) => date != null && date.isAfter(now))
+                              .where((date) =>
+                                  date != null &&
+                                  date.isAfter(now) &&
+                                  date.difference(now).inDays <= 60)
                               .toList();
                         });
                       },

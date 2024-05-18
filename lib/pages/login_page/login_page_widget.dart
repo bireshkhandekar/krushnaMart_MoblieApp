@@ -492,16 +492,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         if ((_model.apiResult
                                                                 ?.succeeded ??
                                                             true)) {
-                                                          setState(() {
-                                                            FFAppState()
-                                                                    .userId =
-                                                                getJsonField(
-                                                              (_model.apiResult
-                                                                      ?.jsonBody ??
-                                                                  ''),
-                                                              r'''$.data.user.id''',
-                                                            );
-                                                          });
                                                           GoRouter.of(context)
                                                               .prepareAuthEvent();
                                                           await authManager
@@ -542,8 +532,101 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                     ''),
                                                                 r'''$.data.user.username''',
                                                               ).toString(),
+                                                              moblieNumber:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.mobilenumber''',
+                                                              ).toString(),
+                                                              shippingAddress:
+                                                                  '${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.houseno ''',
+                                                              ).toString()} ${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.lineno ''',
+                                                              ).toString()} ${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.landmark ''',
+                                                              ).toString()} ${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.city ''',
+                                                              ).toString()} ${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.state''',
+                                                              ).toString()} ${getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.pincode''',
+                                                              ).toString()}',
                                                             ),
                                                           );
+                                                          setState(() {
+                                                            FFAppState()
+                                                                    .username =
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.username''',
+                                                            ).toString();
+                                                            FFAppState()
+                                                                    .moblienumber =
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.moblienumber''',
+                                                            ).toString();
+                                                            FFAppState()
+                                                                    .userid =
+                                                                getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.id''',
+                                                            );
+                                                            FFAppState()
+                                                                    .address =
+                                                                '${getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.address.house_no''',
+                                                            ).toString()}${getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.address.line_no''',
+                                                            ).toString()}${getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.address.landmark''',
+                                                            ).toString()}${getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.city''',
+                                                            ).toString()}${getJsonField(
+                                                              (_model.apiResult
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.user.state''',
+                                                            ).toString()}';
+                                                          });
                                                           Navigator.pop(
                                                               context);
                                                         } else {

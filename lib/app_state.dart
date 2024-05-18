@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '/backend/schema/structs/index.dart';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -14,19 +14,12 @@ class FFAppState extends ChangeNotifier {
     _instance = FFAppState._internal();
   }
 
-  Future initializePersistedState() async {
-    prefs = await SharedPreferences.getInstance();
-    _safeInit(() {
-      _userId = prefs.getInt('ff_userId') ?? _userId;
-    });
-  }
+  Future initializePersistedState() async {}
 
   void update(VoidCallback callback) {
     callback();
     notifyListeners();
   }
-
-  late SharedPreferences prefs;
 
   List<DateTime> _selectedDate = [];
   List<DateTime> get selectedDate => _selectedDate;
@@ -81,13 +74,6 @@ class FFAppState extends ChangeNotifier {
     _startDate = value;
   }
 
-  int _userId = 0;
-  int get userId => _userId;
-  set userId(int value) {
-    _userId = value;
-    prefs.setInt('ff_userId', value);
-  }
-
   String _sudscribeType = '';
   String get sudscribeType => _sudscribeType;
   set sudscribeType(String value) {
@@ -134,16 +120,57 @@ class FFAppState extends ChangeNotifier {
   set cartcount(int value) {
     _cartcount = value;
   }
-}
 
-void _safeInit(Function() initializeField) {
-  try {
-    initializeField();
-  } catch (_) {}
-}
+  String _username = '';
+  String get username => _username;
+  set username(String value) {
+    _username = value;
+  }
 
-Future _safeInitAsync(Function() initializeField) async {
-  try {
-    await initializeField();
-  } catch (_) {}
+  String _moblienumber = '';
+  String get moblienumber => _moblienumber;
+  set moblienumber(String value) {
+    _moblienumber = value;
+  }
+
+  int _userid = 0;
+  int get userid => _userid;
+  set userid(int value) {
+    _userid = value;
+  }
+
+  String _address = '';
+  String get address => _address;
+  set address(String value) {
+    _address = value;
+  }
+
+  List<OrderitemsStruct> _orderitems = [];
+  List<OrderitemsStruct> get orderitems => _orderitems;
+  set orderitems(List<OrderitemsStruct> value) {
+    _orderitems = value;
+  }
+
+  void addToOrderitems(OrderitemsStruct value) {
+    _orderitems.add(value);
+  }
+
+  void removeFromOrderitems(OrderitemsStruct value) {
+    _orderitems.remove(value);
+  }
+
+  void removeAtIndexFromOrderitems(int index) {
+    _orderitems.removeAt(index);
+  }
+
+  void updateOrderitemsAtIndex(
+    int index,
+    OrderitemsStruct Function(OrderitemsStruct) updateFn,
+  ) {
+    _orderitems[index] = updateFn(_orderitems[index]);
+  }
+
+  void insertAtIndexInOrderitems(int index, OrderitemsStruct value) {
+    _orderitems.insert(index, value);
+  }
 }
