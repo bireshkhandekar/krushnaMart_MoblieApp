@@ -121,30 +121,6 @@ class FFAppState extends ChangeNotifier {
     _cartcount = value;
   }
 
-  String _username = '';
-  String get username => _username;
-  set username(String value) {
-    _username = value;
-  }
-
-  String _moblienumber = '';
-  String get moblienumber => _moblienumber;
-  set moblienumber(String value) {
-    _moblienumber = value;
-  }
-
-  int _userid = 0;
-  int get userid => _userid;
-  set userid(int value) {
-    _userid = value;
-  }
-
-  String _address = '';
-  String get address => _address;
-  set address(String value) {
-    _address = value;
-  }
-
   List<OrderitemsStruct> _orderitems = [];
   List<OrderitemsStruct> get orderitems => _orderitems;
   set orderitems(List<OrderitemsStruct> value) {
@@ -172,5 +148,35 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInOrderitems(int index, OrderitemsStruct value) {
     _orderitems.insert(index, value);
+  }
+
+  bool _evarydaycalculetion = false;
+  bool get evarydaycalculetion => _evarydaycalculetion;
+  set evarydaycalculetion(bool value) {
+    _evarydaycalculetion = value;
+  }
+
+  int _EvarydayQty = 0;
+  int get EvarydayQty => _EvarydayQty;
+  set EvarydayQty(int value) {
+    _EvarydayQty = value;
+  }
+
+  double _EvarydayAmount = 0.0;
+  double get EvarydayAmount => _EvarydayAmount;
+  set EvarydayAmount(double value) {
+    _EvarydayAmount = value;
+  }
+
+  bool _customCalculate = false;
+  bool get customCalculate => _customCalculate;
+  set customCalculate(bool value) {
+    _customCalculate = value;
+  }
+
+  DateTime? _tokenExpire = DateTime.fromMillisecondsSinceEpoch(1716379920000);
+  DateTime? get tokenExpire => _tokenExpire;
+  set tokenExpire(DateTime? value) {
+    _tokenExpire = value;
   }
 }

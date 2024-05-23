@@ -13,10 +13,14 @@ class SubscribeItemsModel extends FlutterFlowModel<SubscribeItemsWidget> {
   // Models for customdateselection dynamic component.
   late FlutterFlowDynamicModels<CustomdateselectionModel>
       customdateselectionModels;
+  // Stores action output result for [Backend Call - API (DeductfundsWallet)] action in Button widget.
+  ApiCallResponse? dailywalletResult;
   // Stores action output result for [Backend Call - API (SubscribeItems API)] action in Button widget.
   ApiCallResponse? apisubscribeitemresult;
+  // Stores action output result for [Backend Call - API (DeductfundsWallet)] action in Button widget.
+  ApiCallResponse? customwalletResult;
   // Stores action output result for [Backend Call - API (SubscribeItemscustomApi)] action in Button widget.
-  ApiCallResponse? subscribeitemscustom;
+  ApiCallResponse? customapisubscribeitemresult;
 
   @override
   void initState(BuildContext context) {

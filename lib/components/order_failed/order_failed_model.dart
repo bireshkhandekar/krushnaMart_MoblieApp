@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'oreder_details_widget.dart' show OrederDetailsWidget;
+import 'order_failed_widget.dart' show OrderFailedWidget;
 import 'package:flutter/material.dart';
 
-class OrederDetailsModel extends FlutterFlowModel<OrederDetailsWidget> {
+class OrderFailedModel extends FlutterFlowModel<OrderFailedWidget> {
   @override
   void initState(BuildContext context) {}
 

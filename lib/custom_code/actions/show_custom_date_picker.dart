@@ -28,65 +28,67 @@ Future showCustomDatePicker(BuildContext context) async {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Scaffold(
-            body: Center(
-              child: SizedBox(
-                width: 375,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CalendarDatePicker2(
-                      config: config,
-                      value: _multiDatePickerValueWithDefaultValue,
-                      onValueChanged: (dates) {
-                        setState(() {
-                          // Check if selected dates are in the future
-                          final now = DateTime.now();
-                          _multiDatePickerValueWithDefaultValue = dates
-                              .where((date) =>
-                                  date != null &&
-                                  date.isAfter(now) &&
-                                  date.difference(now).inDays <= 60)
-                              .toList();
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 16),
-                          TextButton(
-                            onPressed: () {
-                              _getValueText(
-                                config.calendarType,
-                                _multiDatePickerValueWithDefaultValue,
-                              );
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'OK',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
+            body: SingleChildScrollView(
+              child: Center(
+                child: SizedBox(
+                  width: 375,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CalendarDatePicker2(
+                        config: config,
+                        value: _multiDatePickerValueWithDefaultValue,
+                        onValueChanged: (dates) {
+                          setState(() {
+                            // Check if selected dates are in the future
+                            final now = DateTime.now();
+                            _multiDatePickerValueWithDefaultValue = dates
+                                .where((date) =>
+                                    date != null &&
+                                    date.isAfter(now) &&
+                                    date.difference(now).inDays <= 60)
+                                .toList();
+                          });
+                        },
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 16),
+                            TextButton(
+                              onPressed: () {
+                                _getValueText(
+                                  config.calendarType,
+                                  _multiDatePickerValueWithDefaultValue,
+                                );
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'OK',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

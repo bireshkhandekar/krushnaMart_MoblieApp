@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'my_subscribed_items_widget.dart' show MySubscribedItemsWidget;
+import 'entry_page_widget.dart' show EntryPageWidget;
 import 'package:flutter/material.dart';
 
-class MySubscribedItemsModel extends FlutterFlowModel<MySubscribedItemsWidget> {
+class EntryPageModel extends FlutterFlowModel<EntryPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

@@ -9,9 +9,16 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future navigateAfterDelay(BuildContext context) async {
+Future navigateAfterLogin(
+  BuildContext context,
+  bool fromSetPinPage,
+) async {
   // Add your function code here!
-  Future.delayed(Duration(milliseconds: 100), () {
+  if (fromSetPinPage) {
+    // Navigate to the Home Page
     context.pushNamed('HomePage');
-  });
+  } else {
+    // Navigate to the previous page
+    Navigator.pop(context);
+  }
 }

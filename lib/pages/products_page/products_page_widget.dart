@@ -439,10 +439,8 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                   GoRouter.of(context).clearRedirectLocation();
 
                                   navigate = () => context.goNamedAuth(
-                                      'HomePage', context.mounted);
-                                  setState(() {
-                                    FFAppState().userid = 0;
-                                  });
+                                      'entryPage', context.mounted);
+                                  setState(() {});
                                   if (scaffoldKey.currentState!.isDrawerOpen ||
                                       scaffoldKey
                                           .currentState!.isEndDrawerOpen) {

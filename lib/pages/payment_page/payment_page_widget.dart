@@ -1,6 +1,8 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
+import '/components/order_failed/order_failed_widget.dart';
+import '/components/order_success/order_success_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -660,180 +662,211 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                 if (_model.checkboxValue1 == true)
                   Align(
                     alignment: const AlignmentDirectional(0.0, 1.0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          _model.allitems =
-                              await SQLiteManager.instance.allget();
-                          _model.totalprice =
-                              await SQLiteManager.instance.getTotalprice();
-                          _model.getWalletBalence =
-                              await KMartAPIsGroup.getWalletBalanceCall.call(
-                            userId: currentUserData?.id,
-                          );
-                          _model.walletbalencecheck =
-                              await actions.walletBalenceCheck(
-                            _model.totalprice!.first.totalPrice!,
-                            getJsonField(
-                              (_model.getWalletBalence?.jsonBody ?? ''),
-                              r'''$.data.wallet_balance''',
-                            ),
-                          );
-                          if (_model.walletbalencecheck == true) {
-                            _model.deductfundResult =
-                                await KMartAPIsGroup.deductfundsWalletCall.call(
+                    child: Builder(
+                      builder: (context) => Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            _model.allitems =
+                                await SQLiteManager.instance.allget();
+                            _model.totalprice =
+                                await SQLiteManager.instance.getTotalprice();
+                            _model.getWalletBalence =
+                                await KMartAPIsGroup.getWalletBalanceCall.call(
                               userId: currentUserData?.id,
-                              purchaseAmount:
-                                  _model.totalprice?.first.totalPrice,
                             );
-                            if ((_model.deductfundResult?.succeeded ?? true)) {
-                              _model.orderresponce =
-                                  await KMartAPIsGroup.orderApiCall.call(
-                                customerId: currentUserData?.id,
-                                customerName: currentUserData?.userName,
-                                mobileNumber: currentUserData?.moblieNumber,
-                                orderTotal:
+                            _model.walletbalencecheck =
+                                await actions.walletBalenceCheck(
+                              _model.totalprice!.first.totalPrice!,
+                              getJsonField(
+                                (_model.getWalletBalence?.jsonBody ?? ''),
+                                r'''$.data.wallet_balance''',
+                              ),
+                            );
+                            if (_model.walletbalencecheck == true) {
+                              _model.deductfundResult = await KMartAPIsGroup
+                                  .deductfundsWalletCall
+                                  .call(
+                                userId: currentUserData?.id,
+                                purchaseAmount:
                                     _model.totalprice?.first.totalPrice,
-                                shippingAddress:
-                                    currentUserData?.shippingAddress,
-                                paymentMode: 'wallet',
-                                paymentStatus: 'Competed',
-                                orderType: 'regular',
-                                orderItemsJson: functions.convertToitem(
-                                    _model.allitems!
-                                        .map((e) => valueOrDefault<int>(
-                                              e.itemid,
-                                              0,
-                                            ))
-                                        .toList(),
-                                    _model.allitems!
-                                        .map((e) => e.productName)
-                                        .toList(),
-                                    _model.allitems!
-                                        .map((e) => valueOrDefault<double>(
-                                              e.price,
-                                              0.0,
-                                            ))
-                                        .toList(),
-                                    _model.allitems!
-                                        .map((e) => valueOrDefault<int>(
-                                              e.quantity,
-                                              0,
-                                            ))
-                                        .toList()),
                               );
-                              if ((_model.orderresponce?.succeeded ?? true)) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      'order placed succsefull.',
-                                      style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                      ),
-                                    ),
-                                    duration: const Duration(milliseconds: 4000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).secondary,
-                                  ),
+                              if ((_model.deductfundResult?.succeeded ??
+                                  true)) {
+                                _model.orderresponce =
+                                    await KMartAPIsGroup.orderApiCall.call(
+                                  customerId: currentUserData?.id,
+                                  customerName: currentUserData?.userName,
+                                  mobileNumber: currentUserData?.moblieNumber,
+                                  shippingAddress:
+                                      currentUserData?.shippingAddress,
+                                  orderTotal:
+                                      _model.totalprice?.first.totalPrice,
+                                  paymentMode: 'wallet',
+                                  paymentStatus: 'completed',
+                                  orderType: 'regular',
+                                  orderItemsJson: functions.convertToitem(
+                                      _model.allitems!
+                                          .map((e) => e.itemid)
+                                          .toList(),
+                                      _model.allitems!
+                                          .map((e) => e.productName)
+                                          .toList(),
+                                      _model.allitems!
+                                          .map((e) => e.price)
+                                          .toList(),
+                                      _model.allitems!
+                                          .map((e) => e.quantity)
+                                          .toList()),
                                 );
+                                if ((_model.orderresponce?.succeeded ?? true)) {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (dialogContext) {
+                                      return Dialog(
+                                        elevation: 0,
+                                        insetPadding: EdgeInsets.zero,
+                                        backgroundColor: Colors.transparent,
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 0.0)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                        child: GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: SizedBox(
+                                            height: 340.0,
+                                            width: 300.0,
+                                            child: OrderSuccessWidget(
+                                              orderId: getJsonField(
+                                                (_model.orderresponce
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.data.order_id''',
+                                              ).toString(),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
 
-                                context.goNamed('ProductsPage');
+                                  context.goNamed('ProductsPage');
 
-                                await SQLiteManager.instance.deleteAll();
+                                  await SQLiteManager.instance.deleteAll();
+                                } else {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (dialogContext) {
+                                      return Dialog(
+                                        elevation: 0,
+                                        insetPadding: EdgeInsets.zero,
+                                        backgroundColor: Colors.transparent,
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 0.0)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                        child: GestureDetector(
+                                          onTap: () => _model
+                                                  .unfocusNode.canRequestFocus
+                                              ? FocusScope.of(context)
+                                                  .requestFocus(
+                                                      _model.unfocusNode)
+                                              : FocusScope.of(context)
+                                                  .unfocus(),
+                                          child: const SizedBox(
+                                            height: 300.0,
+                                            width: 300.0,
+                                            child: OrderFailedWidget(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => setState(() {}));
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
                                       getJsonField(
-                                        (_model.orderresponce?.jsonBody ?? ''),
-                                        r'''$.errors''',
+                                        (_model.deductfundResult?.jsonBody ??
+                                            ''),
+                                        r'''$.data.error''',
                                       ).toString(),
                                       style: TextStyle(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
                                       ),
                                     ),
-                                    duration: const Duration(milliseconds: 4000),
+                                    duration: const Duration(milliseconds: 1000),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).error,
                                   ),
                                 );
                               }
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    getJsonField(
-                                      (_model.deductfundResult?.jsonBody ?? ''),
-                                      r'''$.data.error''',
-                                    ).toString(),
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 1000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).error,
-                                ),
-                              );
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: const Text(
+                                                'Insufficient Balence Please add the Amount in your Wallet.'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: const Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (confirmDialogResponse) {
+                                context.pushNamed('WalletPage');
+                              } else {
+                                Navigator.pop(context);
+                              }
                             }
-                          } else {
-                            var confirmDialogResponse = await showDialog<bool>(
-                                  context: context,
-                                  builder: (alertDialogContext) {
-                                    return AlertDialog(
-                                      content: const Text(
-                                          'Insufficient Balence Please add the Amount in your Wallet.'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, false),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () => Navigator.pop(
-                                              alertDialogContext, true),
-                                          child: const Text('Ok'),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ) ??
-                                false;
-                            if (confirmDialogResponse) {
-                              context.pushNamed('WalletPage');
-                            } else {
-                              Navigator.pop(context);
-                            }
-                          }
 
-                          setState(() {});
-                        },
-                        text: 'PLACE ORDER',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
+                            setState(() {});
+                          },
+                          text: 'PLACE ORDER',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40.0,
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 0.0, 24.0, 0.0),
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                            elevation: 3.0,
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          showLoadingIndicator: false,
                         ),
                       ),
                     ),
@@ -841,132 +874,166 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                 if (_model.checkboxValue2 == true)
                   Align(
                     alignment: const AlignmentDirectional(0.0, 1.0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          _model.allitemsonline =
-                              await SQLiteManager.instance.allget();
-                          _model.totalpriceonline =
-                              await SQLiteManager.instance.getTotalprice();
-                          _model.onlinePaymentResult =
-                              await actions.razorpayaction(
-                            context,
-                            _model.totalpriceonline!.first.totalPrice!,
-                            'कृष्णा मार्ट ',
-                            'Regular Order Place.',
-                            currentUserData!.moblieNumber,
-                          );
-                          if (functions.paymentcondition(getJsonField(
-                            _model.onlinePaymentResult,
-                            r'''$.status''',
-                          ).toString())) {
-                            _model.orderresponceonline =
-                                await KMartAPIsGroup.orderApiCall.call(
-                              customerId: currentUserData?.id,
-                              customerName: currentUserData?.userName,
-                              mobileNumber: currentUserData?.moblieNumber,
-                              orderTotal:
-                                  _model.totalpriceonline?.first.totalPrice,
-                              shippingAddress: currentUserData?.shippingAddress,
-                              paymentMode: 'online',
-                              paymentStatus: 'Competed',
-                              orderType: 'regular',
-                              orderItemsJson: functions.convertToitem(
-                                  _model.allitemsonline!
-                                      .map((e) => e.itemid)
-                                      .toList(),
-                                  _model.allitemsonline!
-                                      .map((e) => e.productName)
-                                      .toList(),
-                                  _model.allitemsonline!
-                                      .map((e) => e.price)
-                                      .toList(),
-                                  _model.allitemsonline!
-                                      .map((e) => e.quantity)
-                                      .toList()),
-                              transactionId: getJsonField(
-                                _model.onlinePaymentResult,
-                                r'''$.paymentId''',
-                              ).toString(),
+                    child: Builder(
+                      builder: (context) => Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            _model.allitemsonline =
+                                await SQLiteManager.instance.allget();
+                            _model.totalpriceonline =
+                                await SQLiteManager.instance.getTotalprice();
+                            _model.onlinePaymentResult =
+                                await actions.razorpayaction(
+                              context,
+                              _model.totalpriceonline!.first.totalPrice!,
+                              'कृष्णा मार्ट ',
+                              'Regular Order Place.',
+                              currentUserData!.moblieNumber,
                             );
-                            if ((_model.orderresponceonline?.succeeded ??
-                                true)) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'order placed succsefull.',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 1000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
+                            if (functions.paymentcondition(getJsonField(
+                              _model.onlinePaymentResult,
+                              r'''$.status''',
+                            ).toString())) {
+                              _model.orderresponceonline =
+                                  await KMartAPIsGroup.orderApiOnlineCall.call(
+                                customerId: currentUserData?.id,
+                                customerName: currentUserData?.userName,
+                                mobileNumber: currentUserData?.moblieNumber,
+                                orderTotal:
+                                    _model.totalpriceonline?.first.totalPrice,
+                                shippingAddress:
+                                    currentUserData?.shippingAddress,
+                                paymentMode: 'online',
+                                paymentStatus: 'Competed',
+                                orderType: 'regular',
+                                orderItemsJson: functions.convertToitem(
+                                    _model.allitemsonline!
+                                        .map((e) => e.itemid)
+                                        .toList(),
+                                    _model.allitemsonline!
+                                        .map((e) => e.productName)
+                                        .toList(),
+                                    _model.allitemsonline!
+                                        .map((e) => e.price)
+                                        .toList(),
+                                    _model.allitemsonline!
+                                        .map((e) => e.quantity)
+                                        .toList()),
+                                transactionId: getJsonField(
+                                  _model.onlinePaymentResult,
+                                  r'''$.paymentId''',
+                                ).toString(),
                               );
+                              if ((_model.orderresponceonline?.succeeded ??
+                                  true)) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return Dialog(
+                                      elevation: 0,
+                                      insetPadding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                      alignment: const AlignmentDirectional(0.0, 0.0)
+                                          .resolve(Directionality.of(context)),
+                                      child: GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: SizedBox(
+                                          height: 340.0,
+                                          width: 300.0,
+                                          child: OrderSuccessWidget(
+                                            orderId: getJsonField(
+                                              (_model.orderresponceonline
+                                                      ?.jsonBody ??
+                                                  ''),
+                                              r'''$.data.order_id''',
+                                            ).toString(),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
 
-                              context.goNamed('ProductsPage');
+                                context.goNamed('ProductsPage');
 
-                              await SQLiteManager.instance.deleteAll();
+                                await SQLiteManager.instance.deleteAll();
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return Dialog(
+                                      elevation: 0,
+                                      insetPadding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                      alignment: const AlignmentDirectional(0.0, 0.0)
+                                          .resolve(Directionality.of(context)),
+                                      child: GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: const SizedBox(
+                                          height: 300.0,
+                                          width: 300.0,
+                                          child: OrderFailedWidget(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
+                              }
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
-                                    'Order Not Placed.',
+                                    'Payment faild.',
                                     style: TextStyle(
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
+                                  duration: const Duration(milliseconds: 1100),
                                   backgroundColor:
                                       FlutterFlowTheme.of(context).error,
                                 ),
                               );
                             }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Payment faild.',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 1100),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).error,
-                              ),
-                            );
-                          }
 
-                          setState(() {});
-                        },
-                        text: 'PLACE ORDER',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
+                            setState(() {});
+                          },
+                          text: 'PLACE ORDER',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40.0,
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 0.0, 24.0, 0.0),
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                            elevation: 3.0,
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          showLoadingIndicator: false,
                         ),
                       ),
                     ),
@@ -974,98 +1041,132 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                 if (_model.checkboxValue3 == true)
                   Align(
                     alignment: const AlignmentDirectional(0.0, 1.0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          _model.allgetitemcash =
-                              await SQLiteManager.instance.allget();
-                          _model.getTotalpricecash =
-                              await SQLiteManager.instance.getTotalprice();
-                          _model.cashorderApiresult =
-                              await KMartAPIsGroup.orderApiCall.call(
-                            customerId: currentUserData?.id,
-                            customerName: currentUserData?.userName,
-                            mobileNumber: currentUserData?.moblieNumber,
-                            shippingAddress: currentUserData?.shippingAddress,
-                            orderTotal:
-                                _model.getTotalpricecash?.first.totalPrice,
-                            paymentMode: 'cash',
-                            paymentStatus: 'pending',
-                            orderType: 'regular',
-                            orderItemsJson: functions.convertToitem(
-                                _model.allgetitemcash!
-                                    .map((e) => e.itemid)
-                                    .toList(),
-                                _model.allgetitemcash!
-                                    .map((e) => e.productName)
-                                    .toList(),
-                                _model.allgetitemcash!
-                                    .map((e) => e.price)
-                                    .toList(),
-                                _model.allgetitemcash!
-                                    .map((e) => e.quantity)
-                                    .toList()),
-                          );
-                          if ((_model.cashorderApiresult?.succeeded ?? true)) {
-                            context.goNamed('ProductsPage');
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'order placed succsefull.',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
+                    child: Builder(
+                      builder: (context) => Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            _model.allgetitemcash =
+                                await SQLiteManager.instance.allget();
+                            _model.getTotalpricecash =
+                                await SQLiteManager.instance.getTotalprice();
+                            _model.cashorderApiresult =
+                                await KMartAPIsGroup.cashOrderCall.call(
+                              customerId: currentUserData?.id,
+                              customerName: currentUserData?.userName,
+                              mobileNumber: currentUserData?.moblieNumber,
+                              shippingAddress: currentUserData?.shippingAddress,
+                              orderTotal:
+                                  _model.getTotalpricecash?.first.totalPrice,
+                              orderItemsJson: functions.convertToitem(
+                                  _model.allgetitemcash!
+                                      .map((e) => e.itemid)
+                                      .toList(),
+                                  _model.allgetitemcash!
+                                      .map((e) => e.productName)
+                                      .toList(),
+                                  _model.allgetitemcash!
+                                      .map((e) => e.price)
+                                      .toList(),
+                                  _model.allgetitemcash!
+                                      .map((e) => e.quantity)
+                                      .toList()),
+                              paymentMode: 'cash',
+                              paymentStatus: 'pending',
+                              orderType: 'regular',
+                              orderStatus: 'pending',
                             );
-                            await SQLiteManager.instance.deleteAll();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'order Not placed.',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 1000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).error,
-                              ),
-                            );
-                          }
+                            if ((_model.cashorderApiresult?.succeeded ??
+                                true)) {
+                              await showDialog(
+                                context: context,
+                                builder: (dialogContext) {
+                                  return Dialog(
+                                    elevation: 0,
+                                    insetPadding: EdgeInsets.zero,
+                                    backgroundColor: Colors.transparent,
+                                    alignment: const AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    child: GestureDetector(
+                                      onTap: () => _model
+                                              .unfocusNode.canRequestFocus
+                                          ? FocusScope.of(context)
+                                              .requestFocus(_model.unfocusNode)
+                                          : FocusScope.of(context).unfocus(),
+                                      child: SizedBox(
+                                        height: 340.0,
+                                        width: 300.0,
+                                        child: OrderSuccessWidget(
+                                          orderId: getJsonField(
+                                            (_model.cashorderApiresult
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.data.order_id''',
+                                          ).toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).then((value) => setState(() {}));
 
-                          setState(() {});
-                        },
-                        text: 'PLACE ORDER ',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Readex Pro',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
+                              context.goNamed('ProductsPage');
+
+                              await SQLiteManager.instance.deleteAll();
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (dialogContext) {
+                                  return Dialog(
+                                    elevation: 0,
+                                    insetPadding: EdgeInsets.zero,
+                                    backgroundColor: Colors.transparent,
+                                    alignment: const AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    child: GestureDetector(
+                                      onTap: () => _model
+                                              .unfocusNode.canRequestFocus
+                                          ? FocusScope.of(context)
+                                              .requestFocus(_model.unfocusNode)
+                                          : FocusScope.of(context).unfocus(),
+                                      child: const SizedBox(
+                                        height: 300.0,
+                                        width: 300.0,
+                                        child: OrderFailedWidget(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).then((value) => setState(() {}));
+                            }
+
+                            setState(() {});
+                          },
+                          text: 'PLACE ORDER',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 40.0,
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 0.0, 24.0, 0.0),
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
+                            color: FlutterFlowTheme.of(context).primary,
+                            textStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
+                            elevation: 3.0,
+                            borderSide: const BorderSide(
+                              color: Colors.transparent,
+                              width: 1.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          showLoadingIndicator: false,
                         ),
                       ),
                     ),
@@ -1117,6 +1218,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                           ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
+                        showLoadingIndicator: false,
                       ),
                     ),
                   ),

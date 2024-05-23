@@ -438,9 +438,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     GoRouter.of(context)
                                         .clearRedirectLocation();
 
-                                    setState(() {
-                                      FFAppState().userid = 0;
-                                    });
+                                    setState(() {});
                                     if (scaffoldKey
                                             .currentState!.isDrawerOpen ||
                                         scaffoldKey
@@ -749,11 +747,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       )
                                       ?.toList() ??
                                   [];
-                              if (eachItems.isEmpty) {
-                                return Image.asset(
-                                  '',
-                                );
-                              }
                               return RefreshIndicator(
                                 onRefresh: () async {
                                   setState(

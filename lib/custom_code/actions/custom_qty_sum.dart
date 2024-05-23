@@ -9,9 +9,15 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future navigateAfterDelay(BuildContext context) async {
-  // Add your function code here!
-  Future.delayed(Duration(milliseconds: 100), () {
-    context.pushNamed('HomePage');
-  });
+Future<int?> customQtySum(
+  BuildContext context,
+  List<int>? qty,
+) async {
+  // sum of list
+  int sum = 0;
+  if (qty != null) {
+    for (int i = 0; i < qty.length; i++) {
+      sum += qty[i];
+    }
+  }
 }

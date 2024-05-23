@@ -114,3 +114,80 @@ bool? checkWalletBalence(
     return false;
   }
 }
+
+int calculetedays(
+  DateTime date1,
+  DateTime date2,
+) {
+  // calculate days in 2 dates
+  // Duration difference = date2.difference(date1);
+  // int days = difference.inDays + 1;
+  // return days.abs();
+  return date2.difference(date1).inDays + 1;
+}
+
+double? evarydayqtyintoprice(
+  int? quantity,
+  double? itemprice,
+) {
+  // quantity in to itemprice
+  if (quantity == null || itemprice == null) {
+    return null;
+  }
+  return quantity * itemprice;
+}
+
+double? evarydayTotalAmount(
+  double? walletAmount,
+  double? orderAmount,
+) {
+  // walletAmount - orderAmount
+  if (walletAmount != null && orderAmount != null) {
+    return walletAmount - orderAmount;
+  } else {
+    return null;
+  }
+}
+
+bool? evarydayTotalAmountcheck(double? totalAmount) {
+  // totalAmount <= 0
+  if (totalAmount != null && totalAmount <= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+int? sumqtycustom(List<int>? qty) {
+  // sum of list
+  if (qty == null || qty.isEmpty) {
+    return null;
+  }
+  int sum = 0;
+  for (int i = 0; i < qty.length; i++) {
+    sum += qty[i];
+  }
+  return sum;
+}
+
+double? totalorderAmountCustom(
+  int? qty,
+  double? price,
+) {
+  // qty into price
+  if (qty == null || price == null || qty <= 0 || price <= 0) {
+    return null;
+  }
+  return qty * price;
+}
+
+double? remainingbalenceCustom(
+  double? walletBalence,
+  double? orderAmount,
+) {
+  // sum walletBalence and orderAmount
+  if (walletBalence == null || orderAmount == null) {
+    return null;
+  }
+  return walletBalence - orderAmount;
+}

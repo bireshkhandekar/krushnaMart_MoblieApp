@@ -29,10 +29,18 @@ class KMartAPIsGroup {
   static UpdateUserProfileCall updateUserProfileCall = UpdateUserProfileCall();
   static SubscribeItemscustomApiCall subscribeItemscustomApiCall =
       SubscribeItemscustomApiCall();
+  static OrderApiOnlineCall orderApiOnlineCall = OrderApiOnlineCall();
   static OrderApiCall orderApiCall = OrderApiCall();
   static AddAmountWalletCall addAmountWalletCall = AddAmountWalletCall();
   static DeductfundsWalletCall deductfundsWalletCall = DeductfundsWalletCall();
   static GetsubscriptionsCall getsubscriptionsCall = GetsubscriptionsCall();
+  static CashOrderCall cashOrderCall = CashOrderCall();
+  static GetOrdersByUserIdCall getOrdersByUserIdCall = GetOrdersByUserIdCall();
+  static GetOrderByOrderIdCall getOrderByOrderIdCall = GetOrderByOrderIdCall();
+  static GetSubByIdCall getSubByIdCall = GetSubByIdCall();
+  static SubscribeUpdateCall subscribeUpdateCall = SubscribeUpdateCall();
+  static OrderCanceledCall orderCanceledCall = OrderCanceledCall();
+  static GetOrderByStatusCall getOrderByStatusCall = GetOrderByStatusCall();
 }
 
 class GetItemsAPICall {
@@ -425,7 +433,7 @@ class SubscribeItemscustomApiCall {
   "item_price": $itemPrice,
   "custom_dates": [
     {
-      "Dates": $customdates,
+      "dates": $customdates,
       "quantity": $customqty
     }
   ]
@@ -437,6 +445,53 @@ class SubscribeItemscustomApiCall {
       headers: {
         'Authorization': 'Bearer $token',
       },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class OrderApiOnlineCall {
+  Future<ApiCallResponse> call({
+    int? customerId,
+    String? customerName = '',
+    String? mobileNumber = '',
+    String? shippingAddress = '',
+    double? orderTotal,
+    String? paymentMode = '',
+    String? paymentStatus = '',
+    String? orderType = '',
+    dynamic orderItemsJson,
+    String? transactionId = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    final orderItems = _serializeJson(orderItemsJson, true);
+    final ffApiRequestBody = '''
+{
+  "customer_id": $customerId,
+  "customer_name": "$customerName",
+  "mobile_number": "$mobileNumber",
+  "shipping_address": "$shippingAddress",
+  "order_total": $orderTotal,
+  "order_items": $orderItems,
+  "payment_mode": "$paymentMode",
+  "payment_status": "$paymentStatus",
+  "order_type": "$orderType",
+  "order_status":"pending",
+  "transaction_id":"$transactionId"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'orderApi online',
+      apiUrl: '$baseUrl/order/create',
+      callType: ApiCallType.POST,
+      headers: {},
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -476,8 +531,7 @@ class OrderApiCall {
   "payment_mode": "$paymentMode",
   "payment_status": "$paymentStatus",
   "order_type": "$orderType",
-  "order_status":"pending",
-  "transaction_id":"$transactionId"
+  "order_status":"pending"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'orderApi',
@@ -580,6 +634,204 @@ class GetsubscriptionsCall {
   List? data(dynamic response) => getJsonField(
         response,
         r'''$.data''',
+        true,
+      ) as List?;
+}
+
+class CashOrderCall {
+  Future<ApiCallResponse> call({
+    int? customerId,
+    String? customerName = '',
+    String? mobileNumber = '',
+    String? shippingAddress = '',
+    double? orderTotal,
+    dynamic orderItemsJson,
+    String? paymentMode = '',
+    String? paymentStatus = '',
+    String? orderType = '',
+    String? orderStatus = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    final orderItems = _serializeJson(orderItemsJson, true);
+    final ffApiRequestBody = '''
+{
+  "customer_id": $customerId,
+  "customer_name": "$customerName",
+  "mobile_number": "$mobileNumber",
+  "shipping_address": "$shippingAddress",
+  "order_total": $orderTotal,
+  "order_items": $orderItems,
+  "payment_mode": "$paymentMode",
+  "payment_status": "$paymentStatus",
+  "order_type": "$orderType",
+  "order_status": "$orderStatus"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'cashOrder',
+      apiUrl: '$baseUrl/order/create',
+      callType: ApiCallType.POST,
+      headers: {},
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetOrdersByUserIdCall {
+  Future<ApiCallResponse> call({
+    int? userId,
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'Get orders by user id',
+      apiUrl: '$baseUrl/orders/user/$userId',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? orders(dynamic response) => getJsonField(
+        response,
+        r'''$.orders''',
+        true,
+      ) as List?;
+}
+
+class GetOrderByOrderIdCall {
+  Future<ApiCallResponse> call({
+    String? orderId = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'get order by orderId',
+      apiUrl: '$baseUrl/order/$orderId',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  dynamic order(dynamic response) => getJsonField(
+        response,
+        r'''$.order''',
+      );
+  List? orderitems(dynamic response) => getJsonField(
+        response,
+        r'''$.order.order_items''',
+        true,
+      ) as List?;
+}
+
+class GetSubByIdCall {
+  Future<ApiCallResponse> call({
+    int? id,
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'get sub by id ',
+      apiUrl: '$baseUrl/subscription/$id',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class SubscribeUpdateCall {
+  Future<ApiCallResponse> call({
+    int? subid,
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'subscribe update',
+      apiUrl: '$baseUrl/subscription/disable/$subid',
+      callType: ApiCallType.PUT,
+      headers: {},
+      params: {},
+      bodyType: BodyType.NONE,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class OrderCanceledCall {
+  Future<ApiCallResponse> call({
+    String? orderId = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'orderCanceled',
+      apiUrl: '$baseUrl/order/$orderId',
+      callType: ApiCallType.PUT,
+      headers: {},
+      params: {},
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class GetOrderByStatusCall {
+  Future<ApiCallResponse> call({
+    String? status = '',
+    int? userid,
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'get order by status',
+      apiUrl:
+          '$baseUrl/order_by_order_status?user_id=$userid&order_status=$status',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? orders(dynamic response) => getJsonField(
+        response,
+        r'''$.orders''',
         true,
       ) as List?;
 }

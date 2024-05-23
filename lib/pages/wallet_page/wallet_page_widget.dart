@@ -441,10 +441,8 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                   GoRouter.of(context).clearRedirectLocation();
 
                                   navigate = () => context.goNamedAuth(
-                                      'HomePage', context.mounted);
-                                  setState(() {
-                                    FFAppState().userid = 0;
-                                  });
+                                      'entryPage', context.mounted);
+                                  setState(() {});
                                   if (scaffoldKey.currentState!.isDrawerOpen ||
                                       scaffoldKey
                                           .currentState!.isEndDrawerOpen) {
@@ -841,7 +839,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                         .primaryText,
                                                     letterSpacing: 0.0,
                                                   ),
-                                              hintText: '+ 100',
+                                              hintText: '000',
                                               hintStyle: FlutterFlowTheme.of(
                                                       context)
                                                   .labelMedium

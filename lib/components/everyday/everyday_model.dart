@@ -10,6 +10,8 @@ class EverydayModel extends FlutterFlowModel<EverydayWidget> {
   DateTime? datePicked2;
   // State field(s) for CountController widget.
   int? countControllerValue;
+  // Stores action output result for [Custom Action - convertTwodatesToDays] action in Button widget.
+  int? daysresult;
 
   @override
   void initState(BuildContext context) {}

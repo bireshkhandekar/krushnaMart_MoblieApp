@@ -24,6 +24,9 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
     unfocusNode.dispose();
   }
 
+  /// Action blocks.
+  Future check(BuildContext context) async {}
+
   /// Additional helper methods.
   Future waitForApiRequestCompleted({
     double minWait = 0,

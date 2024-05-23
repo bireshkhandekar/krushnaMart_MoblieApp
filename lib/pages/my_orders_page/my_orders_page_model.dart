@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'my_orders_page_widget.dart' show MyOrdersPageWidget;
 import 'package:flutter/material.dart';
@@ -10,6 +11,9 @@ class MyOrdersPageModel extends FlutterFlowModel<MyOrdersPageWidget> {
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
+
+  // Stores action output result for [Backend Call - API (orderCanceled)] action in Text widget.
+  ApiCallResponse? apiResultmuj;
 
   @override
   void initState(BuildContext context) {}

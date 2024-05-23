@@ -9,9 +9,17 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future navigateAfterDelay(BuildContext context) async {
-  // Add your function code here!
-  Future.delayed(Duration(milliseconds: 100), () {
-    context.pushNamed('HomePage');
-  });
+Future<int> convertTwodatesToDays(
+  BuildContext context,
+  DateTime date1,
+  DateTime date2,
+  int quantity,
+) async {
+  int difference = calculateDateDifference(date1, date2);
+  int totalQuantity = difference * quantity;
+  return totalQuantity;
+}
+
+int calculateDateDifference(DateTime date1, DateTime date2) {
+  return date2.difference(date1).inDays + 1;
 }

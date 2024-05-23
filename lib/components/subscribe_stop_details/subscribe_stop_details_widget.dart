@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -7,7 +8,12 @@ import 'subscribe_stop_details_model.dart';
 export 'subscribe_stop_details_model.dart';
 
 class SubscribeStopDetailsWidget extends StatefulWidget {
-  const SubscribeStopDetailsWidget({super.key});
+  const SubscribeStopDetailsWidget({
+    super.key,
+    required this.subid,
+  });
+
+  final int? subid;
 
   @override
   State<SubscribeStopDetailsWidget> createState() =>
@@ -268,23 +274,65 @@ class _SubscribeStopDetailsWidgetState
                             ),
                       ),
                     ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'OK',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Readex Pro',
-                              fontSize: 18.0,
-                              letterSpacing: 0.0,
-                              fontWeight: FontWeight.w600,
+                    Builder(
+                      builder: (context) {
+                        if (_model.radioButtonValue ==
+                            'Cancel subscription completely ?') {
+                          return InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              _model.subdisable =
+                                  await KMartAPIsGroup.subscribeUpdateCall.call(
+                                subid: widget.subid,
+                              );
+                              if ((_model.subdisable?.succeeded ?? true)) {
+                                Navigator.pop(context);
+                              }
+
+                              setState(() {});
+                            },
+                            child: Text(
+                              'OK',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    fontSize: 18.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
-                      ),
+                          );
+                        } else if (_model.radioButtonValue ==
+                            'Stop subscription for one day ?') {
+                          return Text(
+                            'OK',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  fontSize: 18.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          );
+                        } else {
+                          return Text(
+                            'OK',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Readex Pro',
+                                  fontSize: 18.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
