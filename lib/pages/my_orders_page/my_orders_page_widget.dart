@@ -88,116 +88,118 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget>
             builder: (context) {
               if (currentAuthenticationToken != null &&
                   currentAuthenticationToken != '') {
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: const Alignment(0.0, 0),
-                            child: FlutterFlowButtonTabBar(
-                              useToggleButtonStyle: false,
-                              isScrollable: true,
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .titleMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    fontSize: 14.0,
-                                    letterSpacing: 0.0,
-                                  ),
-                              unselectedLabelStyle: FlutterFlowTheme.of(context)
-                                  .titleMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    fontSize: 14.0,
-                                    letterSpacing: 0.0,
-                                  ),
-                              labelColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              unselectedLabelColor:
-                                  FlutterFlowTheme.of(context).secondaryText,
-                              backgroundColor:
-                                  FlutterFlowTheme.of(context).accent1,
-                              unselectedBackgroundColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderColor: FlutterFlowTheme.of(context).primary,
-                              unselectedBorderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderWidth: 1.0,
-                              borderRadius: 24.0,
-                              elevation: 0.0,
-                              labelPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              buttonMargin: const EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 0.0, 0.0, 0.0),
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  4.0, 8.0, 4.0, 4.0),
-                              tabs: const [
-                                Tab(
-                                  text: 'All',
-                                ),
-                                Tab(
-                                  text: 'Processing',
-                                ),
-                                Tab(
-                                  text: 'Completed',
-                                ),
-                                Tab(
-                                  text: 'Cancelled',
-                                ),
-                              ],
-                              controller: _model.tabBarController,
-                              onTap: (i) async {
-                                [
-                                  () async {},
-                                  () async {},
-                                  () async {},
-                                  () async {}
-                                ][i]();
-                              },
+                return FutureBuilder<ApiCallResponse>(
+                  future: KMartAPIsGroup.getOrdersByUserIdCall.call(
+                    userId: currentUserData?.id,
+                    limit: 10,
+                    pageno: _model.pageno,
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
                             ),
                           ),
-                          Expanded(
-                            child: TabBarView(
-                              controller: _model.tabBarController,
-                              children: [
-                                FutureBuilder<ApiCallResponse>(
-                                  future:
-                                      KMartAPIsGroup.getOrdersByUserIdCall.call(
-                                    userId: currentUserData?.id,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
+                        ),
+                      );
+                    }
+                    final columnGetOrdersByUserIdResponse = snapshot.data!;
+                    return Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: const Alignment(0.0, 0),
+                                child: FlutterFlowButtonTabBar(
+                                  useToggleButtonStyle: false,
+                                  isScrollable: true,
+                                  labelStyle: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        fontSize: 14.0,
+                                        letterSpacing: 0.0,
+                                      ),
+                                  unselectedLabelStyle:
+                                      FlutterFlowTheme.of(context)
+                                          .titleMedium
+                                          .override(
+                                            fontFamily: 'Readex Pro',
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
                                           ),
-                                        ),
-                                      );
-                                    }
-                                    final listViewGetOrdersByUserIdResponse =
-                                        snapshot.data!;
-                                    return Builder(
+                                  labelColor:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  unselectedLabelColor:
+                                      FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).accent1,
+                                  unselectedBackgroundColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                  borderColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  unselectedBorderColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                  borderWidth: 1.0,
+                                  borderRadius: 24.0,
+                                  elevation: 0.0,
+                                  labelPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  buttonMargin: const EdgeInsetsDirectional.fromSTEB(
+                                      4.0, 0.0, 0.0, 0.0),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      4.0, 8.0, 4.0, 4.0),
+                                  tabs: const [
+                                    Tab(
+                                      text: 'All',
+                                    ),
+                                    Tab(
+                                      text: 'Processing',
+                                    ),
+                                    Tab(
+                                      text: 'Completed',
+                                    ),
+                                    Tab(
+                                      text: 'Cancelled',
+                                    ),
+                                  ],
+                                  controller: _model.tabBarController,
+                                  onTap: (i) async {
+                                    [
+                                      () async {},
+                                      () async {},
+                                      () async {},
+                                      () async {}
+                                    ][i]();
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                child: TabBarView(
+                                  controller: _model.tabBarController,
+                                  children: [
+                                    Builder(
                                       builder: (context) {
                                         final getorders =
                                             KMartAPIsGroup.getOrdersByUserIdCall
                                                     .orders(
-                                                      listViewGetOrdersByUserIdResponse
+                                                      columnGetOrdersByUserIdResponse
                                                           .jsonBody,
                                                     )
                                                     ?.toList() ??
                                                 [];
                                         return ListView.builder(
                                           padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
                                           scrollDirection: Axis.vertical,
                                           itemCount: getorders.length,
                                           itemBuilder:
@@ -692,40 +694,13 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget>
                                           },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                                FutureBuilder<ApiCallResponse>(
-                                  future:
-                                      KMartAPIsGroup.getOrderByStatusCall.call(
-                                    status: 'pending',
-                                    userid: currentUserData?.id,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final listViewGetOrderByStatusResponse =
-                                        snapshot.data!;
-                                    return Builder(
+                                    ),
+                                    Builder(
                                       builder: (context) {
                                         final getpendingorders =
-                                            KMartAPIsGroup.getOrderByStatusCall
+                                            KMartAPIsGroup.getOrdersByUserIdCall
                                                     .orders(
-                                                      listViewGetOrderByStatusResponse
+                                                      columnGetOrdersByUserIdResponse
                                                           .jsonBody,
                                                     )
                                                     ?.toList() ??
@@ -1191,40 +1166,13 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget>
                                           },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                                FutureBuilder<ApiCallResponse>(
-                                  future:
-                                      KMartAPIsGroup.getOrderByStatusCall.call(
-                                    status: 'completed',
-                                    userid: currentUserData?.id,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final listViewGetOrderByStatusResponse =
-                                        snapshot.data!;
-                                    return Builder(
+                                    ),
+                                    Builder(
                                       builder: (context) {
                                         final getcomletedorders =
-                                            KMartAPIsGroup.getOrderByStatusCall
+                                            KMartAPIsGroup.getOrdersByUserIdCall
                                                     .orders(
-                                                      listViewGetOrderByStatusResponse
+                                                      columnGetOrdersByUserIdResponse
                                                           .jsonBody,
                                                     )
                                                     ?.toList() ??
@@ -1624,40 +1572,13 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget>
                                           },
                                         );
                                       },
-                                    );
-                                  },
-                                ),
-                                FutureBuilder<ApiCallResponse>(
-                                  future:
-                                      KMartAPIsGroup.getOrderByStatusCall.call(
-                                    status: 'cancelled',
-                                    userid: currentUserData?.id,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final listViewGetOrderByStatusResponse =
-                                        snapshot.data!;
-                                    return Builder(
+                                    ),
+                                    Builder(
                                       builder: (context) {
                                         final getcancelledorders =
-                                            KMartAPIsGroup.getOrderByStatusCall
+                                            KMartAPIsGroup.getOrdersByUserIdCall
                                                     .orders(
-                                                      listViewGetOrderByStatusResponse
+                                                      columnGetOrdersByUserIdResponse
                                                           .jsonBody,
                                                     )
                                                     ?.toList() ??
@@ -2057,16 +1978,91 @@ class _MyOrdersPageWidgetState extends State<MyOrdersPageWidget>
                                           },
                                         );
                                       },
-                                    );
-                                  },
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              8.0, 8.0, 8.0, 8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FFButtonWidget(
+                                onPressed: (_model.pageno == 1)
+                                    ? null
+                                    : () async {
+                                        _model.pageno = _model.pageno! + -1;
+                                        setState(() {});
+                                      },
+                                text: '<- Back',
+                                options: FFButtonOptions(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: const Color(0xFF7995FF),
+                                        letterSpacing: 0.0,
+                                      ),
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  disabledTextColor: const Color(0xF292BBDC),
+                                ),
+                                showLoadingIndicator: false,
+                              ),
+                              FFButtonWidget(
+                                onPressed: (_model.pageno ==
+                                        getJsonField(
+                                          columnGetOrdersByUserIdResponse
+                                              .jsonBody,
+                                          r'''$.total_page''',
+                                        ))
+                                    ? null
+                                    : () async {
+                                        _model.pageno = _model.pageno! + 1;
+                                        setState(() {});
+                                      },
+                                text: 'More orders -> ',
+                                options: FFButtonOptions(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: const Color(0xFF7995FF),
+                                        letterSpacing: 0.0,
+                                      ),
+                                  borderSide: const BorderSide(
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  disabledTextColor: const Color(0xF292BBDC),
+                                ),
+                                showLoadingIndicator: false,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
               } else {
                 return Container(

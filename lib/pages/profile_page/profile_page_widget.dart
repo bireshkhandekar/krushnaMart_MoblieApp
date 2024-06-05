@@ -1,5 +1,6 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,6 +9,8 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'profile_page_model.dart';
 export 'profile_page_model.dart';
 
@@ -27,6 +30,42 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ProfilePageModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (currentAuthenticationToken != null &&
+          currentAuthenticationToken != '') {
+        _model.apiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
+          token: currentAuthenticationToken,
+        );
+        if (!(_model.apiResulta5j?.succeeded ?? true)) {
+          _model.apiResultrefreshtoken =
+              await KMartAPIsGroup.refreshTokenCall.call(
+            refreshToken: currentAuthRefreshToken,
+          );
+          if ((_model.apiResultrefreshtoken?.succeeded ?? true)) {
+            authManager.updateAuthUserData(
+              authenticationToken: getJsonField(
+                (_model.apiResultrefreshtoken?.jsonBody ?? ''),
+                r'''$.data.access_token''',
+              ).toString().toString(),
+              refreshToken: currentAuthRefreshToken,
+              authUid: currentUserUid,
+              userData: UserStruct(
+                id: currentUserData?.id,
+                userName: currentUserData?.userName,
+                moblieNumber: currentUserData?.moblieNumber,
+                shippingAddress: currentUserData?.shippingAddress,
+              ),
+            );
+
+            FFAppState().update(() {});
+          } else {
+            context.pushNamed('LoginPage');
+          }
+        }
+      }
+    });
 
     _model.textFieldFocusNode1 ??= FocusNode();
 
@@ -54,6 +93,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -449,6 +490,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
 
                                   navigate = () => context.goNamedAuth(
                                       'entryPage', context.mounted);
+
                                   setState(() {});
                                   if (scaffoldKey.currentState!.isDrawerOpen ||
                                       scaffoldKey

@@ -100,9 +100,7 @@ class _LossConnectionWidgetState extends State<LossConnectionWidget> {
                     ),
                     onPressed: () async {
                       _model.resultconnection =
-                          await actions.checkInternetConnection(
-                        context,
-                      );
+                          await actions.checkInternetConnection();
                       if (_model.resultconnection == true) {
                         context.pushNamed('HomePage');
                       }

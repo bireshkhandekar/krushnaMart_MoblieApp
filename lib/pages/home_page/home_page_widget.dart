@@ -5,11 +5,13 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'dart:async';
 import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -29,6 +31,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.abc = await actions.checkInternetConnection();
+      if (_model.abc != true) {
+        context.goNamed(
+          'lossConnection',
+          extra: <String, dynamic>{
+            kTransitionInfoKey: const TransitionInfo(
+              hasTransition: true,
+              transitionType: PageTransitionType.fade,
+              duration: Duration(milliseconds: 0),
+            ),
+          },
+        );
+      }
+    });
   }
 
   @override
@@ -728,8 +747,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           if (!snapshot.hasData) {
                             return Center(
                               child: SizedBox(
-                                width: 40.0,
-                                height: 40.0,
+                                width: 50.0,
+                                height: 50.0,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                     FlutterFlowTheme.of(context).primary,
@@ -747,364 +766,223 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       )
                                       ?.toList() ??
                                   [];
-                              return RefreshIndicator(
-                                onRefresh: () async {
-                                  setState(
-                                      () => _model.apiRequestCompleter = null);
-                                  await _model.waitForApiRequestCompleted();
+                              if (eachItems.isEmpty) {
+                                return Image.asset(
+                                  '',
+                                );
+                              }
+                              return InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  setDarkModeSetting(context, ThemeMode.system);
                                 },
-                                child: ListView.builder(
-                                  padding: EdgeInsets.zero,
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: eachItems.length,
-                                  itemBuilder: (context, eachItemsIndex) {
-                                    final eachItemsItem =
-                                        eachItems[eachItemsIndex];
-                                    return Container(
-                                      width: double.infinity,
-                                      height: 120.0,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .alternate,
-                                        borderRadius: const BorderRadius.only(
-                                          bottomLeft: Radius.circular(0.0),
-                                          bottomRight: Radius.circular(0.0),
-                                          topLeft: Radius.circular(0.0),
-                                          topRight: Radius.circular(0.0),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            4.0, 0.0, 4.0, 4.0),
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          elevation: 0.5,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                child: RefreshIndicator(
+                                  onRefresh: () async {
+                                    setState(() =>
+                                        _model.apiRequestCompleter = null);
+                                    await _model.waitForApiRequestCompleted();
+                                  },
+                                  child: ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: eachItems.length,
+                                    itemBuilder: (context, eachItemsIndex) {
+                                      final eachItemsItem =
+                                          eachItems[eachItemsIndex];
+                                      return Visibility(
+                                        visible: true ==
+                                            getJsonField(
+                                              eachItemsItem,
+                                              r'''$.is_active''',
                                             ),
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      12.0, 0.0, 14.0, 4.0),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Expanded(
-                                                    flex: 3,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  6.0,
-                                                                  0.0,
-                                                                  6.0),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child: Image.network(
-                                                          getJsonField(
-                                                            eachItemsItem,
-                                                            r'''$.image''',
-                                                          ).toString(),
-                                                          width: 140.0,
-                                                          height: 200.0,
-                                                          fit: BoxFit.fill,
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 120.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(0.0),
+                                              bottomRight: Radius.circular(0.0),
+                                              topLeft: Radius.circular(0.0),
+                                              topRight: Radius.circular(0.0),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    4.0, 0.0, 4.0, 4.0),
+                                            child: Material(
+                                              color: Colors.transparent,
+                                              elevation: 0.5,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          12.0, 0.0, 14.0, 4.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 3,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      6.0,
+                                                                      0.0,
+                                                                      6.0),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child:
+                                                                Image.network(
+                                                              getJsonField(
+                                                                eachItemsItem,
+                                                                r'''$.image''',
+                                                              ).toString(),
+                                                              width: 140.0,
+                                                              height: 200.0,
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    flex: 7,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  12.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Row(
+                                                      Expanded(
+                                                        flex: 7,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      12.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Column(
                                                             mainAxisSize:
                                                                 MainAxisSize
                                                                     .max,
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
-                                                                    .spaceBetween,
+                                                                    .spaceEvenly,
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
                                                                     .start,
                                                             children: [
-                                                              Expanded(
-                                                                flex: 5,
-                                                                child: Text(
-                                                                  getJsonField(
-                                                                    eachItemsItem,
-                                                                    r'''$.name''',
-                                                                  ).toString(),
-                                                                  maxLines: 2,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                decoration:
-                                                                    const BoxDecoration(),
-                                                                child:
-                                                                    Visibility(
-                                                                  visible: functions
-                                                                          .conditiondiscount(
-                                                                              getJsonField(
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 5,
+                                                                    child: Text(
+                                                                      getJsonField(
                                                                         eachItemsItem,
-                                                                        r'''$.discount_amount''',
-                                                                      )) ==
-                                                                      true,
-                                                                  child: Text(
-                                                                    'Save Rupees ₹ ${getJsonField(
+                                                                        r'''$.name''',
+                                                                      ).toString(),
+                                                                      maxLines:
+                                                                          2,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            fontSize:
+                                                                                16.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    decoration:
+                                                                        const BoxDecoration(),
+                                                                    child:
+                                                                        Visibility(
+                                                                      visible: functions
+                                                                              .conditiondiscount(getJsonField(
+                                                                            eachItemsItem,
+                                                                            r'''$.discount_amount''',
+                                                                          )) ==
+                                                                          true,
+                                                                      child:
+                                                                          Text(
+                                                                        'Save Rupees ₹ ${getJsonField(
+                                                                          eachItemsItem,
+                                                                          r'''$.discount_amount''',
+                                                                        ).toString()}',
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              letterSpacing: 0.0,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    getJsonField(
                                                                       eachItemsItem,
-                                                                      r'''$.discount_amount''',
-                                                                    ).toString()}',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
+                                                                      r'''$.weight''',
+                                                                    ).toString(),
+                                                                    maxLines: 1,
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
                                                                           fontFamily:
                                                                               'Readex Pro',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                getJsonField(
-                                                                  eachItemsItem,
-                                                                  r'''$.weight''',
-                                                                ).toString(),
-                                                                maxLines: 1,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w300,
-                                                                    ),
-                                                              ),
-                                                              if (functions
-                                                                      .conditiondiscount(
-                                                                          getJsonField(
-                                                                    eachItemsItem,
-                                                                    r'''$.discount_amount''',
-                                                                  )) ==
-                                                                  true)
-                                                                Text(
-                                                                  'MRP: ₹${getJsonField(
-                                                                    eachItemsItem,
-                                                                    r'''$.mrp''',
-                                                                  ).toString()}',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        fontSize:
-                                                                            14.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w300,
-                                                                        decoration:
-                                                                            TextDecoration.lineThrough,
-                                                                      ),
-                                                                ),
-                                                              Container(
-                                                                decoration:
-                                                                    const BoxDecoration(),
-                                                                child: Text(
-                                                                  'रु ${getJsonField(
-                                                                    eachItemsItem,
-                                                                    r'''$.price''',
-                                                                  ).toString()}',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .end,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        fontSize:
-                                                                            14.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Expanded(
-                                                                flex: 5,
-                                                                child:
-                                                                    FFButtonWidget(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await SQLiteManager
-                                                                        .instance
-                                                                        .addcart(
-                                                                      itemid:
-                                                                          getJsonField(
-                                                                        eachItemsItem,
-                                                                        r'''$.id''',
-                                                                      ),
-                                                                      productname:
-                                                                          getJsonField(
-                                                                        eachItemsItem,
-                                                                        r'''$.name''',
-                                                                      ).toString(),
-                                                                      weight:
-                                                                          getJsonField(
-                                                                        eachItemsItem,
-                                                                        r'''$.weight''',
-                                                                      ).toString(),
-                                                                      price:
-                                                                          getJsonField(
-                                                                        eachItemsItem,
-                                                                        r'''$.price''',
-                                                                      ),
-                                                                      quantity:
-                                                                          1,
-                                                                      image:
-                                                                          getJsonField(
-                                                                        eachItemsItem,
-                                                                        r'''$.image''',
-                                                                      ).toString(),
-                                                                    );
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .clearSnackBars();
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .showSnackBar(
-                                                                      SnackBar(
-                                                                        content:
-                                                                            Text(
-                                                                          '1 item in cart',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                          ),
-                                                                        ),
-                                                                        duration:
-                                                                            const Duration(milliseconds: 10000),
-                                                                        backgroundColor:
-                                                                            FlutterFlowTheme.of(context).secondary,
-                                                                      ),
-                                                                    );
-                                                                    setState(
-                                                                        () {});
-                                                                  },
-                                                                  text:
-                                                                      'Buy Now',
-                                                                  options:
-                                                                      FFButtonOptions(
-                                                                    height:
-                                                                        30.0,
-                                                                    padding: const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            15.0,
-                                                                            0.0,
-                                                                            15.0,
-                                                                            0.0),
-                                                                    iconPadding:
-                                                                        const EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryBackground,
-                                                                    textStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Readex Pro',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryText,
                                                                           fontSize:
                                                                               14.0,
                                                                           letterSpacing:
@@ -1112,105 +990,247 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                           fontWeight:
                                                                               FontWeight.w300,
                                                                         ),
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                      width:
-                                                                          1.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
                                                                   ),
-                                                                ),
+                                                                  if (functions
+                                                                          .conditiondiscount(
+                                                                              getJsonField(
+                                                                        eachItemsItem,
+                                                                        r'''$.discount_amount''',
+                                                                      )) ==
+                                                                      true)
+                                                                    Text(
+                                                                      'MRP: ₹${getJsonField(
+                                                                        eachItemsItem,
+                                                                        r'''$.mrp''',
+                                                                      ).toString()}',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w300,
+                                                                            decoration:
+                                                                                TextDecoration.lineThrough,
+                                                                          ),
+                                                                    ),
+                                                                  Container(
+                                                                    decoration:
+                                                                        const BoxDecoration(),
+                                                                    child: Text(
+                                                                      'रु ${getJsonField(
+                                                                        eachItemsItem,
+                                                                        r'''$.price''',
+                                                                      ).toString()}',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .end,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Readex Pro',
+                                                                            fontSize:
+                                                                                14.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w600,
+                                                                          ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              Expanded(
-                                                                flex: 5,
-                                                                child:
-                                                                    FFButtonWidget(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    context
-                                                                        .pushNamed(
-                                                                      'SubscribeItems',
-                                                                      queryParameters:
-                                                                          {
-                                                                        'id':
-                                                                            serializeParam(
-                                                                          getJsonField(
+                                                              Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 5,
+                                                                    child:
+                                                                        FFButtonWidget(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        await SQLiteManager
+                                                                            .instance
+                                                                            .addcart(
+                                                                          itemid:
+                                                                              getJsonField(
                                                                             eachItemsItem,
                                                                             r'''$.id''',
                                                                           ),
-                                                                          ParamType
-                                                                              .int,
-                                                                        ),
-                                                                      }.withoutNulls,
-                                                                    );
-                                                                  },
-                                                                  text:
-                                                                      'Subscribe',
-                                                                  options:
-                                                                      FFButtonOptions(
-                                                                    height:
-                                                                        30.0,
-                                                                    padding: const EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                          productname:
+                                                                              getJsonField(
+                                                                            eachItemsItem,
+                                                                            r'''$.name''',
+                                                                          ).toString(),
+                                                                          weight:
+                                                                              getJsonField(
+                                                                            eachItemsItem,
+                                                                            r'''$.weight''',
+                                                                          ).toString(),
+                                                                          price:
+                                                                              getJsonField(
+                                                                            eachItemsItem,
+                                                                            r'''$.price''',
+                                                                          ),
+                                                                          quantity:
+                                                                              1,
+                                                                          image:
+                                                                              getJsonField(
+                                                                            eachItemsItem,
+                                                                            r'''$.image''',
+                                                                          ).toString(),
+                                                                        );
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .clearSnackBars();
+                                                                        ScaffoldMessenger.of(context)
+                                                                            .showSnackBar(
+                                                                          SnackBar(
+                                                                            content:
+                                                                                Text(
+                                                                              '1 item in cart',
+                                                                              style: TextStyle(
+                                                                                color: FlutterFlowTheme.of(context).primaryText,
+                                                                              ),
+                                                                            ),
+                                                                            duration:
+                                                                                const Duration(milliseconds: 10000),
+                                                                            backgroundColor:
+                                                                                FlutterFlowTheme.of(context).secondary,
+                                                                          ),
+                                                                        );
+
+                                                                        setState(
+                                                                            () {});
+                                                                      },
+                                                                      text:
+                                                                          'Buy Now',
+                                                                      options:
+                                                                          FFButtonOptions(
+                                                                        height:
+                                                                            30.0,
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                                                             15.0,
                                                                             0.0,
                                                                             15.0,
                                                                             0.0),
-                                                                    iconPadding:
-                                                                        const EdgeInsetsDirectional.fromSTEB(
+                                                                        iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             0.0,
                                                                             0.0,
                                                                             0.0),
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    textStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Readex Pro',
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w300,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryBackground,
+                                                                        textStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              fontSize: 14.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w300,
+                                                                            ),
+                                                                        borderSide:
+                                                                            BorderSide(
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                          width:
+                                                                              1.0,
                                                                         ),
-                                                                    borderSide:
-                                                                        const BorderSide(
-                                                                      color: Colors
-                                                                          .transparent,
-                                                                      width:
-                                                                          1.0,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
                                                                     ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
                                                                   ),
-                                                                ),
+                                                                  Expanded(
+                                                                    flex: 5,
+                                                                    child:
+                                                                        FFButtonWidget(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        context
+                                                                            .pushNamed(
+                                                                          'SubscribeItems',
+                                                                          queryParameters:
+                                                                              {
+                                                                            'id':
+                                                                                serializeParam(
+                                                                              getJsonField(
+                                                                                eachItemsItem,
+                                                                                r'''$.id''',
+                                                                              ),
+                                                                              ParamType.int,
+                                                                            ),
+                                                                          }.withoutNulls,
+                                                                        );
+                                                                      },
+                                                                      text:
+                                                                          'Subscribe',
+                                                                      options:
+                                                                          FFButtonOptions(
+                                                                        height:
+                                                                            30.0,
+                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            15.0,
+                                                                            0.0,
+                                                                            15.0,
+                                                                            0.0),
+                                                                        iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        textStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              fontSize: 14.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w300,
+                                                                            ),
+                                                                        borderSide:
+                                                                            const BorderSide(
+                                                                          color:
+                                                                              Colors.transparent,
+                                                                          width:
+                                                                              1.0,
+                                                                        ),
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8.0),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ].divide(const SizedBox(
+                                                                    width:
+                                                                        18.0)),
                                                               ),
-                                                            ].divide(const SizedBox(
-                                                                width: 18.0)),
+                                                            ],
                                                           ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                ],
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             },

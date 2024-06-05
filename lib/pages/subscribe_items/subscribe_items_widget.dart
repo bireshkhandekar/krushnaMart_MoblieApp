@@ -41,11 +41,10 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      setState(() {
-        FFAppState().selectedDate = [];
-        FFAppState().customdatesshow = false;
-        FFAppState().everydayshow = false;
-      });
+      FFAppState().selectedDate = [];
+      FFAppState().customdatesshow = false;
+      FFAppState().everydayshow = false;
+      setState(() {});
     });
   }
 
@@ -478,15 +477,17 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           safeSetState(() =>
                                                                               _model.qty = value));
 
+                                                                      FFAppState()
+                                                                              .everydayshow =
+                                                                          true;
+                                                                      FFAppState()
+                                                                              .customdatesshow =
+                                                                          false;
+                                                                      FFAppState()
+                                                                              .sudscribeType =
+                                                                          'daily';
                                                                       setState(
-                                                                          () {
-                                                                        FFAppState().everydayshow =
-                                                                            true;
-                                                                        FFAppState().customdatesshow =
-                                                                            false;
-                                                                        FFAppState().sudscribeType =
-                                                                            'daily';
-                                                                      });
+                                                                          () {});
 
                                                                       setState(
                                                                           () {});
@@ -555,17 +556,20 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           .showCustomDatePicker(
                                                                         context,
                                                                       );
+                                                                      FFAppState()
+                                                                              .customdatesshow =
+                                                                          true;
+                                                                      FFAppState()
+                                                                              .everydayshow =
+                                                                          false;
+                                                                      FFAppState()
+                                                                              .sudscribeType =
+                                                                          'custom';
+                                                                      FFAppState()
+                                                                              .customCalculate =
+                                                                          false;
                                                                       setState(
-                                                                          () {
-                                                                        FFAppState().customdatesshow =
-                                                                            true;
-                                                                        FFAppState().everydayshow =
-                                                                            false;
-                                                                        FFAppState().sudscribeType =
-                                                                            'custom';
-                                                                        FFAppState().customCalculate =
-                                                                            false;
-                                                                      });
+                                                                          () {});
                                                                     },
                                                                     text:
                                                                         'Custom',
@@ -1012,15 +1016,14 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                       padding: const EdgeInsetsDirectional.fromSTEB(8.0, 10.0, 8.0, 0.0),
                                                                                       child: FFButtonWidget(
                                                                                         onPressed: () async {
-                                                                                          setState(() {
-                                                                                            FFAppState().customCalculate = true;
-                                                                                            FFAppState().selectedqty = _model.customdateselectionModels
-                                                                                                .getValues(
-                                                                                                  (m) => m.countControllerValue,
-                                                                                                )
-                                                                                                .toList()
-                                                                                                .cast<int>();
-                                                                                          });
+                                                                                          FFAppState().customCalculate = true;
+                                                                                          FFAppState().selectedqty = _model.customdateselectionModels
+                                                                                              .getValues(
+                                                                                                (m) => m.countControllerValue,
+                                                                                              )
+                                                                                              .toList()
+                                                                                              .cast<int>();
+                                                                                          setState(() {});
                                                                                         },
                                                                                         text: 'Calculate',
                                                                                         options: FFButtonOptions(
@@ -1244,16 +1247,15 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                     8.0, 24.0, 8.0, 8.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
-                                                setState(() {
-                                                  FFAppState().selectedqty = _model
-                                                      .customdateselectionModels
-                                                      .getValues(
-                                                        (m) => m
-                                                            .countControllerValue,
-                                                      )
-                                                      .toList()
-                                                      .cast<int>();
-                                                });
+                                                FFAppState().selectedqty = _model
+                                                    .customdateselectionModels
+                                                    .getValues(
+                                                      (m) => m
+                                                          .countControllerValue,
+                                                    )
+                                                    .toList()
+                                                    .cast<int>();
+                                                setState(() {});
                                                 _model.dailywalletResult =
                                                     await KMartAPIsGroup
                                                         .deductfundsWalletCall
@@ -1518,17 +1520,18 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                           child: FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              setState(() {
-                                                                FFAppState().selectedqty = _model
-                                                                    .customdateselectionModels
-                                                                    .getValues(
-                                                                      (m) => m
-                                                                          .countControllerValue,
-                                                                    )
-                                                                    .toList()
-                                                                    .cast<
-                                                                        int>();
-                                                              });
+                                                              FFAppState()
+                                                                      .selectedqty =
+                                                                  _model
+                                                                      .customdateselectionModels
+                                                                      .getValues(
+                                                                        (m) => m
+                                                                            .countControllerValue,
+                                                                      )
+                                                                      .toList()
+                                                                      .cast<
+                                                                          int>();
+                                                              setState(() {});
                                                               _model.customwalletResult =
                                                                   await KMartAPIsGroup
                                                                       .deductfundsWalletCall
@@ -1818,11 +1821,10 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                 context.pushNamed(
                                                                     'WalletPage');
 
-                                                                setState(() {
-                                                                  FFAppState()
-                                                                          .evarydaycalculetion =
-                                                                      false;
-                                                                });
+                                                                FFAppState()
+                                                                        .evarydaycalculetion =
+                                                                    false;
+                                                                setState(() {});
                                                               },
                                                               text: 'Ok',
                                                               options:

@@ -429,16 +429,14 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                             _model
                                                                 .conformpinTextController
                                                                 .text) {
-                                                          setState(() {
-                                                            _model.pinMatch =
-                                                                true;
-                                                          });
+                                                          _model.pinMatch =
+                                                              true;
+                                                          setState(() {});
                                                           return;
                                                         } else {
-                                                          setState(() {
-                                                            _model.pinMatch =
-                                                                false;
-                                                          });
+                                                          _model.pinMatch =
+                                                              false;
+                                                          setState(() {});
                                                           return;
                                                         }
                                                       },

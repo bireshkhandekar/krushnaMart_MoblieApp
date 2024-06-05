@@ -7,6 +7,10 @@ class ProfilePageModel extends FlutterFlowModel<ProfilePageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Backend Call - API (token validetion)] action in ProfilePage widget.
+  ApiCallResponse? apiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in ProfilePage widget.
+  ApiCallResponse? apiResultrefreshtoken;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;

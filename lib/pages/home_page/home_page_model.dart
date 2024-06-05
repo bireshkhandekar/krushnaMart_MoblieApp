@@ -9,12 +9,16 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Custom Action - checkInternetConnection] action in HomePage widget.
+  bool? abc;
   // State field(s) for Carousel widget.
   CarouselController? carouselController;
 
   int carouselCurrentIndex = 1;
 
   Completer<ApiCallResponse>? apiRequestCompleter;
+  // Stores action output result for [Custom Action - checkInternetConnection] action in ListView widget.
+  bool? resultcheckinternet;
 
   @override
   void initState(BuildContext context) {}

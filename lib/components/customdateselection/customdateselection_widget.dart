@@ -95,9 +95,8 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
               count: _model.countControllerValue ??= 1,
               updateCount: (count) async {
                 setState(() => _model.countControllerValue = count);
-                _model.updatePage(() {
-                  FFAppState().customCalculate = false;
-                });
+                FFAppState().customCalculate = false;
+                _model.updatePage(() {});
               },
               stepSize: 1,
               minimum: 1,

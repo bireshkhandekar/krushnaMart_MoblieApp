@@ -239,10 +239,8 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                           );
                                         });
                                       }
-                                      setState(() {
-                                        FFAppState().evarydaycalculetion =
-                                            false;
-                                      });
+                                      FFAppState().evarydaycalculetion = false;
+                                      setState(() {});
                                     },
                                     child: Container(
                                       width: 140.0,
@@ -360,10 +358,8 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                           );
                                         });
                                       }
-                                      setState(() {
-                                        FFAppState().evarydaycalculetion =
-                                            false;
-                                      });
+                                      FFAppState().evarydaycalculetion = false;
+                                      setState(() {});
                                     },
                                     child: Container(
                                       width: 140.0,
@@ -491,10 +487,9 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                       updateCount: (count) async {
                                         setState(() => _model
                                             .countControllerValue = count);
-                                        setState(() {
-                                          FFAppState().evarydaycalculetion =
-                                              false;
-                                        });
+                                        FFAppState().evarydaycalculetion =
+                                            false;
+                                        setState(() {});
                                       },
                                       stepSize: 1,
                                       minimum: 0,
@@ -558,9 +553,8 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                     _model.datePicked2!,
                                     _model.countControllerValue!,
                                   );
-                                  setState(() {
-                                    FFAppState().evarydaycalculetion = true;
-                                  });
+                                  FFAppState().evarydaycalculetion = true;
+                                  setState(() {});
 
                                   setState(() {});
                                 },
@@ -761,33 +755,30 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                         8.0, 20.0, 8.0, 0.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        setState(() {
-                                          FFAppState().startDate =
-                                              dateTimeFormat(
-                                            'd/M/y',
-                                            _model.datePicked1,
-                                            locale: FFLocalizations.of(context)
-                                                .languageCode,
-                                          );
-                                          FFAppState().endDate = dateTimeFormat(
-                                            'd/M/y',
-                                            _model.datePicked2,
-                                            locale: FFLocalizations.of(context)
-                                                .languageCode,
-                                          );
-                                          FFAppState().EvarydayQty =
-                                              _model.daysresult!;
-                                          FFAppState().EvarydayAmount =
-                                              functions.evarydayqtyintoprice(
-                                                  _model.daysresult,
-                                                  widget.itemPrice)!;
-                                        });
+                                        FFAppState().startDate = dateTimeFormat(
+                                          'd/M/y',
+                                          _model.datePicked1,
+                                          locale: FFLocalizations.of(context)
+                                              .languageCode,
+                                        );
+                                        FFAppState().endDate = dateTimeFormat(
+                                          'd/M/y',
+                                          _model.datePicked2,
+                                          locale: FFLocalizations.of(context)
+                                              .languageCode,
+                                        );
+                                        FFAppState().EvarydayQty =
+                                            _model.daysresult!;
+                                        FFAppState().EvarydayAmount =
+                                            functions.evarydayqtyintoprice(
+                                                _model.daysresult,
+                                                widget.itemPrice)!;
+                                        setState(() {});
                                         Navigator.pop(context,
                                             _model.countControllerValue);
-                                        setState(() {
-                                          FFAppState().evarydaycalculetion =
-                                              false;
-                                        });
+                                        FFAppState().evarydaycalculetion =
+                                            false;
+                                        setState(() {});
                                       },
                                       text: 'Submit',
                                       options: FFButtonOptions(
@@ -859,10 +850,9 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                         onPressed: () async {
                                           context.pushNamed('WalletPage');
 
-                                          setState(() {
-                                            FFAppState().evarydaycalculetion =
-                                                false;
-                                          });
+                                          FFAppState().evarydaycalculetion =
+                                              false;
+                                          setState(() {});
                                         },
                                         text: 'Ok',
                                         options: FFButtonOptions(

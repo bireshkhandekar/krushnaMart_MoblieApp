@@ -4,6 +4,10 @@ import 'my_orders_page_widget.dart' show MyOrdersPageWidget;
 import 'package:flutter/material.dart';
 
 class MyOrdersPageModel extends FlutterFlowModel<MyOrdersPageWidget> {
+  ///  Local state fields for this page.
+
+  int? pageno = 1;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

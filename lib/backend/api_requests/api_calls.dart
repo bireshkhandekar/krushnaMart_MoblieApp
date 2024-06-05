@@ -41,6 +41,8 @@ class KMartAPIsGroup {
   static SubscribeUpdateCall subscribeUpdateCall = SubscribeUpdateCall();
   static OrderCanceledCall orderCanceledCall = OrderCanceledCall();
   static GetOrderByStatusCall getOrderByStatusCall = GetOrderByStatusCall();
+  static TokenValidetionCall tokenValidetionCall = TokenValidetionCall();
+  static RefreshTokenCall refreshTokenCall = RefreshTokenCall();
 }
 
 class GetItemsAPICall {
@@ -63,7 +65,7 @@ class GetItemsAPICall {
 
   List? allitems(dynamic response) => getJsonField(
         response,
-        r'''$''',
+        r'''$.data''',
         true,
       ) as List?;
 }
@@ -235,8 +237,8 @@ class UserRegisterAPICall {
   "username": "$username",
   "mobile_number": "$moblienumber",
   "address": {
-    "houseno": "$houseno",
-    "lineno": "$lineno",
+    "house_no": "$houseno",
+    "line_no": "$lineno",
     "landmark": "$landmark"
   },
   "city": "$city",
@@ -687,12 +689,15 @@ class CashOrderCall {
 class GetOrdersByUserIdCall {
   Future<ApiCallResponse> call({
     int? userId,
+    int? limit,
+    int? pageno,
+    String? status = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
       callName: 'Get orders by user id',
-      apiUrl: '$baseUrl/orders/user/$userId',
+      apiUrl: '$baseUrl/orders/user/$userId?limit=$limit&page=$pageno',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -706,7 +711,7 @@ class GetOrdersByUserIdCall {
 
   List? orders(dynamic response) => getJsonField(
         response,
-        r'''$.orders''',
+        r'''$.data''',
         true,
       ) as List?;
 }
@@ -836,6 +841,53 @@ class GetOrderByStatusCall {
       ) as List?;
 }
 
+class TokenValidetionCall {
+  Future<ApiCallResponse> call({
+    String? token = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'token validetion',
+      apiUrl: '$baseUrl/auth/validate_token',
+      callType: ApiCallType.GET,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class RefreshTokenCall {
+  Future<ApiCallResponse> call({
+    String? refreshToken = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'refresh token',
+      apiUrl: '$baseUrl/auth/refresh_token',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer $refreshToken',
+      },
+      params: {},
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
 /// End KMart APIs Group Code
 
 class ProductApiCall {
@@ -938,10 +990,14 @@ class ApiPagingParams {
       'PagingParams(nextPageNumber: $nextPageNumber, numItems: $numItems, lastResponse: $lastResponse,)';
 }
 
+String _toEncodable(dynamic item) {
+  return item;
+}
+
 String _serializeList(List? list) {
   list ??= <String>[];
   try {
-    return json.encode(list);
+    return json.encode(list, toEncodable: _toEncodable);
   } catch (_) {
     if (kDebugMode) {
       print("List serialization failed. Returning empty list.");
@@ -953,7 +1009,7 @@ String _serializeList(List? list) {
 String _serializeJson(dynamic jsonVar, [bool isList = false]) {
   jsonVar ??= (isList ? [] : {});
   try {
-    return json.encode(jsonVar);
+    return json.encode(jsonVar, toEncodable: _toEncodable);
   } catch (_) {
     if (kDebugMode) {
       print("Json serialization failed. Returning empty json.");

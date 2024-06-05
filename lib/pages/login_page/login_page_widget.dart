@@ -573,6 +573,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               ).toString()}',
                                                             ),
                                                           );
+
                                                           setState(() {});
                                                           Navigator.pop(
                                                               context);

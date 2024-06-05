@@ -442,6 +442,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
 
                                   navigate = () => context.goNamedAuth(
                                       'entryPage', context.mounted);
+
                                   setState(() {});
                                   if (scaffoldKey.currentState!.isDrawerOpen ||
                                       scaffoldKey

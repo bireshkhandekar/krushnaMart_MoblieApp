@@ -162,7 +162,6 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 152.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
@@ -361,7 +360,6 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 140.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
@@ -518,7 +516,6 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                     ),
                     Container(
                       width: double.infinity,
-                      height: 140.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
