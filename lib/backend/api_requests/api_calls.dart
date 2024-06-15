@@ -43,6 +43,10 @@ class KMartAPIsGroup {
   static GetOrderByStatusCall getOrderByStatusCall = GetOrderByStatusCall();
   static TokenValidetionCall tokenValidetionCall = TokenValidetionCall();
   static RefreshTokenCall refreshTokenCall = RefreshTokenCall();
+  static SubscriptionPauseApiCall subscriptionPauseApiCall =
+      SubscriptionPauseApiCall();
+  static ItemsByCategoryIdCall itemsByCategoryIdCall = ItemsByCategoryIdCall();
+  static GetAboutUsApiCall getAboutUsApiCall = GetAboutUsApiCall();
 }
 
 class GetItemsAPICall {
@@ -174,6 +178,7 @@ class SubscribeItemsAPICall {
   "start_date": "$startDate",
   "end_date": "$endDate",
   "quantity": $quantity,
+  "total_price":$totalPrice,
   "subscription_status": "active"
 }''';
     return ApiManager.instance.makeApiCall(
@@ -217,6 +222,15 @@ class UserProfileAPICall {
       alwaysAllowBody: false,
     );
   }
+
+  dynamic user(dynamic response) => getJsonField(
+        response,
+        r'''$.user''',
+      );
+  String? name(dynamic response) => castToType<String>(getJsonField(
+        response,
+        r'''$.user.username''',
+      ));
 }
 
 class UserRegisterAPICall {
@@ -229,6 +243,7 @@ class UserRegisterAPICall {
     String? houseno = '',
     String? lineno = '',
     String? landmark = '',
+    String? pin = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -243,7 +258,8 @@ class UserRegisterAPICall {
   },
   "city": "$city",
   "state": "$state",
-  "pincode": $pincode
+  "pincode": $pincode,
+  "pin": "$pin"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'User Register API',
@@ -323,6 +339,7 @@ class UserLoginAPICall {
 class GetWalletBalanceCall {
   Future<ApiCallResponse> call({
     int? userId,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -330,7 +347,9 @@ class GetWalletBalanceCall {
       callName: 'Get Wallet Balance',
       apiUrl: '$baseUrl/wallet/balance/$userId',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -344,14 +363,20 @@ class GetWalletBalanceCall {
 class GetWalletTransectionAPICall {
   Future<ApiCallResponse> call({
     int? userId,
+    String? token = '',
+    int? limit,
+    int? pageno,
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
       callName: 'Get Wallet Transection API',
-      apiUrl: '$baseUrl/wallet/transactions/$userId',
+      apiUrl:
+          '$baseUrl/wallet/transactions/$userId?limit=$limit&page=$pageno',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -386,8 +411,8 @@ class UpdateUserProfileCall {
 {
   "username": "$username",
   "address": {
-    "houseno": "$houseNo",
-    "lineno": "$lineNo",
+    "house_no": "$houseNo",
+    "line_no": "$lineNo",
     "landmark": "$landmark"
   },
   "city": "$city",
@@ -471,6 +496,7 @@ class OrderApiOnlineCall {
     String? orderType = '',
     dynamic orderItemsJson,
     String? transactionId = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -493,7 +519,9 @@ class OrderApiOnlineCall {
       callName: 'orderApi online',
       apiUrl: '$baseUrl/order/create',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -518,6 +546,7 @@ class OrderApiCall {
     String? orderType = '',
     dynamic orderItemsJson,
     String? transactionId = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -539,7 +568,9 @@ class OrderApiCall {
       callName: 'orderApi',
       apiUrl: '$baseUrl/order/create',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -558,6 +589,7 @@ class AddAmountWalletCall {
     double? amount,
     String? transactionId = '',
     String? transactionMode = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -571,7 +603,9 @@ class AddAmountWalletCall {
       callName: 'Add amount Wallet',
       apiUrl: '$baseUrl/wallet/add-funds/$userId',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -588,6 +622,7 @@ class DeductfundsWalletCall {
   Future<ApiCallResponse> call({
     int? userId,
     double? purchaseAmount,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -600,7 +635,9 @@ class DeductfundsWalletCall {
       callName: 'DeductfundsWallet',
       apiUrl: '$baseUrl/wallet/deduct-funds/$userId',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -616,6 +653,7 @@ class DeductfundsWalletCall {
 class GetsubscriptionsCall {
   Future<ApiCallResponse> call({
     int? userId,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -623,7 +661,9 @@ class GetsubscriptionsCall {
       callName: 'Getsubscriptions',
       apiUrl: '$baseUrl/subscription/user/$userId',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -652,6 +692,7 @@ class CashOrderCall {
     String? paymentStatus = '',
     String? orderType = '',
     String? orderStatus = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -673,7 +714,9 @@ class CashOrderCall {
       callName: 'cashOrder',
       apiUrl: '$baseUrl/order/create',
       callType: ApiCallType.POST,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
@@ -692,14 +735,18 @@ class GetOrdersByUserIdCall {
     int? limit,
     int? pageno,
     String? status = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
       callName: 'Get orders by user id',
-      apiUrl: '$baseUrl/orders/user/$userId?limit=$limit&page=$pageno',
+      apiUrl:
+          '$baseUrl/orders/user/$userId?limit=$limit&page=$pageno&status=$status',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -719,6 +766,7 @@ class GetOrdersByUserIdCall {
 class GetOrderByOrderIdCall {
   Future<ApiCallResponse> call({
     String? orderId = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -726,7 +774,9 @@ class GetOrderByOrderIdCall {
       callName: 'get order by orderId',
       apiUrl: '$baseUrl/order/$orderId',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -750,6 +800,7 @@ class GetOrderByOrderIdCall {
 class GetSubByIdCall {
   Future<ApiCallResponse> call({
     int? id,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -757,7 +808,9 @@ class GetSubByIdCall {
       callName: 'get sub by id ',
       apiUrl: '$baseUrl/subscription/$id',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -771,6 +824,7 @@ class GetSubByIdCall {
 class SubscribeUpdateCall {
   Future<ApiCallResponse> call({
     int? subid,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -778,7 +832,9 @@ class SubscribeUpdateCall {
       callName: 'subscribe update',
       apiUrl: '$baseUrl/subscription/disable/$subid',
       callType: ApiCallType.PUT,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       bodyType: BodyType.NONE,
       returnBody: true,
@@ -793,15 +849,24 @@ class SubscribeUpdateCall {
 class OrderCanceledCall {
   Future<ApiCallResponse> call({
     String? orderId = '',
+    String? status = '',
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
+    final ffApiRequestBody = '''
+{
+  "order_status": "$status"
+}''';
     return ApiManager.instance.makeApiCall(
       callName: 'orderCanceled',
       apiUrl: '$baseUrl/order/$orderId',
       callType: ApiCallType.PUT,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
+      body: ffApiRequestBody,
       bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
@@ -816,6 +881,7 @@ class GetOrderByStatusCall {
   Future<ApiCallResponse> call({
     String? status = '',
     int? userid,
+    String? token = '',
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
@@ -824,7 +890,9 @@ class GetOrderByStatusCall {
       apiUrl:
           '$baseUrl/order_by_order_status?user_id=$userid&order_status=$status',
       callType: ApiCallType.GET,
-      headers: {},
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
       params: {},
       returnBody: true,
       encodeBodyUtf8: false,
@@ -879,6 +947,85 @@ class RefreshTokenCall {
       },
       params: {},
       bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class SubscriptionPauseApiCall {
+  Future<ApiCallResponse> call({
+    int? subId,
+    String? startDate = '',
+    String? endDate = '',
+    String? token = '',
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    final ffApiRequestBody = '''
+{
+  "pause_start_date": "$startDate",
+  "pause_end_date": "$endDate"
+}''';
+    return ApiManager.instance.makeApiCall(
+      callName: 'subscription pause Api',
+      apiUrl: '$baseUrl/subscription/pause/$subId',
+      callType: ApiCallType.POST,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+      params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class ItemsByCategoryIdCall {
+  Future<ApiCallResponse> call({
+    int? id,
+  }) async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'items by category id',
+      apiUrl: '$baseUrl/items_by_category/$id',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  List? items(dynamic response) => getJsonField(
+        response,
+        r'''$.items''',
+        true,
+      ) as List?;
+}
+
+class GetAboutUsApiCall {
+  Future<ApiCallResponse> call() async {
+    final baseUrl = KMartAPIsGroup.getBaseUrl();
+
+    return ApiManager.instance.makeApiCall(
+      callName: 'get about us api',
+      apiUrl: '$baseUrl/about/',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -972,6 +1119,35 @@ class TagsCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class PincodeCall {
+  static Future<ApiCallResponse> call({
+    String? pincode = '',
+  }) async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'pincode',
+      apiUrl: 'https://api.postalpincode.in/pincode/$pincode',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      alwaysAllowBody: false,
+    );
+  }
+
+  static List<String>? state(dynamic response) => (getJsonField(
+        response,
+        r'''$[:].PostOffice[:].State''',
+        true,
+      ) as List?)
+          ?.withoutNulls
+          .map((x) => castToType<String>(x))
+          .withoutNulls
+          .toList();
 }
 
 class ApiPagingParams {

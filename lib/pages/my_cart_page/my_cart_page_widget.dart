@@ -1,3 +1,6 @@
+import '/auth/custom_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/components/cart_component/cart_component_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -6,6 +9,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'my_cart_page_model.dart';
 export 'my_cart_page_model.dart';
 
@@ -102,12 +106,12 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                               if (!snapshot.hasData) {
                                 return Center(
                                   child: SizedBox(
-                                    width: 50.0,
-                                    height: 50.0,
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        FlutterFlowTheme.of(context).primary,
-                                      ),
+                                    width: 40.0,
+                                    height: 40.0,
+                                    child: SpinKitCircle(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      size: 40.0,
                                     ),
                                   ),
                                 );
@@ -312,15 +316,116 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                       0.0, 8.0, 0.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
+                                      var shouldSetState = false;
+                                      if (currentAuthenticationToken != null &&
+                                          currentAuthenticationToken != '') {
+                                        _model.apiResulta5j =
+                                            await KMartAPIsGroup
+                                                .tokenValidetionCall
+                                                .call(
+                                          token: currentAuthenticationToken,
+                                        );
+                                        shouldSetState = true;
+                                        if (!(_model.apiResulta5j?.succeeded ??
+                                            true)) {
+                                          _model.apiResultrefreshtoken =
+                                              await KMartAPIsGroup
+                                                  .refreshTokenCall
+                                                  .call(
+                                            refreshToken:
+                                                currentAuthRefreshToken,
+                                          );
+                                          shouldSetState = true;
+                                          if ((_model.apiResultrefreshtoken
+                                                  ?.succeeded ??
+                                              true)) {
+                                            authManager.updateAuthUserData(
+                                              authenticationToken: getJsonField(
+                                                (_model.apiResultrefreshtoken
+                                                        ?.jsonBody ??
+                                                    ''),
+                                                r'''$.data.access_token''',
+                                              ).toString(),
+                                              refreshToken:
+                                                  currentAuthRefreshToken,
+                                              authUid: currentUserUid,
+                                              userData: UserStruct(
+                                                id: currentUserData?.id,
+                                                userName:
+                                                    currentUserData?.userName,
+                                                moblieNumber: currentUserData
+                                                    ?.moblieNumber,
+                                                shippingAddress: currentUserData
+                                                    ?.shippingAddress,
+                                                houseNo:
+                                                    currentUserData?.houseNo,
+                                                lineNo: currentUserData?.lineNo,
+                                                landMark:
+                                                    currentUserData?.landMark,
+                                                city: currentUserData?.city,
+                                                state: currentUserData?.state,
+                                                pincode:
+                                                    currentUserData?.pincode,
+                                              ),
+                                            );
+                                          } else {
+                                            context.pushNamed('LoginPage');
+                                          }
+                                        }
+                                      } else {
+                                        var confirmDialogResponse =
+                                            await showDialog<bool>(
+                                                  context: context,
+                                                  builder:
+                                                      (alertDialogContext) {
+                                                    return AlertDialog(
+                                                      title: const Text('Alert !'),
+                                                      content: const Text(
+                                                          'You\'re not logged in. Would you like to login now? '),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  false),
+                                                          child: const Text('No'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  alertDialogContext,
+                                                                  true),
+                                                          child: const Text('Yes'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                ) ??
+                                                false;
+                                        if (confirmDialogResponse) {
+                                          context.pushNamed('LoginPage');
+
+                                          if (shouldSetState) setState(() {});
+                                          return;
+                                        } else {
+                                          context.pushNamed('HomePage');
+
+                                          if (shouldSetState) setState(() {});
+                                          return;
+                                        }
+                                      }
+
                                       _model.getTotalprice = await SQLiteManager
                                           .instance
                                           .getTotalprice();
+                                      shouldSetState = true;
                                       _model.actionresult =
                                           await actions.checktotalAmountNull(
                                         context,
                                         _model.getTotalprice?.first.totalPrice
                                             ?.toString(),
                                       );
+                                      shouldSetState = true;
                                       if (_model.actionresult == true) {
                                         context.pushNamed('paymentPage');
                                       } else {
@@ -346,7 +451,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                         context.goNamed('ProductsPage');
                                       }
 
-                                      setState(() {});
+                                      if (shouldSetState) setState(() {});
                                     },
                                     text: 'Place Order',
                                     options: FFButtonOptions(
@@ -372,6 +477,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
+                                    showLoadingIndicator: false,
                                   ),
                                 ),
                               ),

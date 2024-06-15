@@ -1,5 +1,6 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/customdateselection/customdateselection_widget.dart';
 import '/components/everyday/everyday_widget.dart';
 import '/components/subscribe_success/subscribe_success_widget.dart';
@@ -45,6 +46,42 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
       FFAppState().customdatesshow = false;
       FFAppState().everydayshow = false;
       setState(() {});
+      if (currentAuthenticationToken != null &&
+          currentAuthenticationToken != '') {
+        _model.apiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
+          token: currentAuthenticationToken,
+        );
+        if (!(_model.apiResulta5j?.succeeded ?? true)) {
+          _model.apiResultrefreshtoken =
+              await KMartAPIsGroup.refreshTokenCall.call(
+            refreshToken: currentAuthRefreshToken,
+          );
+          if ((_model.apiResultrefreshtoken?.succeeded ?? true)) {
+            authManager.updateAuthUserData(
+              authenticationToken: getJsonField(
+                (_model.apiResultrefreshtoken?.jsonBody ?? ''),
+                r'''$.data.access_token''',
+              ).toString().toString(),
+              refreshToken: currentAuthRefreshToken,
+              authUid: currentUserUid,
+              userData: UserStruct(
+                id: currentUserData?.id,
+                userName: currentUserData?.userName,
+                moblieNumber: currentUserData?.moblieNumber,
+                shippingAddress: currentUserData?.shippingAddress,
+                houseNo: currentUserData?.houseNo,
+                lineNo: currentUserData?.lineNo,
+                landMark: currentUserData?.landMark,
+                city: currentUserData?.city,
+                state: currentUserData?.state,
+                pincode: currentUserData?.pincode,
+              ),
+            );
+          } else {
+            context.pushNamed('LoginPage');
+          }
+        }
+      }
     });
   }
 
@@ -133,6 +170,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                             child: FutureBuilder<ApiCallResponse>(
                               future: KMartAPIsGroup.getWalletBalanceCall.call(
                                 userId: currentUserData?.id,
+                                token: currentAuthenticationToken,
                               ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
@@ -443,6 +481,101 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                       FFButtonWidget(
                                                                     onPressed:
                                                                         () async {
+                                                                      var shouldSetState =
+                                                                          false;
+                                                                      if (currentAuthenticationToken !=
+                                                                              null &&
+                                                                          currentAuthenticationToken !=
+                                                                              '') {
+                                                                        _model.everyapiResulta5j = await KMartAPIsGroup
+                                                                            .tokenValidetionCall
+                                                                            .call(
+                                                                          token:
+                                                                              currentAuthenticationToken,
+                                                                        );
+                                                                        shouldSetState =
+                                                                            true;
+                                                                        if (!(_model.everyapiResulta5j?.succeeded ??
+                                                                            true)) {
+                                                                          _model.everyapiResultrefreshtoken = await KMartAPIsGroup
+                                                                              .refreshTokenCall
+                                                                              .call(
+                                                                            refreshToken:
+                                                                                currentAuthRefreshToken,
+                                                                          );
+                                                                          shouldSetState =
+                                                                              true;
+                                                                          if ((_model.everyapiResultrefreshtoken?.succeeded ??
+                                                                              true)) {
+                                                                            authManager.updateAuthUserData(
+                                                                              authenticationToken: getJsonField(
+                                                                                (_model.everyapiResultrefreshtoken?.jsonBody ?? ''),
+                                                                                r'''$.data.access_token''',
+                                                                              ).toString(),
+                                                                              refreshToken: currentAuthRefreshToken,
+                                                                              authUid: currentUserUid,
+                                                                              userData: UserStruct(
+                                                                                id: currentUserData?.id,
+                                                                                userName: currentUserData?.userName,
+                                                                                moblieNumber: currentUserData?.moblieNumber,
+                                                                                shippingAddress: currentUserData?.shippingAddress,
+                                                                                houseNo: currentUserData?.houseNo,
+                                                                                lineNo: currentUserData?.lineNo,
+                                                                                landMark: currentUserData?.landMark,
+                                                                                city: currentUserData?.city,
+                                                                                state: currentUserData?.state,
+                                                                                pincode: currentUserData?.pincode,
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            context.pushNamed('LoginPage');
+
+                                                                            if (shouldSetState) {
+                                                                              setState(() {});
+                                                                            }
+                                                                            return;
+                                                                          }
+                                                                        }
+                                                                      } else {
+                                                                        var confirmDialogResponse = await showDialog<bool>(
+                                                                              context: context,
+                                                                              builder: (alertDialogContext) {
+                                                                                return AlertDialog(
+                                                                                  title: const Text('Alert !'),
+                                                                                  content: const Text('You\'re not logged in. Would you like to login now? '),
+                                                                                  actions: [
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                      child: const Text('No'),
+                                                                                    ),
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                      child: const Text('Yes'),
+                                                                                    ),
+                                                                                  ],
+                                                                                );
+                                                                              },
+                                                                            ) ??
+                                                                            false;
+                                                                        if (confirmDialogResponse) {
+                                                                          context
+                                                                              .pushNamed('LoginPage');
+
+                                                                          if (shouldSetState) {
+                                                                            setState(() {});
+                                                                          }
+                                                                          return;
+                                                                        } else {
+                                                                          context
+                                                                              .pushNamed('HomePage');
+
+                                                                          if (shouldSetState) {
+                                                                            setState(() {});
+                                                                          }
+                                                                          return;
+                                                                        }
+                                                                      }
+
                                                                       await showModalBottomSheet(
                                                                         isScrollControlled:
                                                                             true,
@@ -477,6 +610,8 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           safeSetState(() =>
                                                                               _model.qty = value));
 
+                                                                      shouldSetState =
+                                                                          true;
                                                                       FFAppState()
                                                                               .everydayshow =
                                                                           true;
@@ -488,9 +623,10 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           'daily';
                                                                       setState(
                                                                           () {});
-
-                                                                      setState(
-                                                                          () {});
+                                                                      if (shouldSetState) {
+                                                                        setState(
+                                                                            () {});
+                                                                      }
                                                                     },
                                                                     text:
                                                                         'Everyday',
@@ -552,10 +688,108 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                       FFButtonWidget(
                                                                     onPressed:
                                                                         () async {
-                                                                      await actions
-                                                                          .showCustomDatePicker(
+                                                                      var shouldSetState =
+                                                                          false;
+                                                                      if (currentAuthenticationToken !=
+                                                                              null &&
+                                                                          currentAuthenticationToken !=
+                                                                              '') {
+                                                                        _model.custapiResulta5j = await KMartAPIsGroup
+                                                                            .tokenValidetionCall
+                                                                            .call(
+                                                                          token:
+                                                                              currentAuthenticationToken,
+                                                                        );
+                                                                        shouldSetState =
+                                                                            true;
+                                                                        if (!(_model.custapiResulta5j?.succeeded ??
+                                                                            true)) {
+                                                                          _model.custapiResultrefreshtoken = await KMartAPIsGroup
+                                                                              .refreshTokenCall
+                                                                              .call(
+                                                                            refreshToken:
+                                                                                currentAuthRefreshToken,
+                                                                          );
+                                                                          shouldSetState =
+                                                                              true;
+                                                                          if ((_model.custapiResultrefreshtoken?.succeeded ??
+                                                                              true)) {
+                                                                            authManager.updateAuthUserData(
+                                                                              authenticationToken: getJsonField(
+                                                                                (_model.custapiResultrefreshtoken?.jsonBody ?? ''),
+                                                                                r'''$.data.access_token''',
+                                                                              ).toString(),
+                                                                              refreshToken: currentAuthRefreshToken,
+                                                                              authUid: currentUserUid,
+                                                                              userData: UserStruct(
+                                                                                id: currentUserData?.id,
+                                                                                userName: currentUserData?.userName,
+                                                                                moblieNumber: currentUserData?.moblieNumber,
+                                                                                shippingAddress: currentUserData?.shippingAddress,
+                                                                                houseNo: currentUserData?.houseNo,
+                                                                                lineNo: currentUserData?.lineNo,
+                                                                                landMark: currentUserData?.landMark,
+                                                                                city: currentUserData?.city,
+                                                                                state: currentUserData?.state,
+                                                                                pincode: currentUserData?.pincode,
+                                                                              ),
+                                                                            );
+                                                                          } else {
+                                                                            context.pushNamed('LoginPage');
+
+                                                                            if (shouldSetState) {
+                                                                              setState(() {});
+                                                                            }
+                                                                            return;
+                                                                          }
+                                                                        }
+                                                                      } else {
+                                                                        var confirmDialogResponse = await showDialog<bool>(
+                                                                              context: context,
+                                                                              builder: (alertDialogContext) {
+                                                                                return AlertDialog(
+                                                                                  title: const Text('Alert !'),
+                                                                                  content: const Text('You\'re not logged in. Would you like to login now? '),
+                                                                                  actions: [
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, false),
+                                                                                      child: const Text('No'),
+                                                                                    ),
+                                                                                    TextButton(
+                                                                                      onPressed: () => Navigator.pop(alertDialogContext, true),
+                                                                                      child: const Text('Yes'),
+                                                                                    ),
+                                                                                  ],
+                                                                                );
+                                                                              },
+                                                                            ) ??
+                                                                            false;
+                                                                        if (confirmDialogResponse) {
+                                                                          context
+                                                                              .pushNamed('LoginPage');
+
+                                                                          if (shouldSetState) {
+                                                                            setState(() {});
+                                                                          }
+                                                                          return;
+                                                                        } else {
+                                                                          context
+                                                                              .pushNamed('HomePage');
+
+                                                                          if (shouldSetState) {
+                                                                            setState(() {});
+                                                                          }
+                                                                          return;
+                                                                        }
+                                                                      }
+
+                                                                      _model.customDates =
+                                                                          await actions
+                                                                              .showCustomDatePicker(
                                                                         context,
                                                                       );
+                                                                      shouldSetState =
+                                                                          true;
                                                                       FFAppState()
                                                                               .customdatesshow =
                                                                           true;
@@ -568,8 +802,25 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                       FFAppState()
                                                                               .customCalculate =
                                                                           false;
+                                                                      FFAppState().customdatesjson = functions
+                                                                          .customDatesMap(
+                                                                              FFAppState()
+                                                                                  .selectedDate
+                                                                                  .map((e) => dateTimeFormat(
+                                                                                        'yMd',
+                                                                                        e,
+                                                                                        locale: FFLocalizations.of(context).languageCode,
+                                                                                      ))
+                                                                                  .toList(),
+                                                                              FFAppState().selectedqty.toList())!
+                                                                          .toList()
+                                                                          .cast<dynamic>();
                                                                       setState(
                                                                           () {});
+                                                                      if (shouldSetState) {
+                                                                        setState(
+                                                                            () {});
+                                                                      }
                                                                     },
                                                                     text:
                                                                         'Custom',
@@ -943,13 +1194,6 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                     letterSpacing: 0.0,
                                                                                   ),
                                                                             ),
-                                                                            Text(
-                                                                              'Quantity',
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    fontFamily: 'Readex Pro',
-                                                                                    letterSpacing: 0.0,
-                                                                                  ),
-                                                                            ),
                                                                           ],
                                                                         ),
                                                                       ),
@@ -963,8 +1207,13 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                             Builder(
                                                                           builder:
                                                                               (context) {
-                                                                            final selectedDates =
-                                                                                FFAppState().selectedDate.toList();
+                                                                            final selectedDates = FFAppState()
+                                                                                .customdatesjson
+                                                                                .map((e) => getJsonField(
+                                                                                      e,
+                                                                                      r'''$''',
+                                                                                    ))
+                                                                                .toList();
                                                                             return ListView.separated(
                                                                               padding: EdgeInsets.zero,
                                                                               primary: false,
@@ -980,14 +1229,19 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                     selectedDatesIndex,
                                                                                   ),
                                                                                   updateCallback: () => setState(() {}),
+                                                                                  updateOnChange: true,
                                                                                   child: CustomdateselectionWidget(
                                                                                     key: Key(
-                                                                                      'Key2h6_${selectedDatesIndex.toString()}',
+                                                                                      'Keyaof_${selectedDatesIndex.toString()}',
                                                                                     ),
-                                                                                    parameter1: dateTimeFormat(
-                                                                                      'd/M/y',
+                                                                                    parameter1: getJsonField(
                                                                                       selectedDatesItem,
-                                                                                      locale: FFLocalizations.of(context).languageCode,
+                                                                                      r'''$.date''',
+                                                                                    ).toString(),
+                                                                                    index: selectedDatesIndex,
+                                                                                    qty: getJsonField(
+                                                                                      selectedDatesItem,
+                                                                                      r'''$.qty''',
                                                                                     ),
                                                                                   ),
                                                                                 );
@@ -1010,19 +1264,57 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                 Row(
                                                                               mainAxisSize: MainAxisSize.max,
                                                                               children: [
-                                                                                if (FFAppState().selectedDate.isNotEmpty)
+                                                                                if (FFAppState().customdatesjson.isNotEmpty)
                                                                                   Expanded(
                                                                                     child: Padding(
                                                                                       padding: const EdgeInsetsDirectional.fromSTEB(8.0, 10.0, 8.0, 0.0),
                                                                                       child: FFButtonWidget(
                                                                                         onPressed: () async {
+                                                                                          if (currentAuthenticationToken != null && currentAuthenticationToken != '') {
+                                                                                            _model.calapiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
+                                                                                              token: currentAuthenticationToken,
+                                                                                            );
+                                                                                            if (!(_model.calapiResulta5j?.succeeded ?? true)) {
+                                                                                              _model.calapiResultrefreshtoken = await KMartAPIsGroup.refreshTokenCall.call(
+                                                                                                refreshToken: currentAuthRefreshToken,
+                                                                                              );
+                                                                                              if ((_model.calapiResultrefreshtoken?.succeeded ?? true)) {
+                                                                                                authManager.updateAuthUserData(
+                                                                                                  authenticationToken: getJsonField(
+                                                                                                    (_model.calapiResultrefreshtoken?.jsonBody ?? ''),
+                                                                                                    r'''$.data.access_token''',
+                                                                                                  ).toString(),
+                                                                                                  refreshToken: currentAuthRefreshToken,
+                                                                                                  authUid: currentUserUid,
+                                                                                                  userData: UserStruct(
+                                                                                                    id: currentUserData?.id,
+                                                                                                    userName: currentUserData?.userName,
+                                                                                                    moblieNumber: currentUserData?.moblieNumber,
+                                                                                                    shippingAddress: currentUserData?.shippingAddress,
+                                                                                                    houseNo: currentUserData?.houseNo,
+                                                                                                    lineNo: currentUserData?.lineNo,
+                                                                                                    landMark: currentUserData?.landMark,
+                                                                                                    city: currentUserData?.city,
+                                                                                                    state: currentUserData?.state,
+                                                                                                    pincode: currentUserData?.pincode,
+                                                                                                  ),
+                                                                                                );
+                                                                                              } else {
+                                                                                                context.pushNamed(
+                                                                                                  'LoginPage',
+                                                                                                  queryParameters: {
+                                                                                                    'pageName': serializeParam(
+                                                                                                      'profilePage',
+                                                                                                      ParamType.String,
+                                                                                                    ),
+                                                                                                  }.withoutNulls,
+                                                                                                );
+                                                                                              }
+                                                                                            }
+                                                                                          }
                                                                                           FFAppState().customCalculate = true;
-                                                                                          FFAppState().selectedqty = _model.customdateselectionModels
-                                                                                              .getValues(
-                                                                                                (m) => m.countControllerValue,
-                                                                                              )
-                                                                                              .toList()
-                                                                                              .cast<int>();
+                                                                                          setState(() {});
+
                                                                                           setState(() {});
                                                                                         },
                                                                                         text: 'Calculate',
@@ -1068,6 +1360,8 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                               .call(
                                                                             userId:
                                                                                 currentUserData?.id,
+                                                                            token:
+                                                                                currentAuthenticationToken,
                                                                           ),
                                                                           builder:
                                                                               (context, snapshot) {
@@ -1097,7 +1391,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                     Align(
                                                                                       alignment: const AlignmentDirectional(-1.0, -1.0),
                                                                                       child: Text(
-                                                                                        'Wallet Balence : ',
+                                                                                        'Wallet Balance : ',
                                                                                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                               fontFamily: 'Readex Pro',
                                                                                               fontSize: 18.0,
@@ -1247,184 +1541,221 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                     8.0, 24.0, 8.0, 8.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
-                                                FFAppState().selectedqty = _model
-                                                    .customdateselectionModels
-                                                    .getValues(
-                                                      (m) => m
-                                                          .countControllerValue,
-                                                    )
-                                                    .toList()
-                                                    .cast<int>();
+                                                var shouldSetState = false;
+
                                                 setState(() {});
-                                                _model.dailywalletResult =
-                                                    await KMartAPIsGroup
-                                                        .deductfundsWalletCall
-                                                        .call(
-                                                  userId: currentUserData?.id,
-                                                  purchaseAmount: FFAppState()
-                                                      .EvarydayAmount,
-                                                );
-                                                if ((_model.dailywalletResult
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  _model.apisubscribeitemresult =
+                                                if (currentAuthenticationToken !=
+                                                        null &&
+                                                    currentAuthenticationToken !=
+                                                        '') {
+                                                  _model.dailyapiResulta5j =
                                                       await KMartAPIsGroup
-                                                          .subscribeItemsAPICall
+                                                          .tokenValidetionCall
                                                           .call(
-                                                    userId: currentUserData?.id,
-                                                    itemsId: widget.id,
-                                                    subscribeType: 'daily',
-                                                    itemsPrice: getJsonField(
-                                                      subscribeItemsItemByIdResponse
-                                                          .jsonBody,
-                                                      r'''$.price''',
-                                                    ),
-                                                    startDate: FFAppState()
-                                                                    .startDate !=
-                                                                ''
-                                                        ? FFAppState().startDate
-                                                        : dateTimeFormat(
-                                                            'd/M/y',
-                                                            getCurrentTimestamp,
-                                                            locale: FFLocalizations
-                                                                    .of(context)
-                                                                .languageCode,
-                                                          ),
-                                                    endDate:
-                                                        FFAppState().endDate,
-                                                    quantity: _model.qty,
                                                     token:
                                                         currentAuthenticationToken,
                                                   );
-                                                  if ((_model
-                                                          .apisubscribeitemresult
+                                                  shouldSetState = true;
+                                                  if (!(_model.dailyapiResulta5j
                                                           ?.succeeded ??
                                                       true)) {
-                                                    await showDialog(
-                                                      context: context,
-                                                      builder: (dialogContext) {
-                                                        return Dialog(
-                                                          elevation: 0,
-                                                          insetPadding:
-                                                              EdgeInsets.zero,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          alignment: const AlignmentDirectional(
-                                                                  0.0, 0.0)
-                                                              .resolve(
-                                                                  Directionality.of(
-                                                                      context)),
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () => _model
-                                                                    .unfocusNode
-                                                                    .canRequestFocus
-                                                                ? FocusScope.of(
-                                                                        context)
-                                                                    .requestFocus(
-                                                                        _model
-                                                                            .unfocusNode)
-                                                                : FocusScope.of(
-                                                                        context)
-                                                                    .unfocus(),
-                                                            child: const SizedBox(
-                                                              height: 340.0,
-                                                              width: 300.0,
-                                                              child:
-                                                                  SubscribeSuccessWidget(
-                                                                subscribeId: 12,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
+                                                    _model.dailyapiResultrefreshtoken =
+                                                        await KMartAPIsGroup
+                                                            .refreshTokenCall
+                                                            .call(
+                                                      refreshToken:
+                                                          currentAuthRefreshToken,
+                                                    );
+                                                    shouldSetState = true;
+                                                    if ((_model
+                                                            .dailyapiResultrefreshtoken
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      authManager
+                                                          .updateAuthUserData(
+                                                        authenticationToken:
+                                                            getJsonField(
+                                                          (_model.dailyapiResultrefreshtoken
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                          r'''$.data.access_token''',
+                                                        ).toString(),
+                                                        refreshToken:
+                                                            currentAuthRefreshToken,
+                                                        authUid: currentUserUid,
+                                                        userData: UserStruct(
+                                                          id: currentUserData
+                                                              ?.id,
+                                                          userName:
+                                                              currentUserData
+                                                                  ?.userName,
+                                                          moblieNumber:
+                                                              currentUserData
+                                                                  ?.moblieNumber,
+                                                          shippingAddress:
+                                                              currentUserData
+                                                                  ?.shippingAddress,
+                                                          houseNo:
+                                                              currentUserData
+                                                                  ?.houseNo,
+                                                          lineNo:
+                                                              currentUserData
+                                                                  ?.lineNo,
+                                                          landMark:
+                                                              currentUserData
+                                                                  ?.landMark,
+                                                          city: currentUserData
+                                                              ?.city,
+                                                          state: currentUserData
+                                                              ?.state,
+                                                          pincode:
+                                                              currentUserData
+                                                                  ?.pincode,
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      context.pushNamed(
+                                                          'LoginPage');
 
-                                                    context.pushNamed(
-                                                        'ProductsPage');
-                                                  } else {
-                                                    await showDialog(
-                                                      context: context,
-                                                      builder: (dialogContext) {
-                                                        return Dialog(
-                                                          elevation: 0,
-                                                          insetPadding:
-                                                              EdgeInsets.zero,
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          alignment: const AlignmentDirectional(
-                                                                  0.0, 0.0)
-                                                              .resolve(
-                                                                  Directionality.of(
-                                                                      context)),
-                                                          child:
-                                                              GestureDetector(
-                                                            onTap: () => _model
-                                                                    .unfocusNode
-                                                                    .canRequestFocus
-                                                                ? FocusScope.of(
-                                                                        context)
-                                                                    .requestFocus(
-                                                                        _model
-                                                                            .unfocusNode)
-                                                                : FocusScope.of(
-                                                                        context)
-                                                                    .unfocus(),
-                                                            child: const SizedBox(
-                                                              height: 300.0,
-                                                              width: 300.0,
-                                                              child:
-                                                                  SubscriptionFailedWidget(),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        setState(() {}));
+                                                      if (shouldSetState) {
+                                                        setState(() {});
+                                                      }
+                                                      return;
+                                                    }
                                                   }
                                                 } else {
-                                                  var confirmDialogResponse =
-                                                      await showDialog<bool>(
-                                                            context: context,
-                                                            builder:
-                                                                (alertDialogContext) {
-                                                              return AlertDialog(
-                                                                content: const Text(
-                                                                    'Insufficient Balence Please add the Amount in your Wallet.'),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            alertDialogContext,
-                                                                            false),
-                                                                    child: const Text(
-                                                                        'Cancel'),
-                                                                  ),
-                                                                  TextButton(
-                                                                    onPressed: () =>
-                                                                        Navigator.pop(
-                                                                            alertDialogContext,
-                                                                            true),
-                                                                    child: const Text(
-                                                                        'Ok'),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                          ) ??
-                                                          false;
-                                                  if (confirmDialogResponse) {
-                                                    context.pushNamed(
-                                                        'WalletPage');
-                                                  } else {
-                                                    Navigator.pop(context);
+                                                  context
+                                                      .pushNamed('LoginPage');
+
+                                                  if (shouldSetState) {
+                                                    setState(() {});
                                                   }
+                                                  return;
                                                 }
 
-                                                setState(() {});
+                                                _model.apisubscribeitemresult =
+                                                    await KMartAPIsGroup
+                                                        .subscribeItemsAPICall
+                                                        .call(
+                                                  userId: currentUserData?.id,
+                                                  itemsId: widget.id,
+                                                  subscribeType: 'daily',
+                                                  itemsPrice: getJsonField(
+                                                    subscribeItemsItemByIdResponse
+                                                        .jsonBody,
+                                                    r'''$.price''',
+                                                  ),
+                                                  startDate: FFAppState()
+                                                                  .startDate !=
+                                                              ''
+                                                      ? FFAppState().startDate
+                                                      : dateTimeFormat(
+                                                          'd/M/y',
+                                                          getCurrentTimestamp,
+                                                          locale:
+                                                              FFLocalizations.of(
+                                                                      context)
+                                                                  .languageCode,
+                                                        ),
+                                                  endDate: FFAppState().endDate,
+                                                  quantity: _model.qty,
+                                                  token:
+                                                      currentAuthenticationToken,
+                                                  totalPrice: FFAppState()
+                                                      .EvarydayAmount,
+                                                );
+                                                shouldSetState = true;
+                                                if ((_model
+                                                        .apisubscribeitemresult
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  await showDialog(
+                                                    context: context,
+                                                    builder: (dialogContext) {
+                                                      return Dialog(
+                                                        elevation: 0,
+                                                        insetPadding:
+                                                            EdgeInsets.zero,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        alignment:
+                                                            const AlignmentDirectional(
+                                                                    0.0, 0.0)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                        child: GestureDetector(
+                                                          onTap: () => _model
+                                                                  .unfocusNode
+                                                                  .canRequestFocus
+                                                              ? FocusScope.of(
+                                                                      context)
+                                                                  .requestFocus(
+                                                                      _model
+                                                                          .unfocusNode)
+                                                              : FocusScope.of(
+                                                                      context)
+                                                                  .unfocus(),
+                                                          child: const SizedBox(
+                                                            height: 340.0,
+                                                            width: 300.0,
+                                                            child:
+                                                                SubscribeSuccessWidget(
+                                                              subscribeId: 12,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).then((value) =>
+                                                      setState(() {}));
+
+                                                  context
+                                                      .goNamed('ProductsPage');
+                                                } else {
+                                                  await showDialog(
+                                                    context: context,
+                                                    builder: (dialogContext) {
+                                                      return Dialog(
+                                                        elevation: 0,
+                                                        insetPadding:
+                                                            EdgeInsets.zero,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        alignment:
+                                                            const AlignmentDirectional(
+                                                                    0.0, 0.0)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                        child: GestureDetector(
+                                                          onTap: () => _model
+                                                                  .unfocusNode
+                                                                  .canRequestFocus
+                                                              ? FocusScope.of(
+                                                                      context)
+                                                                  .requestFocus(
+                                                                      _model
+                                                                          .unfocusNode)
+                                                              : FocusScope.of(
+                                                                      context)
+                                                                  .unfocus(),
+                                                          child: const SizedBox(
+                                                            height: 300.0,
+                                                            width: 300.0,
+                                                            child:
+                                                                SubscriptionFailedWidget(),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).then((value) =>
+                                                      setState(() {}));
+                                                }
+
+                                                if (shouldSetState) {
+                                                  setState(() {});
+                                                }
                                               },
                                               text: 'Subscribe',
                                               options: FFButtonOptions(
@@ -1520,189 +1851,235 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                           child: FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              FFAppState()
-                                                                      .selectedqty =
-                                                                  _model
-                                                                      .customdateselectionModels
-                                                                      .getValues(
-                                                                        (m) => m
-                                                                            .countControllerValue,
-                                                                      )
-                                                                      .toList()
-                                                                      .cast<
-                                                                          int>();
+                                                              var shouldSetState =
+                                                                  false;
+
                                                               setState(() {});
-                                                              _model.customwalletResult =
+                                                              if (currentAuthenticationToken !=
+                                                                      null &&
+                                                                  currentAuthenticationToken !=
+                                                                      '') {
+                                                                _model.customapiResulta5j =
+                                                                    await KMartAPIsGroup
+                                                                        .tokenValidetionCall
+                                                                        .call(
+                                                                  token:
+                                                                      currentAuthenticationToken,
+                                                                );
+                                                                shouldSetState =
+                                                                    true;
+                                                                if (!(_model
+                                                                        .customapiResulta5j
+                                                                        ?.succeeded ??
+                                                                    true)) {
+                                                                  _model.customapiResultrefreshtoken =
+                                                                      await KMartAPIsGroup
+                                                                          .refreshTokenCall
+                                                                          .call(
+                                                                    refreshToken:
+                                                                        currentAuthRefreshToken,
+                                                                  );
+                                                                  shouldSetState =
+                                                                      true;
+                                                                  if ((_model
+                                                                          .customapiResultrefreshtoken
+                                                                          ?.succeeded ??
+                                                                      true)) {
+                                                                    authManager
+                                                                        .updateAuthUserData(
+                                                                      authenticationToken:
+                                                                          getJsonField(
+                                                                        (_model.customapiResultrefreshtoken?.jsonBody ??
+                                                                            ''),
+                                                                        r'''$.data.access_token''',
+                                                                      ).toString(),
+                                                                      refreshToken:
+                                                                          currentAuthRefreshToken,
+                                                                      authUid:
+                                                                          currentUserUid,
+                                                                      userData:
+                                                                          UserStruct(
+                                                                        id: currentUserData
+                                                                            ?.id,
+                                                                        userName:
+                                                                            currentUserData?.userName,
+                                                                        moblieNumber:
+                                                                            currentUserData?.moblieNumber,
+                                                                        shippingAddress:
+                                                                            currentUserData?.shippingAddress,
+                                                                        houseNo:
+                                                                            currentUserData?.houseNo,
+                                                                        lineNo:
+                                                                            currentUserData?.lineNo,
+                                                                        landMark:
+                                                                            currentUserData?.landMark,
+                                                                        city: currentUserData
+                                                                            ?.city,
+                                                                        state: currentUserData
+                                                                            ?.state,
+                                                                        pincode:
+                                                                            currentUserData?.pincode,
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    context.pushNamed(
+                                                                        'LoginPage');
+
+                                                                    if (shouldSetState) {
+                                                                      setState(
+                                                                          () {});
+                                                                    }
+                                                                    return;
+                                                                  }
+                                                                }
+                                                              } else {
+                                                                context.pushNamed(
+                                                                    'LoginPage');
+
+                                                                if (shouldSetState) {
+                                                                  setState(
+                                                                      () {});
+                                                                }
+                                                                return;
+                                                              }
+
+                                                              _model.customapisubscribeitemresult =
                                                                   await KMartAPIsGroup
-                                                                      .deductfundsWalletCall
+                                                                      .subscribeItemscustomApiCall
                                                                       .call(
                                                                 userId:
                                                                     currentUserData
                                                                         ?.id,
-                                                                purchaseAmount: functions
-                                                                    .totalorderAmountCustom(
-                                                                        functions.sumqtycustom(FFAppState()
-                                                                            .selectedqty
-                                                                            .toList()),
-                                                                        getJsonField(
-                                                                          subscribeItemsItemByIdResponse
-                                                                              .jsonBody,
-                                                                          r'''$.price''',
-                                                                        )),
+                                                                itemId:
+                                                                    widget.id,
+                                                                subscribeType:
+                                                                    'custom',
+                                                                itemPrice:
+                                                                    getJsonField(
+                                                                  subscribeItemsItemByIdResponse
+                                                                      .jsonBody,
+                                                                  r'''$.price''',
+                                                                ),
+                                                                customdatesList:
+                                                                    FFAppState()
+                                                                        .selectedDate
+                                                                        .map((e) =>
+                                                                            dateTimeFormat(
+                                                                              'd/M/y',
+                                                                              e,
+                                                                              locale: FFLocalizations.of(context).languageCode,
+                                                                            ))
+                                                                        .toList(),
+                                                                customqtyList:
+                                                                    FFAppState()
+                                                                        .selectedqty,
+                                                                token:
+                                                                    currentAuthenticationToken,
                                                               );
+                                                              shouldSetState =
+                                                                  true;
                                                               if ((_model
-                                                                      .customwalletResult
+                                                                      .customapisubscribeitemresult
                                                                       ?.succeeded ??
                                                                   true)) {
-                                                                _model.customapisubscribeitemresult =
-                                                                    await KMartAPIsGroup
-                                                                        .subscribeItemscustomApiCall
-                                                                        .call(
-                                                                  userId:
-                                                                      currentUserData
-                                                                          ?.id,
-                                                                  itemId:
-                                                                      widget.id,
-                                                                  subscribeType:
-                                                                      'custom',
-                                                                  itemPrice: functions
-                                                                      .totalorderAmountCustom(
-                                                                          functions.sumqtycustom(FFAppState()
-                                                                              .selectedqty
-                                                                              .toList()),
-                                                                          getJsonField(
-                                                                            subscribeItemsItemByIdResponse.jsonBody,
-                                                                            r'''$.price''',
-                                                                          )),
-                                                                  customdatesList:
-                                                                      FFAppState()
-                                                                          .selectedDate
-                                                                          .map((e) =>
-                                                                              dateTimeFormat(
-                                                                                'd/M/y',
-                                                                                e,
-                                                                                locale: FFLocalizations.of(context).languageCode,
-                                                                              ))
-                                                                          .toList(),
-                                                                  customqtyList:
-                                                                      FFAppState()
-                                                                          .selectedqty,
-                                                                  token:
-                                                                      currentAuthenticationToken,
-                                                                );
-                                                                if ((_model
-                                                                        .customapisubscribeitemresult
-                                                                        ?.succeeded ??
-                                                                    true)) {
-                                                                  await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (dialogContext) {
-                                                                      return Dialog(
-                                                                        elevation:
-                                                                            0,
-                                                                        insetPadding:
-                                                                            EdgeInsets.zero,
-                                                                        backgroundColor:
-                                                                            Colors.transparent,
-                                                                        alignment:
-                                                                            const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (dialogContext) {
+                                                                    return Dialog(
+                                                                      elevation:
+                                                                          0,
+                                                                      insetPadding:
+                                                                          EdgeInsets
+                                                                              .zero,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      alignment: const AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0)
+                                                                          .resolve(
+                                                                              Directionality.of(context)),
+                                                                      child:
+                                                                          GestureDetector(
+                                                                        onTap: () => _model.unfocusNode.canRequestFocus
+                                                                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                                                            : FocusScope.of(context).unfocus(),
                                                                         child:
-                                                                            GestureDetector(
-                                                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                              : FocusScope.of(context).unfocus(),
+                                                                            const SizedBox(
+                                                                          height:
+                                                                              340.0,
+                                                                          width:
+                                                                              300.0,
                                                                           child:
-                                                                              const SizedBox(
-                                                                            height:
-                                                                                340.0,
-                                                                            width:
-                                                                                300.0,
-                                                                            child:
-                                                                                SubscribeSuccessWidget(
-                                                                              subscribeId: 12,
-                                                                            ),
+                                                                              SubscribeSuccessWidget(
+                                                                            subscribeId:
+                                                                                12,
                                                                           ),
                                                                         ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) =>
-                                                                      setState(
-                                                                          () {}));
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    setState(
+                                                                        () {}));
 
-                                                                  context.pushNamed(
-                                                                      'ProductsPage');
-                                                                } else {
-                                                                  await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (dialogContext) {
-                                                                      return Dialog(
-                                                                        elevation:
-                                                                            0,
-                                                                        insetPadding:
-                                                                            EdgeInsets.zero,
-                                                                        backgroundColor:
-                                                                            Colors.transparent,
-                                                                        alignment:
-                                                                            const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                              : FocusScope.of(context).unfocus(),
-                                                                          child:
-                                                                              const SizedBox(
-                                                                            height:
-                                                                                300.0,
-                                                                            width:
-                                                                                300.0,
-                                                                            child:
-                                                                                SubscriptionFailedWidget(),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) =>
-                                                                      setState(
-                                                                          () {}));
-                                                                }
+                                                                context.goNamed(
+                                                                    'ProductsPage');
+
+                                                                FFAppState()
+                                                                    .customdatesjson = [];
+                                                                FFAppState()
+                                                                    .selectedDate = [];
+                                                                FFAppState()
+                                                                    .selectedqty = [];
+                                                                setState(() {});
                                                               } else {
-                                                                var confirmDialogResponse =
-                                                                    await showDialog<
-                                                                            bool>(
-                                                                          context:
-                                                                              context,
-                                                                          builder:
-                                                                              (alertDialogContext) {
-                                                                            return AlertDialog(
-                                                                              content: const Text('Insufficient Balence Please add the Amount in your Wallet.'),
-                                                                              actions: [
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(alertDialogContext, false),
-                                                                                  child: const Text('Cancel'),
-                                                                                ),
-                                                                                TextButton(
-                                                                                  onPressed: () => Navigator.pop(alertDialogContext, true),
-                                                                                  child: const Text('Ok'),
-                                                                                ),
-                                                                              ],
-                                                                            );
-                                                                          },
-                                                                        ) ??
-                                                                        false;
-                                                                if (confirmDialogResponse) {
-                                                                  context.pushNamed(
-                                                                      'WalletPage');
-                                                                } else {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                }
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (dialogContext) {
+                                                                    return Dialog(
+                                                                      elevation:
+                                                                          0,
+                                                                      insetPadding:
+                                                                          EdgeInsets
+                                                                              .zero,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      alignment: const AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0)
+                                                                          .resolve(
+                                                                              Directionality.of(context)),
+                                                                      child:
+                                                                          GestureDetector(
+                                                                        onTap: () => _model.unfocusNode.canRequestFocus
+                                                                            ? FocusScope.of(context).requestFocus(_model.unfocusNode)
+                                                                            : FocusScope.of(context).unfocus(),
+                                                                        child:
+                                                                            const SizedBox(
+                                                                          height:
+                                                                              300.0,
+                                                                          width:
+                                                                              300.0,
+                                                                          child:
+                                                                              SubscriptionFailedWidget(),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    setState(
+                                                                        () {}));
                                                               }
 
-                                                              setState(() {});
+                                                              if (shouldSetState) {
+                                                                setState(() {});
+                                                              }
                                                             },
                                                             text: 'Subscribe',
                                                             options:

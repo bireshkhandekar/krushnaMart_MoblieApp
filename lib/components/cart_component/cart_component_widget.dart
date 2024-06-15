@@ -235,7 +235,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                     context.pushNamed('MyCartPage');
                                   },
                                   stepSize: 1,
-                                  minimum: 1,
+                                  minimum: 0,
                                   contentPadding:
                                       const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 4.0, 12.0, 4.0),

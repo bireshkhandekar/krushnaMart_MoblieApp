@@ -47,6 +47,7 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
     return FutureBuilder<ApiCallResponse>(
       future: KMartAPIsGroup.getSubByIdCall.call(
         id: widget.subId,
+        token: currentAuthenticationToken,
       ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
@@ -158,10 +159,10 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
                                         child: Text(
                                           '${getJsonField(
                                             cardUserProfileAPIResponse.jsonBody,
-                                            r'''$.user.address.houseno''',
+                                            r'''$.user.address.house_no''',
                                           ).toString()} ${getJsonField(
                                             cardUserProfileAPIResponse.jsonBody,
-                                            r'''$.user.address.lineno''',
+                                            r'''$.user.address.line_no''',
                                           ).toString()} ${getJsonField(
                                             cardUserProfileAPIResponse.jsonBody,
                                             r'''$.user.address.landmark''',
@@ -249,7 +250,7 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
                                             getJsonField(
                                               cardUserProfileAPIResponse
                                                   .jsonBody,
-                                              r'''$.user.mobilenumber''',
+                                              r'''$.user.mobile_number''',
                                             ).toString(),
                                             textAlign: TextAlign.start,
                                             maxLines: 3,
@@ -808,7 +809,7 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Text(
-                                  'Payment Id : ',
+                                  'Transaction Id : ',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -819,7 +820,10 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
                                       ),
                                 ),
                                 Text(
-                                  '12',
+                                  getJsonField(
+                                    containerGetSubByIdResponse.jsonBody,
+                                    r'''$.data.transaction_id''',
+                                  ).toString(),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(

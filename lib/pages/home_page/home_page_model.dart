@@ -13,7 +13,6 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
   bool? abc;
   // State field(s) for Carousel widget.
   CarouselController? carouselController;
-
   int carouselCurrentIndex = 1;
 
   Completer<ApiCallResponse>? apiRequestCompleter;

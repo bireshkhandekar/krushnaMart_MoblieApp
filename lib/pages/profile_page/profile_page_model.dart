@@ -7,73 +7,151 @@ class ProfilePageModel extends FlutterFlowModel<ProfilePageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
   // Stores action output result for [Backend Call - API (token validetion)] action in ProfilePage widget.
   ApiCallResponse? apiResulta5j;
   // Stores action output result for [Backend Call - API (refresh token)] action in ProfilePage widget.
   ApiCallResponse? apiResultrefreshtoken;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode3;
-  TextEditingController? textController3;
-  String? Function(BuildContext, String?)? textController3Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode4;
-  TextEditingController? textController4;
-  String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode5;
-  TextEditingController? textController5;
-  String? Function(BuildContext, String?)? textController5Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode6;
-  TextEditingController? textController6;
-  String? Function(BuildContext, String?)? textController6Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode7;
-  TextEditingController? textController7;
-  String? Function(BuildContext, String?)? textController7Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode8;
-  TextEditingController? textController8;
-  String? Function(BuildContext, String?)? textController8Validator;
+  // State field(s) for name widget.
+  FocusNode? nameFocusNode;
+  TextEditingController? nameTextController;
+  String? Function(BuildContext, String?)? nameTextControllerValidator;
+  String? _nameTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for moblieno widget.
+  FocusNode? moblienoFocusNode;
+  TextEditingController? moblienoTextController;
+  String? Function(BuildContext, String?)? moblienoTextControllerValidator;
+  String? _moblienoTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for houseno widget.
+  FocusNode? housenoFocusNode;
+  TextEditingController? housenoTextController;
+  String? Function(BuildContext, String?)? housenoTextControllerValidator;
+  String? _housenoTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for laneno widget.
+  FocusNode? lanenoFocusNode;
+  TextEditingController? lanenoTextController;
+  String? Function(BuildContext, String?)? lanenoTextControllerValidator;
+  String? _lanenoTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for landmark widget.
+  FocusNode? landmarkFocusNode;
+  TextEditingController? landmarkTextController;
+  String? Function(BuildContext, String?)? landmarkTextControllerValidator;
+  String? _landmarkTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for city widget.
+  FocusNode? cityFocusNode;
+  TextEditingController? cityTextController;
+  String? Function(BuildContext, String?)? cityTextControllerValidator;
+  String? _cityTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for state widget.
+  FocusNode? stateFocusNode;
+  TextEditingController? stateTextController;
+  String? Function(BuildContext, String?)? stateTextControllerValidator;
+  String? _stateTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    return null;
+  }
+
+  // State field(s) for pincode widget.
+  FocusNode? pincodeFocusNode;
+  TextEditingController? pincodeTextController;
+  String? Function(BuildContext, String?)? pincodeTextControllerValidator;
+  String? _pincodeTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Field is required';
+    }
+
+    if (val.length < 6) {
+      return 'Enter 6 digit pincode ';
+    }
+
+    return null;
+  }
+
   // Stores action output result for [Backend Call - API (Update user profile )] action in Button widget.
   ApiCallResponse? apiResultuserupdate;
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    nameTextControllerValidator = _nameTextControllerValidator;
+    moblienoTextControllerValidator = _moblienoTextControllerValidator;
+    housenoTextControllerValidator = _housenoTextControllerValidator;
+    lanenoTextControllerValidator = _lanenoTextControllerValidator;
+    landmarkTextControllerValidator = _landmarkTextControllerValidator;
+    cityTextControllerValidator = _cityTextControllerValidator;
+    stateTextControllerValidator = _stateTextControllerValidator;
+    pincodeTextControllerValidator = _pincodeTextControllerValidator;
+  }
 
   @override
   void dispose() {
     unfocusNode.dispose();
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
+    nameFocusNode?.dispose();
+    nameTextController?.dispose();
 
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    moblienoFocusNode?.dispose();
+    moblienoTextController?.dispose();
 
-    textFieldFocusNode3?.dispose();
-    textController3?.dispose();
+    housenoFocusNode?.dispose();
+    housenoTextController?.dispose();
 
-    textFieldFocusNode4?.dispose();
-    textController4?.dispose();
+    lanenoFocusNode?.dispose();
+    lanenoTextController?.dispose();
 
-    textFieldFocusNode5?.dispose();
-    textController5?.dispose();
+    landmarkFocusNode?.dispose();
+    landmarkTextController?.dispose();
 
-    textFieldFocusNode6?.dispose();
-    textController6?.dispose();
+    cityFocusNode?.dispose();
+    cityTextController?.dispose();
 
-    textFieldFocusNode7?.dispose();
-    textController7?.dispose();
+    stateFocusNode?.dispose();
+    stateTextController?.dispose();
 
-    textFieldFocusNode8?.dispose();
-    textController8?.dispose();
+    pincodeFocusNode?.dispose();
+    pincodeTextController?.dispose();
   }
 }

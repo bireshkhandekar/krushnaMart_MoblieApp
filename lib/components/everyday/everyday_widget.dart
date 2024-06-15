@@ -1,5 +1,6 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -70,6 +71,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
           child: FutureBuilder<ApiCallResponse>(
             future: KMartAPIsGroup.getWalletBalanceCall.call(
               userId: currentUserData?.id,
+              token: currentAuthenticationToken,
             ),
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
@@ -115,7 +117,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                         Align(
                           alignment: const AlignmentDirectional(-1.0, -1.0),
                           child: Text(
-                            'Wallet Balence : ',
+                            'Wallet Balance : ',
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
@@ -185,8 +187,12 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                       final datePicked1Date =
                                           await showDatePicker(
                                         context: context,
-                                        initialDate: getCurrentTimestamp,
-                                        firstDate: DateTime(1900),
+                                        initialDate: (functions.dailystartdate(
+                                                getCurrentTimestamp) ??
+                                            DateTime.now()),
+                                        firstDate: (functions.dailystartdate(
+                                                getCurrentTimestamp) ??
+                                            DateTime(1900)),
                                         lastDate: (functions.limitDateselect(
                                                 getCurrentTimestamp) ??
                                             DateTime(2050)),
@@ -304,8 +310,12 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                       final datePicked2Date =
                                           await showDatePicker(
                                         context: context,
-                                        initialDate: getCurrentTimestamp,
-                                        firstDate: DateTime(1900),
+                                        initialDate: (functions.dailystartdate(
+                                                getCurrentTimestamp) ??
+                                            DateTime.now()),
+                                        firstDate: (functions.dailystartdate(
+                                                getCurrentTimestamp) ??
+                                            DateTime(1900)),
                                         lastDate: (functions.limitDateselect(
                                                 getCurrentTimestamp) ??
                                             DateTime(2050)),
@@ -502,6 +512,60 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               ),
                               FFButtonWidget(
                                 onPressed: () async {
+                                  if (currentAuthenticationToken != null &&
+                                      currentAuthenticationToken != '') {
+                                    _model.apiResulta5j = await KMartAPIsGroup
+                                        .tokenValidetionCall
+                                        .call(
+                                      token: currentAuthenticationToken,
+                                    );
+                                    if (!(_model.apiResulta5j?.succeeded ??
+                                        true)) {
+                                      _model.apiResultrefreshtoken =
+                                          await KMartAPIsGroup.refreshTokenCall
+                                              .call(
+                                        refreshToken: currentAuthRefreshToken,
+                                      );
+                                      if ((_model.apiResultrefreshtoken
+                                              ?.succeeded ??
+                                          true)) {
+                                        authManager.updateAuthUserData(
+                                          authenticationToken: getJsonField(
+                                            (_model.apiResultrefreshtoken
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.data.access_token''',
+                                          ).toString(),
+                                          refreshToken: currentAuthRefreshToken,
+                                          authUid: currentUserUid,
+                                          userData: UserStruct(
+                                            id: currentUserData?.id,
+                                            userName: currentUserData?.userName,
+                                            moblieNumber:
+                                                currentUserData?.moblieNumber,
+                                            shippingAddress: currentUserData
+                                                ?.shippingAddress,
+                                            houseNo: currentUserData?.houseNo,
+                                            lineNo: currentUserData?.lineNo,
+                                            landMark: currentUserData?.landMark,
+                                            city: currentUserData?.city,
+                                            state: currentUserData?.state,
+                                            pincode: currentUserData?.pincode,
+                                          ),
+                                        );
+                                      } else {
+                                        context.pushNamed(
+                                          'LoginPage',
+                                          queryParameters: {
+                                            'pageName': serializeParam(
+                                              'profilePage',
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      }
+                                    }
+                                  }
                                   if (_model.formKey.currentState == null ||
                                       !_model.formKey.currentState!
                                           .validate()) {
@@ -608,7 +672,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               Align(
                                 alignment: const AlignmentDirectional(-1.0, -1.0),
                                 child: Text(
-                                  'Wallet Balence : ',
+                                  'Wallet Balance : ',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(

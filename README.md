@@ -1,4 +1,4 @@
-# KrishnaMartapp
+# KrishnaMart
 
 A new Flutter project.
 

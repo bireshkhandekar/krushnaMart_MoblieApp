@@ -3,8 +3,8 @@ import 'package:rxdart/rxdart.dart';
 import '/backend/schema/structs/index.dart';
 import 'custom_auth_manager.dart';
 
-class KrishnaMartappAuthUser {
-  KrishnaMartappAuthUser({
+class KrishnaMartAuthUser {
+  KrishnaMartAuthUser({
     required this.loggedIn,
     this.uid,
     this.userData,
@@ -16,9 +16,9 @@ class KrishnaMartappAuthUser {
 }
 
 /// Generates a stream of the authenticated user.
-BehaviorSubject<KrishnaMartappAuthUser> krishnaMartappAuthUserSubject =
-    BehaviorSubject.seeded(KrishnaMartappAuthUser(loggedIn: false));
-Stream<KrishnaMartappAuthUser> krishnaMartappAuthUserStream() =>
-    krishnaMartappAuthUserSubject
+BehaviorSubject<KrishnaMartAuthUser> krishnaMartAuthUserSubject =
+    BehaviorSubject.seeded(KrishnaMartAuthUser(loggedIn: false));
+Stream<KrishnaMartAuthUser> krishnaMartAuthUserStream() =>
+    krishnaMartAuthUserSubject
         .asBroadcastStream()
         .map((user) => currentUser = user);

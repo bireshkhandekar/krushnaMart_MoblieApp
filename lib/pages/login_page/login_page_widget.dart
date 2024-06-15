@@ -10,7 +10,12 @@ import 'login_page_model.dart';
 export 'login_page_model.dart';
 
 class LoginPageWidget extends StatefulWidget {
-  const LoginPageWidget({super.key});
+  const LoginPageWidget({
+    super.key,
+    this.pageName,
+  });
+
+  final String? pageName;
 
   @override
   State<LoginPageWidget> createState() => _LoginPageWidgetState();
@@ -190,7 +195,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                       0.0,
                                                                 ),
                                                         hintText:
-                                                            'Moblie Number :',
+                                                            'Mobile Number :',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -421,44 +426,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                 Align(
                                                   alignment:
                                                       const AlignmentDirectional(
-                                                          1.0, -1.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 10.0,
-                                                                20.0, 0.0),
-                                                    child: InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        context.pushNamed(
-                                                            'ForgotPasswordPage');
-                                                      },
-                                                      child: Text(
-                                                        'Forgot PIN ?',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 18.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      const AlignmentDirectional(
                                                           0.0, 0.0),
                                                   child: Padding(
                                                     padding:
@@ -493,7 +460,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 ?.succeeded ??
                                                             true)) {
                                                           GoRouter.of(context)
-                                                              .prepareAuthEvent();
+                                                              .prepareAuthEvent(
+                                                                  true);
                                                           await authManager
                                                               .signIn(
                                                             authenticationToken:
@@ -537,19 +505,19 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                 (_model.apiResult
                                                                         ?.jsonBody ??
                                                                     ''),
-                                                                r'''$.data.user.mobilenumber''',
+                                                                r'''$.data.user.mobile_number''',
                                                               ).toString(),
                                                               shippingAddress:
                                                                   '${getJsonField(
                                                                 (_model.apiResult
                                                                         ?.jsonBody ??
                                                                     ''),
-                                                                r'''$.data.user.address.houseno ''',
+                                                                r'''$.data.user.address.house_no ''',
                                                               ).toString()} ${getJsonField(
                                                                 (_model.apiResult
                                                                         ?.jsonBody ??
                                                                     ''),
-                                                                r'''$.data.user.address.lineno ''',
+                                                                r'''$.data.user.address.line_no ''',
                                                               ).toString()} ${getJsonField(
                                                                 (_model.apiResult
                                                                         ?.jsonBody ??
@@ -571,12 +539,73 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                     ''),
                                                                 r'''$.data.user.pincode''',
                                                               ).toString()}',
+                                                              houseNo:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.house_no''',
+                                                              ).toString(),
+                                                              lineNo:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.line_no''',
+                                                              ).toString(),
+                                                              landMark:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.address.landmark''',
+                                                              ).toString(),
+                                                              city:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.city''',
+                                                              ).toString(),
+                                                              state:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.state''',
+                                                              ).toString(),
+                                                              pincode:
+                                                                  getJsonField(
+                                                                (_model.apiResult
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.user.pincode''',
+                                                              ).toString(),
                                                             ),
                                                           );
-
-                                                          setState(() {});
-                                                          Navigator.pop(
-                                                              context);
+                                                          if (() {
+                                                            if (widget
+                                                                    .pageName ==
+                                                                'profilePage') {
+                                                              return true;
+                                                            } else if (widget
+                                                                    .pageName ==
+                                                                'registration') {
+                                                              return true;
+                                                            } else {
+                                                              return false;
+                                                            }
+                                                          }()) {
+                                                            context.goNamedAuth(
+                                                              'ProductsPage',
+                                                              context.mounted,
+                                                              ignoreRedirect:
+                                                                  true,
+                                                            );
+                                                          } else {
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
                                                         } else {
                                                           ScaffoldMessenger.of(
                                                                   context)

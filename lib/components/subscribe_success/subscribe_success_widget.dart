@@ -98,21 +98,6 @@ class _SubscribeSuccessWidgetState extends State<SubscribeSuccessWidget> {
                   ),
                 ),
               ),
-              Align(
-                alignment: const AlignmentDirectional(0.0, -1.0),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
-                  child: Text(
-                    'Subscribe Id : ',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Readex Pro',
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w300,
-                        ),
-                  ),
-                ),
-              ),
             ],
           ),
           Padding(

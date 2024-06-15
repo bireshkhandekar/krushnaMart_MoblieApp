@@ -1,5 +1,6 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
+import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/components/order_failed/order_failed_widget.dart';
 import '/components/order_success/order_success_widget.dart';
@@ -245,6 +246,8 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                                   .getWalletBalanceCall
                                                   .call(
                                                 userId: currentUserData?.id,
+                                                token:
+                                                    currentAuthenticationToken,
                                               ),
                                               builder: (context, snapshot) {
                                                 // Customize what your widget looks like when it's loading.
@@ -269,11 +272,14 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                                 final textGetWalletBalanceResponse =
                                                     snapshot.data!;
                                                 return Text(
-                                                  'Rs ${getJsonField(
-                                                    textGetWalletBalanceResponse
-                                                        .jsonBody,
-                                                    r'''$.data.wallet_balance''',
-                                                  ).toString()}',
+                                                  valueOrDefault<String>(
+                                                    'Rs ${getJsonField(
+                                                      textGetWalletBalanceResponse
+                                                          .jsonBody,
+                                                      r'''$.data.wallet_balance''',
+                                                    ).toString()}',
+                                                    '000',
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium
@@ -665,14 +671,74 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                             const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            var shouldSetState = false;
+                            if (currentAuthenticationToken != null &&
+                                currentAuthenticationToken != '') {
+                              _model.walletapiResulta5j =
+                                  await KMartAPIsGroup.tokenValidetionCall.call(
+                                token: currentAuthenticationToken,
+                              );
+                              shouldSetState = true;
+                              if (!(_model.walletapiResulta5j?.succeeded ??
+                                  true)) {
+                                _model.walletapiResultrefreshtoken =
+                                    await KMartAPIsGroup.refreshTokenCall.call(
+                                  refreshToken: currentAuthRefreshToken,
+                                );
+                                shouldSetState = true;
+                                if ((_model.walletapiResultrefreshtoken
+                                        ?.succeeded ??
+                                    true)) {
+                                  authManager.updateAuthUserData(
+                                    authenticationToken: getJsonField(
+                                      (_model.walletapiResultrefreshtoken
+                                              ?.jsonBody ??
+                                          ''),
+                                      r'''$.data.access_token''',
+                                    ).toString(),
+                                    refreshToken: currentAuthRefreshToken,
+                                    authUid: currentUserUid,
+                                    userData: UserStruct(
+                                      id: currentUserData?.id,
+                                      userName: currentUserData?.userName,
+                                      moblieNumber:
+                                          currentUserData?.moblieNumber,
+                                      shippingAddress:
+                                          currentUserData?.shippingAddress,
+                                      houseNo: currentUserData?.houseNo,
+                                      lineNo: currentUserData?.lineNo,
+                                      landMark: currentUserData?.landMark,
+                                      city: currentUserData?.city,
+                                      state: currentUserData?.state,
+                                      pincode: currentUserData?.pincode,
+                                    ),
+                                  );
+                                } else {
+                                  context.pushNamed('LoginPage');
+
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
+                              }
+                            } else {
+                              context.pushNamed('LoginPage');
+
+                              if (shouldSetState) setState(() {});
+                              return;
+                            }
+
                             _model.allitems =
                                 await SQLiteManager.instance.allget();
+                            shouldSetState = true;
                             _model.totalprice =
                                 await SQLiteManager.instance.getTotalprice();
+                            shouldSetState = true;
                             _model.getWalletBalence =
                                 await KMartAPIsGroup.getWalletBalanceCall.call(
                               userId: currentUserData?.id,
+                              token: currentAuthenticationToken,
                             );
+                            shouldSetState = true;
                             _model.walletbalencecheck =
                                 await actions.walletBalenceCheck(
                               _model.totalprice!.first.totalPrice!,
@@ -681,131 +747,98 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                 r'''$.data.wallet_balance''',
                               ),
                             );
+                            shouldSetState = true;
                             if (_model.walletbalencecheck == true) {
-                              _model.deductfundResult = await KMartAPIsGroup
-                                  .deductfundsWalletCall
-                                  .call(
-                                userId: currentUserData?.id,
-                                purchaseAmount:
+                              _model.orderresponce =
+                                  await KMartAPIsGroup.orderApiCall.call(
+                                customerId: currentUserData?.id,
+                                customerName: currentUserData?.userName,
+                                mobileNumber: currentUserData?.moblieNumber,
+                                shippingAddress:
+                                    currentUserData?.shippingAddress,
+                                orderTotal:
                                     _model.totalprice?.first.totalPrice,
+                                paymentMode: 'wallet',
+                                paymentStatus: 'completed',
+                                orderType: 'regular',
+                                orderItemsJson: functions.convertToitem(
+                                    _model.allitems!
+                                        .map((e) => e.itemid)
+                                        .toList(),
+                                    _model.allitems!
+                                        .map((e) => e.productName)
+                                        .toList(),
+                                    _model.allitems!
+                                        .map((e) => e.price)
+                                        .toList(),
+                                    _model.allitems!
+                                        .map((e) => e.quantity)
+                                        .toList()),
+                                token: currentAuthenticationToken,
                               );
-                              if ((_model.deductfundResult?.succeeded ??
-                                  true)) {
-                                _model.orderresponce =
-                                    await KMartAPIsGroup.orderApiCall.call(
-                                  customerId: currentUserData?.id,
-                                  customerName: currentUserData?.userName,
-                                  mobileNumber: currentUserData?.moblieNumber,
-                                  shippingAddress:
-                                      currentUserData?.shippingAddress,
-                                  orderTotal:
-                                      _model.totalprice?.first.totalPrice,
-                                  paymentMode: 'wallet',
-                                  paymentStatus: 'completed',
-                                  orderType: 'regular',
-                                  orderItemsJson: functions.convertToitem(
-                                      _model.allitems!
-                                          .map((e) => e.itemid)
-                                          .toList(),
-                                      _model.allitems!
-                                          .map((e) => e.productName)
-                                          .toList(),
-                                      _model.allitems!
-                                          .map((e) => e.price)
-                                          .toList(),
-                                      _model.allitems!
-                                          .map((e) => e.quantity)
-                                          .toList()),
-                                );
-                                if ((_model.orderresponce?.succeeded ?? true)) {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (dialogContext) {
-                                      return Dialog(
-                                        elevation: 0,
-                                        insetPadding: EdgeInsets.zero,
-                                        backgroundColor: Colors.transparent,
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                        child: GestureDetector(
-                                          onTap: () => _model
-                                                  .unfocusNode.canRequestFocus
-                                              ? FocusScope.of(context)
-                                                  .requestFocus(
-                                                      _model.unfocusNode)
-                                              : FocusScope.of(context)
-                                                  .unfocus(),
-                                          child: SizedBox(
-                                            height: 340.0,
-                                            width: 300.0,
-                                            child: OrderSuccessWidget(
-                                              orderId: getJsonField(
-                                                (_model.orderresponce
-                                                        ?.jsonBody ??
-                                                    ''),
-                                                r'''$.data.order_id''',
-                                              ).toString(),
-                                            ),
+                              shouldSetState = true;
+                              if ((_model.orderresponce?.succeeded ?? true)) {
+                                await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return Dialog(
+                                      elevation: 0,
+                                      insetPadding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                      alignment: const AlignmentDirectional(0.0, 0.0)
+                                          .resolve(Directionality.of(context)),
+                                      child: GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: SizedBox(
+                                          height: 340.0,
+                                          width: 300.0,
+                                          child: OrderSuccessWidget(
+                                            orderId: getJsonField(
+                                              (_model.orderresponce?.jsonBody ??
+                                                  ''),
+                                              r'''$.data.order_id''',
+                                            ).toString(),
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ).then((value) => setState(() {}));
-
-                                  context.goNamed('ProductsPage');
-
-                                  await SQLiteManager.instance.deleteAll();
-                                } else {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (dialogContext) {
-                                      return Dialog(
-                                        elevation: 0,
-                                        insetPadding: EdgeInsets.zero,
-                                        backgroundColor: Colors.transparent,
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                        child: GestureDetector(
-                                          onTap: () => _model
-                                                  .unfocusNode.canRequestFocus
-                                              ? FocusScope.of(context)
-                                                  .requestFocus(
-                                                      _model.unfocusNode)
-                                              : FocusScope.of(context)
-                                                  .unfocus(),
-                                          child: const SizedBox(
-                                            height: 300.0,
-                                            width: 300.0,
-                                            child: OrderFailedWidget(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ).then((value) => setState(() {}));
-                                }
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      getJsonField(
-                                        (_model.deductfundResult?.jsonBody ??
-                                            ''),
-                                        r'''$.data.error''',
-                                      ).toString(),
-                                      style: TextStyle(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
                                       ),
-                                    ),
-                                    duration: const Duration(milliseconds: 1000),
-                                    backgroundColor:
-                                        FlutterFlowTheme.of(context).error,
-                                  ),
-                                );
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
+
+                                context.goNamed('ProductsPage');
+
+                                await SQLiteManager.instance.deleteAll();
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (dialogContext) {
+                                    return Dialog(
+                                      elevation: 0,
+                                      insetPadding: EdgeInsets.zero,
+                                      backgroundColor: Colors.transparent,
+                                      alignment: const AlignmentDirectional(0.0, 0.0)
+                                          .resolve(Directionality.of(context)),
+                                      child: GestureDetector(
+                                        onTap: () => _model
+                                                .unfocusNode.canRequestFocus
+                                            ? FocusScope.of(context)
+                                                .requestFocus(
+                                                    _model.unfocusNode)
+                                            : FocusScope.of(context).unfocus(),
+                                        child: const SizedBox(
+                                          height: 300.0,
+                                          width: 300.0,
+                                          child: OrderFailedWidget(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => setState(() {}));
                               }
                             } else {
                               var confirmDialogResponse =
@@ -814,7 +847,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                         builder: (alertDialogContext) {
                                           return AlertDialog(
                                             content: const Text(
-                                                'Insufficient Balence Please add the Amount in your Wallet.'),
+                                                'Insufficient Balance Please add the Amount in your Wallet.'),
                                             actions: [
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
@@ -838,7 +871,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               }
                             }
 
-                            setState(() {});
+                            if (shouldSetState) setState(() {});
                           },
                           text: 'PLACE ORDER',
                           options: FFButtonOptions(
@@ -877,10 +910,68 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                             const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            var shouldSetState = false;
+                            if (currentAuthenticationToken != null &&
+                                currentAuthenticationToken != '') {
+                              _model.onlineapiResulta5j =
+                                  await KMartAPIsGroup.tokenValidetionCall.call(
+                                token: currentAuthenticationToken,
+                              );
+                              shouldSetState = true;
+                              if (!(_model.onlineapiResulta5j?.succeeded ??
+                                  true)) {
+                                _model.onlineapiResultrefreshtoken =
+                                    await KMartAPIsGroup.refreshTokenCall.call(
+                                  refreshToken: currentAuthRefreshToken,
+                                );
+                                shouldSetState = true;
+                                if ((_model.onlineapiResultrefreshtoken
+                                        ?.succeeded ??
+                                    true)) {
+                                  authManager.updateAuthUserData(
+                                    authenticationToken: getJsonField(
+                                      (_model.onlineapiResultrefreshtoken
+                                              ?.jsonBody ??
+                                          ''),
+                                      r'''$.data.access_token''',
+                                    ).toString(),
+                                    refreshToken: currentAuthRefreshToken,
+                                    authUid: currentUserUid,
+                                    userData: UserStruct(
+                                      id: currentUserData?.id,
+                                      userName: currentUserData?.userName,
+                                      moblieNumber:
+                                          currentUserData?.moblieNumber,
+                                      shippingAddress:
+                                          currentUserData?.shippingAddress,
+                                      houseNo: currentUserData?.houseNo,
+                                      lineNo: currentUserData?.lineNo,
+                                      landMark: currentUserData?.landMark,
+                                      city: currentUserData?.city,
+                                      state: currentUserData?.state,
+                                      pincode: currentUserData?.pincode,
+                                    ),
+                                  );
+                                } else {
+                                  context.pushNamed('LoginPage');
+
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
+                              }
+                            } else {
+                              context.pushNamed('LoginPage');
+
+                              if (shouldSetState) setState(() {});
+                              return;
+                            }
+
                             _model.allitemsonline =
                                 await SQLiteManager.instance.allget();
+                            shouldSetState = true;
                             _model.totalpriceonline =
                                 await SQLiteManager.instance.getTotalprice();
+                            shouldSetState = true;
                             _model.onlinePaymentResult =
                                 await actions.razorpayaction(
                               context,
@@ -889,6 +980,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               'Regular Order Place.',
                               currentUserData!.moblieNumber,
                             );
+                            shouldSetState = true;
                             if (functions.paymentcondition(getJsonField(
                               _model.onlinePaymentResult,
                               r'''$.status''',
@@ -903,7 +995,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                 shippingAddress:
                                     currentUserData?.shippingAddress,
                                 paymentMode: 'online',
-                                paymentStatus: 'Competed',
+                                paymentStatus: 'completed',
                                 orderType: 'regular',
                                 orderItemsJson: functions.convertToitem(
                                     _model.allitemsonline!
@@ -922,7 +1014,9 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   _model.onlinePaymentResult,
                                   r'''$.paymentId''',
                                 ).toString(),
+                                token: currentAuthenticationToken,
                               );
+                              shouldSetState = true;
                               if ((_model.orderresponceonline?.succeeded ??
                                   true)) {
                                 await showDialog(
@@ -1005,7 +1099,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               );
                             }
 
-                            setState(() {});
+                            if (shouldSetState) setState(() {});
                           },
                           text: 'PLACE ORDER',
                           options: FFButtonOptions(
@@ -1044,10 +1138,68 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                             const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 16.0),
                         child: FFButtonWidget(
                           onPressed: () async {
+                            var shouldSetState = false;
+                            if (currentAuthenticationToken != null &&
+                                currentAuthenticationToken != '') {
+                              _model.cashapiResulta5j =
+                                  await KMartAPIsGroup.tokenValidetionCall.call(
+                                token: currentAuthenticationToken,
+                              );
+                              shouldSetState = true;
+                              if (!(_model.cashapiResulta5j?.succeeded ??
+                                  true)) {
+                                _model.cashapiResultrefreshtoken =
+                                    await KMartAPIsGroup.refreshTokenCall.call(
+                                  refreshToken: currentAuthRefreshToken,
+                                );
+                                shouldSetState = true;
+                                if ((_model
+                                        .cashapiResultrefreshtoken?.succeeded ??
+                                    true)) {
+                                  authManager.updateAuthUserData(
+                                    authenticationToken: getJsonField(
+                                      (_model.cashapiResultrefreshtoken
+                                              ?.jsonBody ??
+                                          ''),
+                                      r'''$.data.access_token''',
+                                    ).toString(),
+                                    refreshToken: currentAuthRefreshToken,
+                                    authUid: currentUserUid,
+                                    userData: UserStruct(
+                                      id: currentUserData?.id,
+                                      userName: currentUserData?.userName,
+                                      moblieNumber:
+                                          currentUserData?.moblieNumber,
+                                      shippingAddress:
+                                          currentUserData?.shippingAddress,
+                                      houseNo: currentUserData?.houseNo,
+                                      lineNo: currentUserData?.lineNo,
+                                      landMark: currentUserData?.landMark,
+                                      city: currentUserData?.city,
+                                      state: currentUserData?.state,
+                                      pincode: currentUserData?.pincode,
+                                    ),
+                                  );
+                                } else {
+                                  context.pushNamed('LoginPage');
+
+                                  if (shouldSetState) setState(() {});
+                                  return;
+                                }
+                              }
+                            } else {
+                              context.pushNamed('LoginPage');
+
+                              if (shouldSetState) setState(() {});
+                              return;
+                            }
+
                             _model.allgetitemcash =
                                 await SQLiteManager.instance.allget();
+                            shouldSetState = true;
                             _model.getTotalpricecash =
                                 await SQLiteManager.instance.getTotalprice();
+                            shouldSetState = true;
                             _model.cashorderApiresult =
                                 await KMartAPIsGroup.cashOrderCall.call(
                               customerId: currentUserData?.id,
@@ -1073,7 +1225,9 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               paymentStatus: 'pending',
                               orderType: 'regular',
                               orderStatus: 'pending',
+                              token: currentAuthenticationToken,
                             );
+                            shouldSetState = true;
                             if ((_model.cashorderApiresult?.succeeded ??
                                 true)) {
                               await showDialog(
@@ -1138,7 +1292,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               ).then((value) => setState(() {}));
                             }
 
-                            setState(() {});
+                            if (shouldSetState) setState(() {});
                           },
                           text: 'PLACE ORDER',
                           options: FFButtonOptions(

@@ -31,13 +31,13 @@ class CustomAuthManager {
     uid = null;
     userData = null;
     // Update the current user.
-    krishnaMartappAuthUserSubject.add(
-      KrishnaMartappAuthUser(loggedIn: false),
+    krishnaMartAuthUserSubject.add(
+      KrishnaMartAuthUser(loggedIn: false),
     );
     persistAuthData();
   }
 
-  Future<KrishnaMartappAuthUser?> signIn({
+  Future<KrishnaMartAuthUser?> signIn({
     String? authenticationToken,
     String? refreshToken,
     DateTime? tokenExpiration,
@@ -73,7 +73,7 @@ class CustomAuthManager {
     );
   }
 
-  KrishnaMartappAuthUser? _updateCurrentUser({
+  KrishnaMartAuthUser? _updateCurrentUser({
     String? authenticationToken,
     String? refreshToken,
     DateTime? tokenExpiration,
@@ -86,12 +86,12 @@ class CustomAuthManager {
     uid = authUid;
     this.userData = userData;
     // Update the current user stream.
-    final updatedUser = KrishnaMartappAuthUser(
+    final updatedUser = KrishnaMartAuthUser(
       loggedIn: true,
       uid: authUid,
       userData: userData,
     );
-    krishnaMartappAuthUserSubject.add(updatedUser);
+    krishnaMartAuthUserSubject.add(updatedUser);
     persistAuthData();
     return updatedUser;
   }
@@ -124,12 +124,12 @@ class CustomAuthManager {
     final authTokenExists = authenticationToken != null;
     final tokenExpired =
         tokenExpiration != null && tokenExpiration!.isBefore(DateTime.now());
-    final updatedUser = KrishnaMartappAuthUser(
+    final updatedUser = KrishnaMartAuthUser(
       loggedIn: authTokenExists && !tokenExpired,
       uid: uid,
       userData: userData,
     );
-    krishnaMartappAuthUserSubject.add(updatedUser);
+    krishnaMartAuthUserSubject.add(updatedUser);
   }
 
   void persistAuthData() {
@@ -151,5 +151,5 @@ class CustomAuthManager {
   }
 }
 
-KrishnaMartappAuthUser? currentUser;
+KrishnaMartAuthUser? currentUser;
 bool get loggedIn => currentUser?.loggedIn ?? false;

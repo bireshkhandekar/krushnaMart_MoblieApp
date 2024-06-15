@@ -12,6 +12,6 @@ import 'package:flutter/material.dart';
 Future navigateAfterDelay(BuildContext context) async {
   // Add your function code here!
   Future.delayed(Duration(milliseconds: 100), () {
-    context.pushNamed('HomePage');
+    context.goNamed('HomePage');
   });
 }

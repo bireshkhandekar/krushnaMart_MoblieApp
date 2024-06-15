@@ -50,12 +50,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
-  late Stream<KrishnaMartappAuthUser> userStream;
+  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
+
+  late Stream<KrishnaMartAuthUser> userStream;
 
   @override
   void initState() {
@@ -63,8 +64,10 @@ class _MyAppState extends State<MyApp> {
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    userStream = krishnaMartappAuthUserStream()
-      ..listen((user) => _appStateNotifier.update(user));
+    userStream = krishnaMartAuthUserStream()
+      ..listen((user) {
+        _appStateNotifier.update(user);
+      });
 
     Future.delayed(
       const Duration(milliseconds: 4),
@@ -84,7 +87,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'KrishnaMartapp',
+      title: 'KrishnaMart',
       localizationsDelegates: const [
         FFLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,

@@ -1,6 +1,8 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
+import '/components/connection_lose/connection_lose_widget.dart';
+import '/components/empty_tr_list/empty_tr_list_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -12,6 +14,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -609,7 +612,38 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             size: 30.0,
                           ),
                           onPressed: () async {
-                            context.pushNamed('MyCartPage');
+                            if (badgeCountitemsRowList.first.rowCount != 0) {
+                              context.pushNamed('MyCartPage');
+                            } else {
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: const Text(
+                                                'Your cart is empty. Plz start shopping now'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: const Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (confirmDialogResponse) {
+                                context.pushNamed('ProductsPage');
+                              } else {
+                                Navigator.pop(context);
+                              }
+                            }
                           },
                         ),
                       );
@@ -625,150 +659,163 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             builder: (context) {
               return SafeArea(
                 top: false,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 2.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).alternate,
-                          ),
-                          child: Align(
-                            alignment: const AlignmentDirectional(0.0, 1.0),
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 1.0, 0.0, 1.0),
-                              child: FutureBuilder<ApiCallResponse>(
-                                future: KMartAPIsGroup.getHeroImagesCall.call(),
-                                builder: (context, snapshot) {
-                                  // Customize what your widget looks like when it's loading.
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                      child: SizedBox(
-                                        width: 40.0,
-                                        height: 40.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  final carouselGetHeroImagesResponse =
-                                      snapshot.data!;
-                                  return Builder(
-                                    builder: (context) {
-                                      final heroimage =
-                                          KMartAPIsGroup.getHeroImagesCall
-                                                  .heroimage(
-                                                    carouselGetHeroImagesResponse
-                                                        .jsonBody,
-                                                  )
-                                                  ?.toList() ??
-                                              [];
-                                      if (heroimage.isEmpty) {
-                                        return Image.asset(
-                                          '',
-                                        );
-                                      }
-                                      return SizedBox(
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.27,
-                                        child: CarouselSlider.builder(
-                                          itemCount: heroimage.length,
-                                          itemBuilder:
-                                              (context, heroimageIndex, _) {
-                                            final heroimageItem =
-                                                heroimage[heroimageIndex];
-                                            return ClipRRect(
-                                              borderRadius: const BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(0.0),
-                                                bottomRight:
-                                                    Radius.circular(0.0),
-                                                topLeft: Radius.circular(0.0),
-                                                topRight: Radius.circular(0.0),
-                                              ),
-                                              child: Image.network(
-                                                heroimageItem,
-                                                width: 300.0,
-                                                height: 200.0,
-                                                fit: BoxFit.fill,
-                                              ),
-                                            );
-                                          },
-                                          carouselController:
-                                              _model.carouselController ??=
-                                                  CarouselController(),
-                                          options: CarouselOptions(
-                                            initialPage: max(0,
-                                                min(1, heroimage.length - 1)),
-                                            viewportFraction: 1.0,
-                                            disableCenter: true,
-                                            enlargeCenterPage: true,
-                                            enlargeFactor: 0.16,
-                                            enableInfiniteScroll: true,
-                                            scrollDirection: Axis.horizontal,
-                                            autoPlay: true,
-                                            autoPlayAnimationDuration:
-                                                const Duration(milliseconds: 500),
-                                            autoPlayInterval: const Duration(
-                                                milliseconds: (500 + 2000)),
-                                            autoPlayCurve: Curves.linear,
-                                            pauseAutoPlayInFiniteScroll: true,
-                                            onPageChanged: (index, _) => _model
-                                                .carouselCurrentIndex = index,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
+                child: FutureBuilder<ApiCallResponse>(
+                  future: (_model.apiRequestCompleter ??=
+                          Completer<ApiCallResponse>()
+                            ..complete(KMartAPIsGroup.getItemsAPICall.call()))
+                      .future,
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: SpinKitCircle(
+                            color: FlutterFlowTheme.of(context).primary,
+                            size: 40.0,
                           ),
                         ),
-                      ),
-                      FutureBuilder<ApiCallResponse>(
-                        future: (_model.apiRequestCompleter ??= Completer<
-                                ApiCallResponse>()
-                              ..complete(KMartAPIsGroup.getItemsAPICall.call()))
-                            .future,
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
+                      );
+                    }
+                    final columnGetItemsAPIResponse = snapshot.data!;
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 2.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context).alternate,
+                              ),
+                              child: Align(
+                                alignment: const AlignmentDirectional(0.0, 1.0),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 1.0, 0.0, 1.0),
+                                  child: FutureBuilder<ApiCallResponse>(
+                                    future:
+                                        KMartAPIsGroup.getHeroImagesCall.call(),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 40.0,
+                                            height: 40.0,
+                                            child: SpinKitCircle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              size: 40.0,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      final carouselGetHeroImagesResponse =
+                                          snapshot.data!;
+                                      return Builder(
+                                        builder: (context) {
+                                          final heroimage =
+                                              KMartAPIsGroup.getHeroImagesCall
+                                                      .heroimage(
+                                                        carouselGetHeroImagesResponse
+                                                            .jsonBody,
+                                                      )
+                                                      ?.toList() ??
+                                                  [];
+                                          if (heroimage.isEmpty) {
+                                            return const Center(
+                                              child: SizedBox(
+                                                width: 0.5,
+                                                height: 0.5,
+                                                child: EmptyTrListWidget(),
+                                              ),
+                                            );
+                                          }
+                                          return SizedBox(
+                                            width: double.infinity,
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.27,
+                                            child: CarouselSlider.builder(
+                                              itemCount: heroimage.length,
+                                              itemBuilder:
+                                                  (context, heroimageIndex, _) {
+                                                final heroimageItem =
+                                                    heroimage[heroimageIndex];
+                                                return ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(0.0),
+                                                    bottomRight:
+                                                        Radius.circular(0.0),
+                                                    topLeft:
+                                                        Radius.circular(0.0),
+                                                    topRight:
+                                                        Radius.circular(0.0),
+                                                  ),
+                                                  child: Image.network(
+                                                    heroimageItem,
+                                                    width: 300.0,
+                                                    height: 200.0,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                );
+                                              },
+                                              carouselController:
+                                                  _model.carouselController ??=
+                                                      CarouselController(),
+                                              options: CarouselOptions(
+                                                initialPage: max(
+                                                    0,
+                                                    min(1,
+                                                        heroimage.length - 1)),
+                                                viewportFraction: 1.0,
+                                                disableCenter: true,
+                                                enlargeCenterPage: true,
+                                                enlargeFactor: 0.16,
+                                                enableInfiniteScroll: true,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                autoPlay: true,
+                                                autoPlayAnimationDuration:
+                                                    const Duration(milliseconds: 500),
+                                                autoPlayInterval: const Duration(
+                                                    milliseconds: (500 + 2000)),
+                                                autoPlayCurve: Curves.linear,
+                                                pauseAutoPlayInFiniteScroll:
+                                                    true,
+                                                onPageChanged: (index, _) =>
+                                                    _model.carouselCurrentIndex =
+                                                        index,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
-                            );
-                          }
-                          final listViewGetItemsAPIResponse = snapshot.data!;
-                          return Builder(
+                            ),
+                          ),
+                          Builder(
                             builder: (context) {
                               final eachItems = KMartAPIsGroup.getItemsAPICall
                                       .allitems(
-                                        listViewGetItemsAPIResponse.jsonBody,
+                                        columnGetItemsAPIResponse.jsonBody,
                                       )
                                       ?.toList() ??
                                   [];
                               if (eachItems.isEmpty) {
-                                return Image.asset(
-                                  '',
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.84,
+                                  child: const ConnectionLoseWidget(),
                                 );
                               }
                               return InkWell(
@@ -1105,7 +1152,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                               ),
                                                                             ),
                                                                             duration:
-                                                                                const Duration(milliseconds: 10000),
+                                                                                const Duration(milliseconds: 2000),
                                                                             backgroundColor:
                                                                                 FlutterFlowTheme.of(context).secondary,
                                                                           ),
@@ -1234,11 +1281,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 ),
                               );
                             },
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               );
             },

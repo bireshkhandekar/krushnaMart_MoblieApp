@@ -191,3 +191,49 @@ double? remainingbalenceCustom(
   }
   return walletBalence - orderAmount;
 }
+
+DateTime? dailystartdate(DateTime? currentDate) {
+  // A date next to the current date is required
+  final tomorrow = currentDate?.add(Duration(days: 1));
+  return tomorrow?.subtract(Duration(
+      hours: tomorrow.hour,
+      minutes: tomorrow.minute,
+      seconds: tomorrow.second,
+      milliseconds: tomorrow.millisecond,
+      microseconds: tomorrow.microsecond));
+}
+
+List<dynamic> convertlisttojson(
+  List<String>? dates,
+  List<int>? qty,
+) {
+  // There are two lists, it has to be converted into json
+  Map<String, dynamic> data = {
+    'dates': dates,
+    'qty': qty,
+  };
+  return [data]; //returning a list with a single map containing the data
+}
+
+List<dynamic>? customDatesMap(
+  List<String>? dates,
+  List<int>? qty,
+) {
+  // list to json convert
+  if (dates == null || qty == null || dates.length != qty.length) {
+    return null;
+  }
+
+  final List<dynamic> result = [];
+
+  for (int i = 0; i < dates.length; i++) {
+    final Map<String, dynamic> map = {
+      'id': i + 1,
+      'date': dates[i],
+      'qty': qty[i],
+    };
+    result.add(map);
+  }
+
+  return result;
+}

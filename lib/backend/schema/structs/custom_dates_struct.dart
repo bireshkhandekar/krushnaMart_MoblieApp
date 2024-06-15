@@ -16,14 +16,22 @@ class CustomDatesStruct extends BaseStruct {
   List<String>? _dates;
   List<String> get dates => _dates ?? const [];
   set dates(List<String>? val) => _dates = val;
-  void updateDates(Function(List<String>) updateFn) => updateFn(_dates ??= []);
+
+  void updateDates(Function(List<String>) updateFn) {
+    updateFn(dates ??= []);
+  }
+
   bool hasDates() => _dates != null;
 
   // "qty" field.
   List<int>? _qty;
   List<int> get qty => _qty ?? const [];
   set qty(List<int>? val) => _qty = val;
-  void updateQty(Function(List<int>) updateFn) => updateFn(_qty ??= []);
+
+  void updateQty(Function(List<int>) updateFn) {
+    updateFn(qty ??= []);
+  }
+
   bool hasQty() => _qty != null;
 
   static CustomDatesStruct fromMap(Map<String, dynamic> data) =>
@@ -46,12 +54,12 @@ class CustomDatesStruct extends BaseStruct {
         'dates': serializeParam(
           _dates,
           ParamType.String,
-          true,
+          isList: true,
         ),
         'qty': serializeParam(
           _qty,
           ParamType.int,
-          true,
+          isList: true,
         ),
       }.withoutNulls;
 

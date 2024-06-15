@@ -10,9 +10,13 @@ class CustomdateselectionWidget extends StatefulWidget {
   const CustomdateselectionWidget({
     super.key,
     required this.parameter1,
+    required this.index,
+    required this.qty,
   });
 
   final String? parameter1;
+  final int? index;
+  final int? qty;
 
   @override
   State<CustomdateselectionWidget> createState() =>
@@ -44,18 +48,24 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.parameter1!,
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Readex Pro',
-                  fontSize: 16.0,
-                  letterSpacing: 0.0,
-                ),
+          Expanded(
+            flex: 4,
+            child: Text(
+              valueOrDefault<String>(
+                widget.parameter1,
+                '10/10/2024',
+              ),
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    fontFamily: 'Readex Pro',
+                    fontSize: 16.0,
+                    letterSpacing: 0.0,
+                  ),
+            ),
           ),
           Container(
             width: 150.0,
@@ -88,18 +98,44 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
                 count.toString(),
                 style: FlutterFlowTheme.of(context).titleLarge.override(
                       fontFamily: 'Outfit',
-                      fontSize: 22.0,
                       letterSpacing: 0.0,
                     ),
               ),
-              count: _model.countControllerValue ??= 1,
+              count: _model.countControllerValue ??= widget.qty!,
               updateCount: (count) async {
                 setState(() => _model.countControllerValue = count);
                 FFAppState().customCalculate = false;
-                _model.updatePage(() {});
+                FFAppState().updateSelectedqtyAtIndex(
+                  widget.index!,
+                  (_) => _model.countControllerValue!,
+                );
+                setState(() {});
+                if (_model.countControllerValue == 0) {
+                  FFAppState().removeAtIndexFromCustomdatesjson(widget.index!);
+                  setState(() {});
+                }
               },
               stepSize: 1,
-              minimum: 1,
+              minimum: 0,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: InkWell(
+              splashColor: Colors.transparent,
+              focusColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () async {
+                FFAppState().removeAtIndexFromCustomdatesjson(widget.index!);
+                FFAppState().customCalculate = false;
+                setState(() {});
+              },
+              child: Icon(
+                Icons.delete_outline,
+                color: FlutterFlowTheme.of(context).error,
+                size: 24.0,
+              ),
             ),
           ),
         ],

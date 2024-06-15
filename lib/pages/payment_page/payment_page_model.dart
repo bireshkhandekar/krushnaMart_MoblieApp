@@ -14,6 +14,10 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   bool? checkboxValue2;
   // State field(s) for Checkbox widget.
   bool? checkboxValue3;
+  // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.
+  ApiCallResponse? walletapiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in Button widget.
+  ApiCallResponse? walletapiResultrefreshtoken;
   // Stores action output result for [Backend Call - SQLite (allget)] action in Button widget.
   List<AllgetRow>? allitems;
   // Stores action output result for [Backend Call - SQLite (getTotalprice)] action in Button widget.
@@ -22,10 +26,12 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   ApiCallResponse? getWalletBalence;
   // Stores action output result for [Custom Action - walletBalenceCheck] action in Button widget.
   bool? walletbalencecheck;
-  // Stores action output result for [Backend Call - API (DeductfundsWallet)] action in Button widget.
-  ApiCallResponse? deductfundResult;
   // Stores action output result for [Backend Call - API (orderApi)] action in Button widget.
   ApiCallResponse? orderresponce;
+  // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.
+  ApiCallResponse? onlineapiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in Button widget.
+  ApiCallResponse? onlineapiResultrefreshtoken;
   // Stores action output result for [Backend Call - SQLite (allget)] action in Button widget.
   List<AllgetRow>? allitemsonline;
   // Stores action output result for [Backend Call - SQLite (getTotalprice)] action in Button widget.
@@ -34,6 +40,10 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   dynamic onlinePaymentResult;
   // Stores action output result for [Backend Call - API (orderApi online)] action in Button widget.
   ApiCallResponse? orderresponceonline;
+  // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.
+  ApiCallResponse? cashapiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in Button widget.
+  ApiCallResponse? cashapiResultrefreshtoken;
   // Stores action output result for [Backend Call - SQLite (allget)] action in Button widget.
   List<AllgetRow>? allgetitemcash;
   // Stores action output result for [Backend Call - SQLite (getTotalprice)] action in Button widget.

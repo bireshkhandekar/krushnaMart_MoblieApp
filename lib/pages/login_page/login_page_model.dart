@@ -21,6 +21,9 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
     if (val.length < 10) {
       return 'Enter your 10 digit moblie number';
     }
+    if (val.length > 10) {
+      return 'Enter your 10 digit moblie number';
+    }
 
     return null;
   }
@@ -36,6 +39,9 @@ class LoginPageModel extends FlutterFlowModel<LoginPageWidget> {
     }
 
     if (val.length < 4) {
+      return 'Enter your 4 digit PIN';
+    }
+    if (val.length > 4) {
       return 'Enter your 4 digit PIN';
     }
 

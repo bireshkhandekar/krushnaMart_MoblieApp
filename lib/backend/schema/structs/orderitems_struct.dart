@@ -20,27 +20,34 @@ class OrderitemsStruct extends BaseStruct {
   int? _itemid;
   int get itemid => _itemid ?? 0;
   set itemid(int? val) => _itemid = val;
-  void incrementItemid(int amount) => _itemid = itemid + amount;
+
+  void incrementItemid(int amount) => itemid = itemid + amount;
+
   bool hasItemid() => _itemid != null;
 
   // "itemName" field.
   String? _itemName;
   String get itemName => _itemName ?? '';
   set itemName(String? val) => _itemName = val;
+
   bool hasItemName() => _itemName != null;
 
   // "itemPrice" field.
   double? _itemPrice;
   double get itemPrice => _itemPrice ?? 0.0;
   set itemPrice(double? val) => _itemPrice = val;
-  void incrementItemPrice(double amount) => _itemPrice = itemPrice + amount;
+
+  void incrementItemPrice(double amount) => itemPrice = itemPrice + amount;
+
   bool hasItemPrice() => _itemPrice != null;
 
   // "itemQty" field.
   int? _itemQty;
   int get itemQty => _itemQty ?? 0;
   set itemQty(int? val) => _itemQty = val;
-  void incrementItemQty(int amount) => _itemQty = itemQty + amount;
+
+  void incrementItemQty(int amount) => itemQty = itemQty + amount;
+
   bool hasItemQty() => _itemQty != null;
 
   static OrderitemsStruct fromMap(Map<String, dynamic> data) =>

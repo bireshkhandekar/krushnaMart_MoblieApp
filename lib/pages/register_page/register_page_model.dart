@@ -4,6 +4,10 @@ import 'register_page_widget.dart' show RegisterPageWidget;
 import 'package:flutter/material.dart';
 
 class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
+  ///  Local state fields for this page.
+
+  bool? pinMatch = true;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -33,6 +37,9 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     if (val.length < 10) {
       return 'Enter your 10 digit moblie number';
     }
+    if (val.length > 10) {
+      return 'Enter your 10 digit moblie number';
+    }
 
     return null;
   }
@@ -49,10 +56,18 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     return null;
   }
 
-  // State field(s) for lineNo widget.
-  FocusNode? lineNoFocusNode;
-  TextEditingController? lineNoTextController;
-  String? Function(BuildContext, String?)? lineNoTextControllerValidator;
+  // State field(s) for laneNo widget.
+  FocusNode? laneNoFocusNode;
+  TextEditingController? laneNoTextController;
+  String? Function(BuildContext, String?)? laneNoTextControllerValidator;
+  String? _laneNoTextControllerValidator(BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter your lane no ';
+    }
+
+    return null;
+  }
+
   // State field(s) for landMark widget.
   FocusNode? landMarkFocusNode;
   TextEditingController? landMarkTextController;
@@ -86,16 +101,51 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
       return 'Please enter your Pin code';
     }
 
+    if (val.length < 6) {
+      return 'Enter 6 digit Pin Code';
+    }
+
     return null;
   }
 
-  // State field(s) for state widget.
-  FocusNode? stateFocusNode;
-  TextEditingController? stateTextController;
-  String? Function(BuildContext, String?)? stateTextControllerValidator;
-  String? _stateTextControllerValidator(BuildContext context, String? val) {
+  // Stores action output result for [Backend Call - API (pincode)] action in pinCode widget.
+  ApiCallResponse? apiResultf07;
+  // State field(s) for pin widget.
+  FocusNode? pinFocusNode;
+  TextEditingController? pinTextController;
+  late bool pinVisibility;
+  String? Function(BuildContext, String?)? pinTextControllerValidator;
+  String? _pinTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter your State';
+      return 'Please enter pin';
+    }
+
+    if (val.length < 4) {
+      return 'Enter 4 digit PIN';
+    }
+    if (val.length > 4) {
+      return 'Enter 4 digit PIN';
+    }
+
+    return null;
+  }
+
+  // State field(s) for conformpin widget.
+  FocusNode? conformpinFocusNode;
+  TextEditingController? conformpinTextController;
+  late bool conformpinVisibility;
+  String? Function(BuildContext, String?)? conformpinTextControllerValidator;
+  String? _conformpinTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter conform pin';
+    }
+
+    if (val.length < 4) {
+      return 'Enter 4 digit PIN';
+    }
+    if (val.length > 4) {
+      return 'Enter 4 digit PIN';
     }
 
     return null;
@@ -109,10 +159,14 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     nameTextControllerValidator = _nameTextControllerValidator;
     mobileNumberTextControllerValidator = _mobileNumberTextControllerValidator;
     flatnoTextControllerValidator = _flatnoTextControllerValidator;
+    laneNoTextControllerValidator = _laneNoTextControllerValidator;
     landMarkTextControllerValidator = _landMarkTextControllerValidator;
     cityTextControllerValidator = _cityTextControllerValidator;
     pinCodeTextControllerValidator = _pinCodeTextControllerValidator;
-    stateTextControllerValidator = _stateTextControllerValidator;
+    pinVisibility = false;
+    pinTextControllerValidator = _pinTextControllerValidator;
+    conformpinVisibility = false;
+    conformpinTextControllerValidator = _conformpinTextControllerValidator;
   }
 
   @override
@@ -127,8 +181,8 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     flatnoFocusNode?.dispose();
     flatnoTextController?.dispose();
 
-    lineNoFocusNode?.dispose();
-    lineNoTextController?.dispose();
+    laneNoFocusNode?.dispose();
+    laneNoTextController?.dispose();
 
     landMarkFocusNode?.dispose();
     landMarkTextController?.dispose();
@@ -139,7 +193,10 @@ class RegisterPageModel extends FlutterFlowModel<RegisterPageWidget> {
     pinCodeFocusNode?.dispose();
     pinCodeTextController?.dispose();
 
-    stateFocusNode?.dispose();
-    stateTextController?.dispose();
+    pinFocusNode?.dispose();
+    pinTextController?.dispose();
+
+    conformpinFocusNode?.dispose();
+    conformpinTextController?.dispose();
   }
 }

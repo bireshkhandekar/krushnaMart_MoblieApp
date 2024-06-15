@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,12 +9,17 @@ class MyCartPageModel extends FlutterFlowModel<MyCartPageWidget> {
   ///  Local state fields for this page.
 
   OrderitemsStruct? orderitems;
-  void updateOrderitemsStruct(Function(OrderitemsStruct) updateFn) =>
-      updateFn(orderitems ??= OrderitemsStruct());
+  void updateOrderitemsStruct(Function(OrderitemsStruct) updateFn) {
+    updateFn(orderitems ??= OrderitemsStruct());
+  }
 
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
+  // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.
+  ApiCallResponse? apiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in Button widget.
+  ApiCallResponse? apiResultrefreshtoken;
   // Stores action output result for [Backend Call - SQLite (getTotalprice)] action in Button widget.
   List<GetTotalpriceRow>? getTotalprice;
   // Stores action output result for [Custom Action - checktotalAmountNull] action in Button widget.

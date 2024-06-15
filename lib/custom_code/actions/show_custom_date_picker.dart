@@ -14,13 +14,15 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 final today = DateUtils.dateOnly(DateTime.now());
 
-Future showCustomDatePicker(BuildContext context) async {
+Future<List<String>?> showCustomDatePicker(BuildContext context) async {
   List<DateTime?> _multiDatePickerValueWithDefaultValue = [];
 
   final config = CalendarDatePicker2Config(
     calendarType: CalendarDatePicker2Type.multi,
     selectedDayHighlightColor: Colors.indigo,
   );
+
+  List<String>? selectedDates;
 
   await showModalBottomSheet(
     context: context,
@@ -71,11 +73,11 @@ Future showCustomDatePicker(BuildContext context) async {
                             SizedBox(width: 16),
                             TextButton(
                               onPressed: () {
-                                _getValueText(
+                                selectedDates = _getValueText(
                                   config.calendarType,
                                   _multiDatePickerValueWithDefaultValue,
                                 );
-                                Navigator.pop(context);
+                                Navigator.pop(context, selectedDates);
                               },
                               child: Text(
                                 'OK',
@@ -97,26 +99,21 @@ Future showCustomDatePicker(BuildContext context) async {
       );
     },
   );
+
+  return selectedDates;
 }
 
-String _getValueText(
+List<String> _getValueText(
   CalendarDatePicker2Type datePickerType,
   List<DateTime?> values,
 ) {
   values = values.map((e) => e != null ? DateUtils.dateOnly(e) : null).toList();
-  var valueText = (values.isNotEmpty ? values[0] : null)
-      .toString()
-      .replaceAll('00:00:00.000', '');
+  List<String> valueTexts =
+      values.map((v) => v.toString().replaceAll('00:00:00.000', '')).toList();
 
-  if (datePickerType == CalendarDatePicker2Type.multi) {
-    valueText = values.isNotEmpty
-        ? values
-            .map((v) => v.toString().replaceAll('00:00:00.000', ''))
-            .join(', ')
-        : 'null';
-  }
   // Do whatever you need with the selected values
   FFAppState().selectedDate = values.cast<DateTime>();
   FFAppState().selectedqty = List.generate(values.length, (index) => 1);
-  return valueText;
+
+  return valueTexts;
 }

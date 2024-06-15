@@ -1,6 +1,7 @@
 import '/auth/custom_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
+import '/components/connection_lose/connection_lose_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -590,7 +591,9 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                             size: 30.0,
                           ),
                           onPressed: () async {
-                            context.pushNamed('MyCartPage');
+                            if (badgeCountitemsRowList.first.rowCount != 0) {
+                              context.pushNamed('MyCartPage');
+                            }
                           },
                         ),
                       );
@@ -680,10 +683,17 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                         snapshot.data!;
                                     return Builder(
                                       builder: (context) {
-                                        final items = getJsonField(
-                                          listViewGetItemsAPIResponse.jsonBody,
-                                          r'''$''',
-                                        ).toList();
+                                        final items =
+                                            KMartAPIsGroup.getItemsAPICall
+                                                    .allitems(
+                                                      listViewGetItemsAPIResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.toList() ??
+                                                [];
+                                        if (items.isEmpty) {
+                                          return const ConnectionLoseWidget();
+                                        }
                                         return ListView.builder(
                                           padding: const EdgeInsets.fromLTRB(
                                             0,
@@ -985,7 +995,7 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                                                                       color: FlutterFlowTheme.of(context).primaryText,
                                                                                     ),
                                                                                   ),
-                                                                                  duration: const Duration(milliseconds: 10000),
+                                                                                  duration: const Duration(milliseconds: 2000),
                                                                                   backgroundColor: FlutterFlowTheme.of(context).secondary,
                                                                                 ),
                                                                               );
@@ -1079,8 +1089,9 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                   },
                                 ),
                                 FutureBuilder<ApiCallResponse>(
-                                  future: KMartAPIsGroup.tagsApiCall.call(
-                                    tagName: 'milk',
+                                  future:
+                                      KMartAPIsGroup.itemsByCategoryIdCall.call(
+                                    id: 1,
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -1097,14 +1108,21 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                         ),
                                       );
                                     }
-                                    final listViewTagsApiResponse =
+                                    final listViewItemsByCategoryIdResponse =
                                         snapshot.data!;
                                     return Builder(
                                       builder: (context) {
-                                        final milkItems = getJsonField(
-                                          listViewTagsApiResponse.jsonBody,
-                                          r'''$''',
-                                        ).toList();
+                                        final milkItems =
+                                            KMartAPIsGroup.itemsByCategoryIdCall
+                                                    .items(
+                                                      listViewItemsByCategoryIdResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.toList() ??
+                                                [];
+                                        if (milkItems.isEmpty) {
+                                          return const ConnectionLoseWidget();
+                                        }
                                         return ListView.builder(
                                           padding: const EdgeInsets.fromLTRB(
                                             0,
@@ -1408,7 +1426,7 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                                                                       color: FlutterFlowTheme.of(context).primaryText,
                                                                                     ),
                                                                                   ),
-                                                                                  duration: const Duration(milliseconds: 10000),
+                                                                                  duration: const Duration(milliseconds: 2000),
                                                                                   backgroundColor: FlutterFlowTheme.of(context).secondary,
                                                                                 ),
                                                                               );
@@ -1502,8 +1520,9 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                   },
                                 ),
                                 FutureBuilder<ApiCallResponse>(
-                                  future: KMartAPIsGroup.tagsApiCall.call(
-                                    tagName: 'milk_product',
+                                  future:
+                                      KMartAPIsGroup.itemsByCategoryIdCall.call(
+                                    id: 2,
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -1520,14 +1539,21 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                         ),
                                       );
                                     }
-                                    final listViewTagsApiResponse =
+                                    final listViewItemsByCategoryIdResponse =
                                         snapshot.data!;
                                     return Builder(
                                       builder: (context) {
-                                        final milkProduct = getJsonField(
-                                          listViewTagsApiResponse.jsonBody,
-                                          r'''$''',
-                                        ).toList();
+                                        final milkProduct =
+                                            KMartAPIsGroup.itemsByCategoryIdCall
+                                                    .items(
+                                                      listViewItemsByCategoryIdResponse
+                                                          .jsonBody,
+                                                    )
+                                                    ?.toList() ??
+                                                [];
+                                        if (milkProduct.isEmpty) {
+                                          return const ConnectionLoseWidget();
+                                        }
                                         return ListView.builder(
                                           padding: const EdgeInsets.fromLTRB(
                                             0,
@@ -1831,7 +1857,7 @@ class _ProductsPageWidgetState extends State<ProductsPageWidget>
                                                                                       color: FlutterFlowTheme.of(context).primaryText,
                                                                                     ),
                                                                                   ),
-                                                                                  duration: const Duration(milliseconds: 10000),
+                                                                                  duration: const Duration(milliseconds: 2000),
                                                                                   backgroundColor: FlutterFlowTheme.of(context).secondary,
                                                                                 ),
                                                                               );

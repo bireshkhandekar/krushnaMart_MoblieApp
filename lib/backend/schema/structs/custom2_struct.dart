@@ -16,13 +16,16 @@ class Custom2Struct extends BaseStruct {
   int? _qty;
   int get qty => _qty ?? 0;
   set qty(int? val) => _qty = val;
-  void incrementQty(int amount) => _qty = qty + amount;
+
+  void incrementQty(int amount) => qty = qty + amount;
+
   bool hasQty() => _qty != null;
 
   // "date" field.
   DateTime? _date;
   DateTime? get date => _date;
   set date(DateTime? val) => _date = val;
+
   bool hasDate() => _date != null;
 
   static Custom2Struct fromMap(Map<String, dynamic> data) => Custom2Struct(

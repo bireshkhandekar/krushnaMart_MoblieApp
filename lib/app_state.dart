@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
+import 'flutter_flow/flutter_flow_util.dart';
+import 'dart:convert';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -28,26 +30,26 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToSelectedDate(DateTime value) {
-    _selectedDate.add(value);
+    selectedDate.add(value);
   }
 
   void removeFromSelectedDate(DateTime value) {
-    _selectedDate.remove(value);
+    selectedDate.remove(value);
   }
 
   void removeAtIndexFromSelectedDate(int index) {
-    _selectedDate.removeAt(index);
+    selectedDate.removeAt(index);
   }
 
   void updateSelectedDateAtIndex(
     int index,
     DateTime Function(DateTime) updateFn,
   ) {
-    _selectedDate[index] = updateFn(_selectedDate[index]);
+    selectedDate[index] = updateFn(_selectedDate[index]);
   }
 
   void insertAtIndexInSelectedDate(int index, DateTime value) {
-    _selectedDate.insert(index, value);
+    selectedDate.insert(index, value);
   }
 
   bool _customdatesshow = false;
@@ -93,26 +95,26 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToSelectedqty(int value) {
-    _selectedqty.add(value);
+    selectedqty.add(value);
   }
 
   void removeFromSelectedqty(int value) {
-    _selectedqty.remove(value);
+    selectedqty.remove(value);
   }
 
   void removeAtIndexFromSelectedqty(int index) {
-    _selectedqty.removeAt(index);
+    selectedqty.removeAt(index);
   }
 
   void updateSelectedqtyAtIndex(
     int index,
     int Function(int) updateFn,
   ) {
-    _selectedqty[index] = updateFn(_selectedqty[index]);
+    selectedqty[index] = updateFn(_selectedqty[index]);
   }
 
   void insertAtIndexInSelectedqty(int index, int value) {
-    _selectedqty.insert(index, value);
+    selectedqty.insert(index, value);
   }
 
   int _cartcount = 0;
@@ -128,26 +130,26 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToOrderitems(OrderitemsStruct value) {
-    _orderitems.add(value);
+    orderitems.add(value);
   }
 
   void removeFromOrderitems(OrderitemsStruct value) {
-    _orderitems.remove(value);
+    orderitems.remove(value);
   }
 
   void removeAtIndexFromOrderitems(int index) {
-    _orderitems.removeAt(index);
+    orderitems.removeAt(index);
   }
 
   void updateOrderitemsAtIndex(
     int index,
     OrderitemsStruct Function(OrderitemsStruct) updateFn,
   ) {
-    _orderitems[index] = updateFn(_orderitems[index]);
+    orderitems[index] = updateFn(_orderitems[index]);
   }
 
   void insertAtIndexInOrderitems(int index, OrderitemsStruct value) {
-    _orderitems.insert(index, value);
+    orderitems.insert(index, value);
   }
 
   bool _evarydaycalculetion = false;
@@ -174,9 +176,76 @@ class FFAppState extends ChangeNotifier {
     _customCalculate = value;
   }
 
-  DateTime? _tokenExpire = DateTime.fromMillisecondsSinceEpoch(1716379920000);
-  DateTime? get tokenExpire => _tokenExpire;
-  set tokenExpire(DateTime? value) {
-    _tokenExpire = value;
+  UserStruct _userUpdate = UserStruct();
+  UserStruct get userUpdate => _userUpdate;
+  set userUpdate(UserStruct value) {
+    _userUpdate = value;
+  }
+
+  void updateUserUpdateStruct(Function(UserStruct) updateFn) {
+    updateFn(userUpdate);
+  }
+
+  List<CustomDatesStruct> _customdates = [
+    CustomDatesStruct.fromSerializableMap(jsonDecode(
+        '{\"dates\":\"[\\\"Hello World\\\"]\",\"qty\":\"[\\\"0\\\"]\"}')),
+    CustomDatesStruct.fromSerializableMap(jsonDecode(
+        '{\"dates\":\"[\\\"Hello World2\\\"]\",\"qty\":\"[\\\"0\\\"]\"}'))
+  ];
+  List<CustomDatesStruct> get customdates => _customdates;
+  set customdates(List<CustomDatesStruct> value) {
+    _customdates = value;
+  }
+
+  void addToCustomdates(CustomDatesStruct value) {
+    customdates.add(value);
+  }
+
+  void removeFromCustomdates(CustomDatesStruct value) {
+    customdates.remove(value);
+  }
+
+  void removeAtIndexFromCustomdates(int index) {
+    customdates.removeAt(index);
+  }
+
+  void updateCustomdatesAtIndex(
+    int index,
+    CustomDatesStruct Function(CustomDatesStruct) updateFn,
+  ) {
+    customdates[index] = updateFn(_customdates[index]);
+  }
+
+  void insertAtIndexInCustomdates(int index, CustomDatesStruct value) {
+    customdates.insert(index, value);
+  }
+
+  List<dynamic> _customdatesjson = [];
+  List<dynamic> get customdatesjson => _customdatesjson;
+  set customdatesjson(List<dynamic> value) {
+    _customdatesjson = value;
+  }
+
+  void addToCustomdatesjson(dynamic value) {
+    customdatesjson.add(value);
+  }
+
+  void removeFromCustomdatesjson(dynamic value) {
+    customdatesjson.remove(value);
+  }
+
+  void removeAtIndexFromCustomdatesjson(int index) {
+    customdatesjson.removeAt(index);
+  }
+
+  void updateCustomdatesjsonAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    customdatesjson[index] = updateFn(_customdatesjson[index]);
+  }
+
+  void insertAtIndexInCustomdatesjson(int index, dynamic value) {
+    customdatesjson.insert(index, value);
   }
 }
