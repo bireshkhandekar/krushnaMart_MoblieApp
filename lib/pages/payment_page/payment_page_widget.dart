@@ -11,6 +11,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'payment_page_model.dart';
 export 'payment_page_model.dart';
 
@@ -132,12 +133,10 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                       child: SizedBox(
                                         width: 50.0,
                                         height: 50.0,
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                          ),
+                                        child: SpinKitCircle(
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 50.0,
                                         ),
                                       ),
                                     );
@@ -145,7 +144,11 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   final textGetTotalpriceRowList =
                                       snapshot.data!;
                                   return Text(
-                                    'Rs. ${textGetTotalpriceRowList.first.totalPrice?.toString()}',
+                                    'Rs. ${valueOrDefault<String>(
+                                      textGetTotalpriceRowList.first.totalPrice
+                                          ?.toString(),
+                                      '- - -',
+                                    )}',
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -273,11 +276,14 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                                     snapshot.data!;
                                                 return Text(
                                                   valueOrDefault<String>(
-                                                    'Rs ${getJsonField(
-                                                      textGetWalletBalanceResponse
-                                                          .jsonBody,
-                                                      r'''$.data.wallet_balance''',
-                                                    ).toString()}',
+                                                    'Rs ${valueOrDefault<String>(
+                                                      getJsonField(
+                                                        textGetWalletBalanceResponse
+                                                            .jsonBody,
+                                                        r'''$.data.wallet_balance''',
+                                                      )?.toString(),
+                                                      '- - -',
+                                                    )}',
                                                     '000',
                                                   ),
                                                   style: FlutterFlowTheme.of(
@@ -678,6 +684,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   await KMartAPIsGroup.tokenValidetionCall.call(
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if (!(_model.walletapiResulta5j?.succeeded ??
                                   true)) {
@@ -685,6 +692,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     await KMartAPIsGroup.refreshTokenCall.call(
                                   refreshToken: currentAuthRefreshToken,
                                 );
+
                                 shouldSetState = true;
                                 if ((_model.walletapiResultrefreshtoken
                                         ?.succeeded ??
@@ -738,6 +746,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               userId: currentUserData?.id,
                               token: currentAuthenticationToken,
                             );
+
                             shouldSetState = true;
                             _model.walletbalencecheck =
                                 await actions.walletBalenceCheck(
@@ -776,6 +785,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                         .toList()),
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if ((_model.orderresponce?.succeeded ?? true)) {
                                 await showDialog(
@@ -866,8 +876,6 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                       false;
                               if (confirmDialogResponse) {
                                 context.pushNamed('WalletPage');
-                              } else {
-                                Navigator.pop(context);
                               }
                             }
 
@@ -917,6 +925,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   await KMartAPIsGroup.tokenValidetionCall.call(
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if (!(_model.onlineapiResulta5j?.succeeded ??
                                   true)) {
@@ -924,6 +933,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     await KMartAPIsGroup.refreshTokenCall.call(
                                   refreshToken: currentAuthRefreshToken,
                                 );
+
                                 shouldSetState = true;
                                 if ((_model.onlineapiResultrefreshtoken
                                         ?.succeeded ??
@@ -985,6 +995,66 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               _model.onlinePaymentResult,
                               r'''$.status''',
                             ).toString())) {
+                              if (currentAuthenticationToken != null &&
+                                  currentAuthenticationToken != '') {
+                                _model.apiResulta5j = await KMartAPIsGroup
+                                    .tokenValidetionCall
+                                    .call(
+                                  token: currentAuthenticationToken,
+                                );
+
+                                shouldSetState = true;
+                                if (!(_model.apiResulta5j?.succeeded ?? true)) {
+                                  _model.apiResultrefreshtoken =
+                                      await KMartAPIsGroup.refreshTokenCall
+                                          .call(
+                                    refreshToken: currentAuthRefreshToken,
+                                  );
+
+                                  shouldSetState = true;
+                                  if ((_model
+                                          .apiResultrefreshtoken?.succeeded ??
+                                      true)) {
+                                    authManager.updateAuthUserData(
+                                      authenticationToken: getJsonField(
+                                        (_model.apiResultrefreshtoken
+                                                ?.jsonBody ??
+                                            ''),
+                                        r'''$.data.access_token''',
+                                      ).toString(),
+                                      refreshToken: currentAuthRefreshToken,
+                                      authUid: currentUserUid,
+                                      userData: UserStruct(
+                                        id: currentUserData?.id,
+                                        userName: currentUserData?.userName,
+                                        moblieNumber:
+                                            currentUserData?.moblieNumber,
+                                        shippingAddress:
+                                            currentUserData?.shippingAddress,
+                                        houseNo: currentUserData?.houseNo,
+                                        lineNo: currentUserData?.lineNo,
+                                        landMark: currentUserData?.landMark,
+                                        city: currentUserData?.city,
+                                        state: currentUserData?.state,
+                                        pincode: currentUserData?.pincode,
+                                      ),
+                                    );
+                                  } else {
+                                    context.pushNamed(
+                                      'LoginPage',
+                                      queryParameters: {
+                                        'pageName': serializeParam(
+                                          'profilePage',
+                                          ParamType.String,
+                                        ),
+                                      }.withoutNulls,
+                                    );
+
+                                    if (shouldSetState) setState(() {});
+                                    return;
+                                  }
+                                }
+                              }
                               _model.orderresponceonline =
                                   await KMartAPIsGroup.orderApiOnlineCall.call(
                                 customerId: currentUserData?.id,
@@ -1016,6 +1086,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                 ).toString(),
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if ((_model.orderresponceonline?.succeeded ??
                                   true)) {
@@ -1145,6 +1216,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                   await KMartAPIsGroup.tokenValidetionCall.call(
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if (!(_model.cashapiResulta5j?.succeeded ??
                                   true)) {
@@ -1152,6 +1224,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                                     await KMartAPIsGroup.refreshTokenCall.call(
                                   refreshToken: currentAuthRefreshToken,
                                 );
+
                                 shouldSetState = true;
                                 if ((_model
                                         .cashapiResultrefreshtoken?.succeeded ??
@@ -1227,6 +1300,7 @@ class _PaymentPageWidgetState extends State<PaymentPageWidget> {
                               orderStatus: 'pending',
                               token: currentAuthenticationToken,
                             );
+
                             shouldSetState = true;
                             if ((_model.cashorderApiresult?.succeeded ??
                                 true)) {

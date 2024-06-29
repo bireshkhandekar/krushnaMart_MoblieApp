@@ -18,7 +18,7 @@ class CustomDatesStruct extends BaseStruct {
   set dates(List<String>? val) => _dates = val;
 
   void updateDates(Function(List<String>) updateFn) {
-    updateFn(dates ??= []);
+    updateFn(_dates ??= []);
   }
 
   bool hasDates() => _dates != null;
@@ -29,7 +29,7 @@ class CustomDatesStruct extends BaseStruct {
   set qty(List<int>? val) => _qty = val;
 
   void updateQty(Function(List<int>) updateFn) {
-    updateFn(qty ??= []);
+    updateFn(_qty ??= []);
   }
 
   bool hasQty() => _qty != null;

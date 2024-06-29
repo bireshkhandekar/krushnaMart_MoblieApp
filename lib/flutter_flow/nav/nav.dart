@@ -192,6 +192,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'entryPage',
           path: '/entryPage',
           builder: (context, params) => const EntryPageWidget(),
+        ),
+        FFRoute(
+          name: 'shimmerComponent',
+          path: '/shimmerComponent',
+          builder: (context, params) => const ShimmerComponentWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -378,13 +383,9 @@ class FFRoute {
           final child = appStateNotifier.loading
               ? Container(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/service.png',
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
+                  child: Image.asset(
+                    'assets/images/rajasTech.jpg',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;

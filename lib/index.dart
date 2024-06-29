@@ -20,3 +20,5 @@ export '/pages/my_subscribed_items/my_subscribed_items_widget.dart'
 export '/pages/loss_connection/loss_connection_widget.dart'
     show LossConnectionWidget;
 export '/pages/entry_page/entry_page_widget.dart' show EntryPageWidget;
+export '/shimmer_component/shimmer_component_widget.dart'
+    show ShimmerComponentWidget;

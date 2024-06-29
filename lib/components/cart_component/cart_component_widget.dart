@@ -96,7 +96,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                         child: Text(
                           valueOrDefault<String>(
                             widget.parameter1,
-                            'null',
+                            '- - -',
                           ),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
@@ -132,7 +132,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                   Text(
                     valueOrDefault<String>(
                       widget.parameter2,
-                      'null',
+                      '- - -',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Readex Pro',
@@ -198,7 +198,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                         ? FlutterFlowTheme.of(context).primary
                                         : FlutterFlowTheme.of(context)
                                             .alternate,
-                                    size: 20.0,
+                                    size: 24.0,
                                   ),
                                   incrementIconBuilder: (enabled) => FaIcon(
                                     FontAwesomeIcons.plus,
@@ -206,7 +206,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                         ? FlutterFlowTheme.of(context).primary
                                         : FlutterFlowTheme.of(context)
                                             .alternate,
-                                    size: 20.0,
+                                    size: 24.0,
                                   ),
                                   countBuilder: (count) => Text(
                                     count.toString(),
@@ -235,7 +235,7 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                     context.pushNamed('MyCartPage');
                                   },
                                   stepSize: 1,
-                                  minimum: 0,
+                                  minimum: 1,
                                   contentPadding:
                                       const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 4.0, 12.0, 4.0),

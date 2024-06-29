@@ -50,12 +50,15 @@ class KMartAPIsGroup {
 }
 
 class GetItemsAPICall {
-  Future<ApiCallResponse> call() async {
+  Future<ApiCallResponse> call({
+    int? limit,
+    int? page,
+  }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
       callName: 'Get items API',
-      apiUrl: '$baseUrl/items',
+      apiUrl: '$baseUrl/items?limit=$limit&page=$page',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -63,6 +66,7 @@ class GetItemsAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -90,6 +94,7 @@ class ItemByIdCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -109,6 +114,7 @@ class GetHeroImagesCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -140,6 +146,7 @@ class TagsApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -195,6 +202,7 @@ class SubscribeItemsAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -219,6 +227,7 @@ class UserProfileAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -273,6 +282,7 @@ class UserRegisterAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -302,6 +312,7 @@ class UserSetPinAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -331,6 +342,7 @@ class UserLoginAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -355,6 +367,7 @@ class GetWalletBalanceCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -382,6 +395,7 @@ class GetWalletTransectionAPICall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -433,6 +447,7 @@ class UpdateUserProfileCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -479,6 +494,7 @@ class SubscribeItemscustomApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -529,6 +545,7 @@ class OrderApiOnlineCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -578,6 +595,7 @@ class OrderApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -613,6 +631,7 @@ class AddAmountWalletCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -645,6 +664,7 @@ class DeductfundsWalletCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -654,12 +674,15 @@ class GetsubscriptionsCall {
   Future<ApiCallResponse> call({
     int? userId,
     String? token = '',
+    int? limit,
+    int? page,
   }) async {
     final baseUrl = KMartAPIsGroup.getBaseUrl();
 
     return ApiManager.instance.makeApiCall(
       callName: 'Getsubscriptions',
-      apiUrl: '$baseUrl/subscription/user/$userId',
+      apiUrl:
+          '$baseUrl/subscription/user/$userId?limit=$limit&page=$page',
       callType: ApiCallType.GET,
       headers: {
         'Authorization': 'Bearer $token',
@@ -669,13 +692,14 @@ class GetsubscriptionsCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
 
   List? data(dynamic response) => getJsonField(
         response,
-        r'''$.data''',
+        r'''$.subscriptions''',
         true,
       ) as List?;
 }
@@ -724,6 +748,7 @@ class CashOrderCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -752,6 +777,7 @@ class GetOrdersByUserIdCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -782,6 +808,7 @@ class GetOrderByOrderIdCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -816,6 +843,7 @@ class GetSubByIdCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -841,6 +869,7 @@ class SubscribeUpdateCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -872,6 +901,7 @@ class OrderCanceledCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -898,6 +928,7 @@ class GetOrderByStatusCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -927,6 +958,7 @@ class TokenValidetionCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -951,6 +983,7 @@ class RefreshTokenCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -984,6 +1017,7 @@ class SubscriptionPauseApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1005,6 +1039,7 @@ class ItemsByCategoryIdCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1030,6 +1065,7 @@ class GetAboutUsApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1049,6 +1085,7 @@ class ProductApiCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1074,6 +1111,7 @@ class ProductListCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1099,6 +1137,7 @@ class ProductSubscribeCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1116,6 +1155,7 @@ class TagsCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }
@@ -1135,6 +1175,7 @@ class PincodeCall {
       encodeBodyUtf8: false,
       decodeUtf8: false,
       cache: false,
+      isStreamingApi: false,
       alwaysAllowBody: false,
     );
   }

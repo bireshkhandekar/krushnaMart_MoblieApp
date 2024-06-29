@@ -58,7 +58,7 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
             child: Text(
               valueOrDefault<String>(
                 widget.parameter1,
-                '10/10/2024',
+                '- - -',
               ),
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Readex Pro',
@@ -85,14 +85,14 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
                 color: enabled
                     ? FlutterFlowTheme.of(context).secondaryText
                     : FlutterFlowTheme.of(context).alternate,
-                size: 20.0,
+                size: 24.0,
               ),
               incrementIconBuilder: (enabled) => FaIcon(
                 FontAwesomeIcons.plus,
                 color: enabled
                     ? FlutterFlowTheme.of(context).primary
                     : FlutterFlowTheme.of(context).alternate,
-                size: 20.0,
+                size: 24.0,
               ),
               countBuilder: (count) => Text(
                 count.toString(),
@@ -105,37 +105,44 @@ class _CustomdateselectionWidgetState extends State<CustomdateselectionWidget> {
               updateCount: (count) async {
                 setState(() => _model.countControllerValue = count);
                 FFAppState().customCalculate = false;
-                FFAppState().updateSelectedqtyAtIndex(
-                  widget.index!,
-                  (_) => _model.countControllerValue!,
-                );
                 setState(() {});
-                if (_model.countControllerValue == 0) {
-                  FFAppState().removeAtIndexFromCustomdatesjson(widget.index!);
-                  setState(() {});
+                if (_model.countControllerValue! < 1) {
+                  var confirmDialogResponse = await showDialog<bool>(
+                        context: context,
+                        builder: (alertDialogContext) {
+                          return AlertDialog(
+                            content: const Text('Are you sure delete this date ?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext, false),
+                                child: const Text('No'),
+                              ),
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext, true),
+                                child: const Text('Yes'),
+                              ),
+                            ],
+                          );
+                        },
+                      ) ??
+                      false;
+                  if (confirmDialogResponse) {
+                    FFAppState()
+                        .removeAtIndexFromCustomdatesjson(widget.index!);
+                    setState(() {
+                      _model.countControllerValue = 1;
+                    });
+                  } else {
+                    setState(() {
+                      _model.countControllerValue = 1;
+                    });
+                  }
                 }
               },
               stepSize: 1,
               minimum: 0,
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: InkWell(
-              splashColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () async {
-                FFAppState().removeAtIndexFromCustomdatesjson(widget.index!);
-                FFAppState().customCalculate = false;
-                setState(() {});
-              },
-              child: Icon(
-                Icons.delete_outline,
-                color: FlutterFlowTheme.of(context).error,
-                size: 24.0,
-              ),
             ),
           ),
         ],

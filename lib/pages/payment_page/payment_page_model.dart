@@ -38,6 +38,10 @@ class PaymentPageModel extends FlutterFlowModel<PaymentPageWidget> {
   List<GetTotalpriceRow>? totalpriceonline;
   // Stores action output result for [Custom Action - razorpayaction] action in Button widget.
   dynamic onlinePaymentResult;
+  // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.
+  ApiCallResponse? apiResulta5j;
+  // Stores action output result for [Backend Call - API (refresh token)] action in Button widget.
+  ApiCallResponse? apiResultrefreshtoken;
   // Stores action output result for [Backend Call - API (orderApi online)] action in Button widget.
   ApiCallResponse? orderresponceonline;
   // Stores action output result for [Backend Call - API (token validetion)] action in Button widget.

@@ -10,6 +10,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'my_cart_page_model.dart';
 export 'my_cart_page_model.dart';
 
@@ -45,6 +46,8 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -325,6 +328,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                                 .call(
                                           token: currentAuthenticationToken,
                                         );
+
                                         shouldSetState = true;
                                         if (!(_model.apiResulta5j?.succeeded ??
                                             true)) {
@@ -335,6 +339,7 @@ class _MyCartPageWidgetState extends State<MyCartPageWidget> {
                                             refreshToken:
                                                 currentAuthRefreshToken,
                                           );
+
                                           shouldSetState = true;
                                           if ((_model.apiResultrefreshtoken
                                                   ?.succeeded ??

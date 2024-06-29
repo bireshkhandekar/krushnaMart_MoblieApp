@@ -67,3 +67,21 @@ class CountitemsRow extends SqliteRow {
 }
 
 /// END COUNTITEMS
+
+/// BEGIN GET DATES
+Future<List<GetDatesRow>> performGetDates(
+  Database database,
+) {
+  const query = '''
+select * from customDates
+''';
+  return _readQuery(database, query, (d) => GetDatesRow(d));
+}
+
+class GetDatesRow extends SqliteRow {
+  GetDatesRow(super.data);
+
+  String? get dates => data['dates'] as String?;
+}
+
+/// END GET DATES

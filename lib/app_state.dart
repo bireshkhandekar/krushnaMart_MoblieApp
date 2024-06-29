@@ -183,7 +183,7 @@ class FFAppState extends ChangeNotifier {
   }
 
   void updateUserUpdateStruct(Function(UserStruct) updateFn) {
-    updateFn(userUpdate);
+    updateFn(_userUpdate);
   }
 
   List<CustomDatesStruct> _customdates = [

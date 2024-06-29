@@ -151,7 +151,7 @@ double? evarydayTotalAmount(
 
 bool? evarydayTotalAmountcheck(double? totalAmount) {
   // totalAmount <= 0
-  if (totalAmount != null && totalAmount <= 0) {
+  if (totalAmount != null && totalAmount < 0) {
     return true;
   } else {
     return false;
@@ -204,15 +204,24 @@ DateTime? dailystartdate(DateTime? currentDate) {
 }
 
 List<dynamic> convertlisttojson(
-  List<String>? dates,
-  List<int>? qty,
+  List<String> date,
+  int qty,
 ) {
-  // There are two lists, it has to be converted into json
-  Map<String, dynamic> data = {
-    'dates': dates,
-    'qty': qty,
-  };
-  return [data]; //returning a list with a single map containing the data
+  List<Map<String, dynamic>> data = [];
+
+  for (String d in date) {
+    data.add({
+      'date': d,
+      'qty': 1,
+    });
+  }
+  print("data $data");
+  return data;
+  // Map<String, dynamic> data = {
+  //   'date': date,
+  //   'qty': qty,
+  // };
+  // return [data]; //returning a list with a single map containing the data
 }
 
 List<dynamic>? customDatesMap(

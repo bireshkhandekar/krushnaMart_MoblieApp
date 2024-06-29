@@ -654,6 +654,7 @@ class _SetPINPageWidgetState extends State<SetPINPageWidget> {
                                                               .conformpinTextController
                                                               .text,
                                                         );
+
                                                         if ((_model
                                                                 .setPinApiResponce
                                                                 ?.succeeded ??

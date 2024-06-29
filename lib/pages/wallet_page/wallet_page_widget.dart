@@ -40,11 +40,13 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
         _model.apiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
           token: currentAuthenticationToken,
         );
+
         if (!(_model.apiResulta5j?.succeeded ?? true)) {
           _model.apiResultrefreshtoken =
               await KMartAPIsGroup.refreshTokenCall.call(
             refreshToken: currentAuthRefreshToken,
           );
+
           if ((_model.apiResultrefreshtoken?.succeeded ?? true)) {
             authManager.updateAuthUserData(
               authenticationToken: getJsonField(
@@ -124,8 +126,8 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/566/600',
+                                child: Image.asset(
+                                  'assets/images/325-3256540_black-and-white-flame-logo.png',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -592,10 +594,9 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                           child: SizedBox(
                             width: 50.0,
                             height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
+                            child: SpinKitCircle(
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 50.0,
                             ),
                           ),
                         );
@@ -637,6 +638,33 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                           onPressed: () async {
                             if (badgeCountitemsRowList.first.rowCount != 0) {
                               context.pushNamed('MyCartPage');
+                            } else {
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: const Text(
+                                                'Your cart is empty. Plz start shopping now'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: const Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (confirmDialogResponse) {
+                                context.pushNamed('ProductsPage');
+                              }
                             }
                           },
                         ),
@@ -668,31 +696,44 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            FFButtonWidget(
-                              onPressed: () async {
-                                context.pushNamed('LoginPage');
-                              },
-                              text: 'login',
-                              options: FFButtonOptions(
-                                height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 0.0, 24.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Readex Pro',
-                                      color: Colors.white,
-                                      letterSpacing: 0.0,
-                                    ),
-                                elevation: 3.0,
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
+                            Text(
+                              'You are not logged in',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed('LoginPage');
+                                },
+                                text: 'login',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        letterSpacing: 0.0,
+                                      ),
+                                  borderSide: const BorderSide(
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
                           ],
@@ -873,6 +914,8 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                             focusNode:
                                                 _model.addAmountFocusNode,
                                             autofocus: false,
+                                            textCapitalization:
+                                                TextCapitalization.none,
                                             obscureText: false,
                                             decoration: InputDecoration(
                                               labelStyle: FlutterFlowTheme.of(
@@ -885,6 +928,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                         .primaryText,
                                                     letterSpacing: 0.0,
                                                   ),
+                                              alignLabelWithHint: false,
                                               hintText: '000',
                                               hintStyle: FlutterFlowTheme.of(
                                                       context)
@@ -1204,6 +1248,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                   token:
                                                       currentAuthenticationToken,
                                                 );
+
                                                 shouldSetState = true;
                                                 if (!(_model
                                                         .apiResultatokenvalid
@@ -1216,6 +1261,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                     refreshToken:
                                                         currentAuthRefreshToken,
                                                   );
+
                                                   shouldSetState = true;
                                                   if ((_model.resultrefreshtoken
                                                           ?.succeeded ??
@@ -1309,15 +1355,19 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                   token:
                                                       currentAuthenticationToken,
                                                 );
+
                                                 shouldSetState = true;
                                                 if ((_model.addamountwallet
                                                         ?.succeeded ??
                                                     true)) {
+                                                  setState(() {});
                                                   setState(() {
                                                     _model
                                                         .addAmountTextController
                                                         ?.clear();
                                                   });
+
+                                                  setState(() {});
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(
@@ -1331,7 +1381,7 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                         style: TextStyle(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .primaryText,
+                                                              .secondaryBackground,
                                                         ),
                                                       ),
                                                       duration: const Duration(
@@ -1446,15 +1496,13 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                         if (!snapshot.hasData) {
                                           return Center(
                                             child: SizedBox(
-                                              width: 50.0,
-                                              height: 50.0,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                ),
+                                              width: 40.0,
+                                              height: 40.0,
+                                              child: SpinKitCircle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                size: 40.0,
                                               ),
                                             ),
                                           );
@@ -1750,141 +1798,163 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                 ),
                                               ),
                                               if ('1' !=
-                                                  getJsonField(
-                                                    columnGetWalletTransectionAPIResponse
-                                                        .jsonBody,
-                                                    r'''$.data.pages''',
-                                                  ).toString())
+                                                  valueOrDefault<String>(
+                                                    getJsonField(
+                                                      columnGetWalletTransectionAPIResponse
+                                                          .jsonBody,
+                                                      r'''$.data.pages''',
+                                                    )?.toString(),
+                                                    '1',
+                                                  ))
                                                 Padding(
                                                   padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          8.0, 0.0, 8.0, 4.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      FFButtonWidget(
-                                                        onPressed: (_model
-                                                                    .pageno
-                                                                    .toString() ==
-                                                                '1')
-                                                            ? null
-                                                            : () async {
-                                                                _model.pageno =
-                                                                    _model.pageno +
-                                                                        -1;
-                                                                setState(() {});
-                                                              },
-                                                        text: '<- Back',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          height: 24.0,
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      8.0,
-                                                                      0.0,
-                                                                      8.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    color: const Color(
-                                                                        0xFF7995FF),
-                                                                    letterSpacing:
+                                                          0.0, 0.0, 0.0, 8.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        FFButtonWidget(
+                                                          onPressed:
+                                                              (_model.pageno ==
+                                                                      1)
+                                                                  ? null
+                                                                  : () async {
+                                                                      _model.pageno =
+                                                                          _model.pageno +
+                                                                              -1;
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                          text: 'Back',
+                                                          options:
+                                                              FFButtonOptions(
+                                                            height: 30.0,
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
                                                                         0.0,
-                                                                  ),
-                                                          borderSide:
-                                                              const BorderSide(
-                                                            color: Colors
-                                                                .transparent,
+                                                                        8.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .alternate,
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            disabledTextColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
                                                           ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          disabledTextColor:
-                                                              const Color(0xF292BBDC),
                                                         ),
-                                                        showLoadingIndicator:
-                                                            false,
-                                                      ),
-                                                      FFButtonWidget(
-                                                        onPressed: (_model
-                                                                    .pageno ==
-                                                                getJsonField(
-                                                                  columnGetWalletTransectionAPIResponse
-                                                                      .jsonBody,
-                                                                  r'''$.data.pages''',
-                                                                ))
-                                                            ? null
-                                                            : () async {
-                                                                _model.pageno =
-                                                                    _model.pageno +
-                                                                        1;
-                                                                setState(() {});
-                                                              },
-                                                        text: 'More -> ',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          height: 24.0,
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      8.0,
-                                                                      0.0,
-                                                                      8.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    color: const Color(
-                                                                        0xFF5477FD),
-                                                                    letterSpacing:
+                                                        FFButtonWidget(
+                                                          onPressed: (_model
+                                                                      .pageno ==
+                                                                  getJsonField(
+                                                                    columnGetWalletTransectionAPIResponse
+                                                                        .jsonBody,
+                                                                    r'''$.data.pages''',
+                                                                  ))
+                                                              ? null
+                                                              : () async {
+                                                                  _model.pageno =
+                                                                      _model.pageno +
+                                                                          1;
+                                                                  setState(
+                                                                      () {});
+                                                                },
+                                                          text: 'More',
+                                                          options:
+                                                              FFButtonOptions(
+                                                            height: 30.0,
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
                                                                         0.0,
-                                                                  ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          disabledTextColor:
-                                                              const Color(0xF292BBDC),
+                                                                        8.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            textStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Readex Pro',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                            borderSide:
+                                                                BorderSide(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .alternate,
+                                                              width: 1.0,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            disabledTextColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryText,
+                                                          ),
                                                         ),
-                                                        showLoadingIndicator:
-                                                            false,
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                             ],

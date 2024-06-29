@@ -176,7 +176,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                           .mobileNumberTextController,
                                                       focusNode: _model
                                                           .mobileNumberFocusNode,
-                                                      autofocus: true,
+                                                      autofocus: false,
                                                       textCapitalization:
                                                           TextCapitalization
                                                               .none,
@@ -195,7 +195,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                       0.0,
                                                                 ),
                                                         hintText:
-                                                            'Mobile Number :',
+                                                            'Mobile Number ',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -305,11 +305,11 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         .pinTextController,
                                                     focusNode:
                                                         _model.pinFocusNode,
-                                                    autofocus: true,
+                                                    autofocus: false,
                                                     obscureText:
                                                         !_model.pinVisibility,
                                                     decoration: InputDecoration(
-                                                      hintText: 'PIN :',
+                                                      hintText: '4 Digit PIN ',
                                                       hintStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -456,6 +456,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               .pinTextController
                                                               .text,
                                                         );
+
                                                         if ((_model.apiResult
                                                                 ?.succeeded ??
                                                             true)) {
@@ -622,7 +623,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                                     TextStyle(
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primaryText,
+                                                                      .secondaryBackground,
                                                                 ),
                                                               ),
                                                               duration: const Duration(
@@ -631,14 +632,14 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                               backgroundColor:
                                                                   FlutterFlowTheme.of(
                                                                           context)
-                                                                      .secondary,
+                                                                      .error,
                                                             ),
                                                           );
                                                         }
 
                                                         setState(() {});
                                                       },
-                                                      text: 'SIGN IN',
+                                                      text: 'Login',
                                                       options: FFButtonOptions(
                                                         width: double.infinity,
                                                         height: 40.0,
@@ -700,7 +701,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                                         context.pushNamed(
                                                             'RegisterPage');
                                                       },
-                                                      text: 'Sign UP',
+                                                      text: 'Sign Up',
                                                       options: FFButtonOptions(
                                                         height: 40.0,
                                                         padding:

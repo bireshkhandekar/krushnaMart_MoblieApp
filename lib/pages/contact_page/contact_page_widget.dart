@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'contact_page_model.dart';
 export 'contact_page_model.dart';
 
@@ -84,12 +85,11 @@ class _ContactPageWidgetState extends State<ContactPageWidget> {
                     if (!snapshot.hasData) {
                       return Center(
                         child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
-                            ),
+                          width: 40.0,
+                          height: 40.0,
+                          child: SpinKitCircle(
+                            color: FlutterFlowTheme.of(context).primary,
+                            size: 40.0,
                           ),
                         ),
                       );
@@ -233,46 +233,53 @@ class _ContactPageWidgetState extends State<ContactPageWidget> {
                                       ),
                                       Column(
                                         mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Builder(
-                                            builder: (context) {
-                                              final moNumbers = getJsonField(
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    8.0, 4.0, 0.0, 0.0),
+                                            child: Text(
+                                              '+91 ${valueOrDefault<String>(
+                                                getJsonField(
+                                                  columnGetAboutUsApiResponse
+                                                      .jsonBody,
+                                                  r'''$.data.contact_numbers.contact1''',
+                                                )?.toString(),
+                                                '- - -',
+                                              )}',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    fontSize: 16.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    8.0, 0.0, 0.0, 0.0),
+                                            child: Text(
+                                              '+91 ${getJsonField(
                                                 columnGetAboutUsApiResponse
                                                     .jsonBody,
-                                                r'''$.data.contact_numbers''',
-                                              ).toList();
-                                              return ListView.builder(
-                                                padding: EdgeInsets.zero,
-                                                shrinkWrap: true,
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: moNumbers.length,
-                                                itemBuilder:
-                                                    (context, moNumbersIndex) {
-                                                  final moNumbersItem =
-                                                      moNumbers[moNumbersIndex];
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(8.0, 4.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      '+91 ${moNumbersItem.toString()}',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            fontSize: 16.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w300,
-                                                          ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
+                                                r'''$.data.contact_numbers.contact2''',
+                                              ).toString()}',
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Readex Pro',
+                                                    fontSize: 16.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                            ),
                                           ),
                                         ],
                                       ),

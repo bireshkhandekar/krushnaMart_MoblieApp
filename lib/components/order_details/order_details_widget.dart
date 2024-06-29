@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'order_details_model.dart';
 export 'order_details_model.dart';
 
@@ -45,7 +46,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 4.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 16.0, 8.0, 16.0),
       child: FutureBuilder<ApiCallResponse>(
         future: KMartAPIsGroup.getOrderByOrderIdCall.call(
           orderId: widget.orderid,
@@ -58,18 +59,15 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
+                child: SpinKitCircle(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 50.0,
                 ),
               ),
             );
           }
           final containerGetOrderByOrderIdResponse = snapshot.data!;
           return Container(
-            width: double.infinity,
-            height: double.infinity,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
               borderRadius: BorderRadius.circular(10.0),
@@ -121,10 +119,9 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                             child: SizedBox(
                               width: 50.0,
                               height: 50.0,
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  FlutterFlowTheme.of(context).primary,
-                                ),
+                              child: SpinKitCircle(
+                                color: FlutterFlowTheme.of(context).primary,
+                                size: 50.0,
                               ),
                             ),
                           );
@@ -163,31 +160,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                               const EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
-                                            '${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.address.house_no''',
-                                            ).toString()} ${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.address.line_no''',
-                                            ).toString()} ${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.address.landmark''',
-                                            ).toString()} ${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.city''',
-                                            ).toString()}, ${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.state''',
-                                            ).toString()}, ${getJsonField(
-                                              cardUserProfileAPIResponse
-                                                  .jsonBody,
-                                              r'''$.user.pincode''',
-                                            ).toString()}',
+                                            valueOrDefault<String>(
+                                              getJsonField(
+                                                containerGetOrderByOrderIdResponse
+                                                    .jsonBody,
+                                                r'''$.order.shipping_address''',
+                                              )?.toString(),
+                                              '- - -',
+                                            ),
                                             textAlign: TextAlign.start,
                                             maxLines: 3,
                                             style: FlutterFlowTheme.of(context)
@@ -226,11 +206,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                 const EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 0.0, 0.0, 0.0),
                                             child: Text(
-                                              getJsonField(
-                                                cardUserProfileAPIResponse
-                                                    .jsonBody,
-                                                r'''$.user.username''',
-                                              ).toString(),
+                                              valueOrDefault<String>(
+                                                getJsonField(
+                                                  containerGetOrderByOrderIdResponse
+                                                      .jsonBody,
+                                                  r'''$.order.customer_name''',
+                                                )?.toString(),
+                                                '- - -',
+                                              ),
                                               textAlign: TextAlign.start,
                                               maxLines: 3,
                                               style: FlutterFlowTheme.of(
@@ -260,11 +243,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                 const EdgeInsetsDirectional.fromSTEB(
                                                     8.0, 0.0, 0.0, 0.0),
                                             child: Text(
-                                              getJsonField(
-                                                cardUserProfileAPIResponse
-                                                    .jsonBody,
-                                                r'''$.user.mobile_number''',
-                                              ).toString(),
+                                              valueOrDefault<String>(
+                                                getJsonField(
+                                                  containerGetOrderByOrderIdResponse
+                                                      .jsonBody,
+                                                  r'''$.order.mobile_number''',
+                                                )?.toString(),
+                                                '- - -',
+                                              ),
                                               textAlign: TextAlign.start,
                                               maxLines: 3,
                                               style: FlutterFlowTheme.of(
@@ -315,134 +301,61 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                   ),
                         ),
                       ),
-                      Builder(
-                        builder: (context) {
-                          final items = KMartAPIsGroup.getOrderByOrderIdCall
-                                  .orderitems(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                  )
-                                  ?.toList() ??
-                              [];
-                          return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: items.length,
-                            itemBuilder: (context, itemsIndex) {
-                              final itemsItem = items[itemsIndex];
-                              return Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
-                                child: Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  elevation: 2.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 4.0, 8.0, 4.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                          flex: 7,
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    12.0, 0.0, 0.0, 0.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Text(
-                                                        'Item Name :',
-                                                        maxLines: 2,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      decoration:
-                                                          const BoxDecoration(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Text(
-                                                        getJsonField(
-                                                          itemsItem,
-                                                          r'''$.item_name''',
-                                                        ).toString(),
-                                                        maxLines: 2,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      decoration:
-                                                          const BoxDecoration(),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 6.0, 0.0, 0.0),
-                                                  child: Row(
+                      Container(
+                        height: 130.0,
+                        decoration: const BoxDecoration(),
+                        child: Builder(
+                          builder: (context) {
+                            final items = KMartAPIsGroup.getOrderByOrderIdCall
+                                    .orderitems(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                    )
+                                    ?.toList() ??
+                                [];
+                            return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: items.length,
+                              itemBuilder: (context, itemsIndex) {
+                                final itemsItem = items[itemsIndex];
+                                return Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  child: Card(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    elevation: 2.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 4.0, 8.0, 4.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            flex: 7,
+                                            child: Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      12.0, 0.0, 0.0, 0.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
@@ -455,7 +368,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                       Expanded(
                                                         flex: 5,
                                                         child: Text(
-                                                          'Item Qty :',
+                                                          'Item Name :',
                                                           maxLines: 2,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -472,86 +385,75 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                               ),
                                                         ),
                                                       ),
-                                                      Expanded(
-                                                        flex: 5,
-                                                        child: Text(
-                                                          'Total Price :',
-                                                          maxLines: 2,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                fontSize: 16.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                        ),
+                                                      Container(
+                                                        decoration:
+                                                            const BoxDecoration(),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Text(
-                                                        '${getJsonField(
-                                                          itemsItem,
-                                                          r'''$.quantity''',
-                                                        ).toString()} x ${getJsonField(
-                                                          itemsItem,
-                                                          r'''$.item_price''',
-                                                        ).toString()}',
-                                                        maxLines: 2,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Readex Pro',
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 5,
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            getJsonField(
+                                                              itemsItem,
+                                                              r'''$.item_name''',
+                                                            )?.toString(),
+                                                            '- - -',
+                                                          ),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      flex: 5,
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            formatNumber(
-                                                              getJsonField(
-                                                                    itemsItem,
-                                                                    r'''$.quantity''',
-                                                                  ) *
-                                                                  getJsonField(
-                                                                    itemsItem,
-                                                                    r'''$.item_price''',
-                                                                  ),
-                                                              formatType:
-                                                                  FormatType
-                                                                      .custom,
-                                                              format: '₹ ',
-                                                              locale: '',
-                                                            ),
+                                                      Container(
+                                                        decoration:
+                                                            const BoxDecoration(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 6.0,
+                                                                0.0, 0.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 5,
+                                                          child: Text(
+                                                            'Item Qty :',
+                                                            maxLines: 2,
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium
@@ -562,25 +464,132 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                                                       16.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
                                                                 ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                        Expanded(
+                                                          flex: 5,
+                                                          child: Text(
+                                                            'Total Price :',
+                                                            maxLines: 2,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Readex Pro',
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
+                                                  ),
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Expanded(
+                                                        flex: 5,
+                                                        child: Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            '${getJsonField(
+                                                              itemsItem,
+                                                              r'''$.quantity''',
+                                                            ).toString()} x ${getJsonField(
+                                                              itemsItem,
+                                                              r'''$.item_price''',
+                                                            ).toString()}',
+                                                            '- - -',
+                                                          ),
+                                                          maxLines: 2,
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        flex: 5,
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                formatNumber(
+                                                                  getJsonField(
+                                                                        itemsItem,
+                                                                        r'''$.quantity''',
+                                                                      ) *
+                                                                      getJsonField(
+                                                                        itemsItem,
+                                                                        r'''$.item_price''',
+                                                                      ),
+                                                                  formatType:
+                                                                      FormatType
+                                                                          .custom,
+                                                                  format: '₹ ',
+                                                                  locale: '',
+                                                                ),
+                                                                '- - -',
+                                                              ),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Readex Pro',
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                       Padding(
                         padding:
@@ -604,10 +613,13 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 8.0, 0.0),
                               child: Text(
-                                '₹ ${getJsonField(
-                                  containerGetOrderByOrderIdResponse.jsonBody,
-                                  r'''$.order.order_total''',
-                                ).toString()}',
+                                '₹ ${valueOrDefault<String>(
+                                  getJsonField(
+                                    containerGetOrderByOrderIdResponse.jsonBody,
+                                    r'''$.order.order_total''',
+                                  )?.toString(),
+                                  '- - -',
+                                )}',
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -696,10 +708,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               Expanded(
                                 flex: 6,
                                 child: Text(
-                                  getJsonField(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                    r'''$.order.order_id''',
-                                  ).toString(),
+                                  valueOrDefault<String>(
+                                    getJsonField(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                      r'''$.order.order_id''',
+                                    )?.toString(),
+                                    '- - -',
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -713,10 +729,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               Expanded(
                                 flex: 4,
                                 child: Text(
-                                  getJsonField(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                    r'''$.order.order_date''',
-                                  ).toString(),
+                                  valueOrDefault<String>(
+                                    getJsonField(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                      r'''$.order.order_date''',
+                                    )?.toString(),
+                                    '- - -',
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -762,10 +782,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               Expanded(
                                 flex: 4,
                                 child: Text(
-                                  getJsonField(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                    r'''$.order.order_status''',
-                                  ).toString(),
+                                  valueOrDefault<String>(
+                                    getJsonField(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                      r'''$.order.order_status''',
+                                    )?.toString(),
+                                    '- - -',
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -836,10 +860,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               Expanded(
                                 flex: 6,
                                 child: Text(
-                                  getJsonField(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                    r'''$.order.payment_mode''',
-                                  ).toString(),
+                                  valueOrDefault<String>(
+                                    getJsonField(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                      r'''$.order.payment_mode''',
+                                    )?.toString(),
+                                    '- - -',
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -853,10 +881,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                               Expanded(
                                 flex: 4,
                                 child: Text(
-                                  getJsonField(
-                                    containerGetOrderByOrderIdResponse.jsonBody,
-                                    r'''$.order.payment_status''',
-                                  ).toString(),
+                                  valueOrDefault<String>(
+                                    getJsonField(
+                                      containerGetOrderByOrderIdResponse
+                                          .jsonBody,
+                                      r'''$.order.payment_status''',
+                                    )?.toString(),
+                                    '- - -',
+                                  ),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -909,11 +941,14 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        getJsonField(
-                                          containerGetOrderByOrderIdResponse
-                                              .jsonBody,
-                                          r'''$.order.transaction_id''',
-                                        ).toString(),
+                                        valueOrDefault<String>(
+                                          getJsonField(
+                                            containerGetOrderByOrderIdResponse
+                                                .jsonBody,
+                                            r'''$.order.transaction_id''',
+                                          )?.toString(),
+                                          '- - -',
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(

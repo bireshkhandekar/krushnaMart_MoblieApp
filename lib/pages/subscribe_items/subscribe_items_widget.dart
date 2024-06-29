@@ -14,6 +14,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'subscribe_items_model.dart';
 export 'subscribe_items_model.dart';
@@ -21,7 +22,7 @@ export 'subscribe_items_model.dart';
 class SubscribeItemsWidget extends StatefulWidget {
   const SubscribeItemsWidget({
     super.key,
-    required this.id,
+    this.id,
   });
 
   final int? id;
@@ -51,11 +52,13 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
         _model.apiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
           token: currentAuthenticationToken,
         );
+
         if (!(_model.apiResulta5j?.succeeded ?? true)) {
           _model.apiResultrefreshtoken =
               await KMartAPIsGroup.refreshTokenCall.call(
             refreshToken: currentAuthRefreshToken,
           );
+
           if ((_model.apiResultrefreshtoken?.succeeded ?? true)) {
             authManager.updateAuthUserData(
               authenticationToken: getJsonField(
@@ -109,10 +112,9 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
               child: SizedBox(
                 width: 50.0,
                 height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
+                child: SpinKitCircle(
+                  color: FlutterFlowTheme.of(context).primary,
+                  size: 50.0,
                 ),
               ),
             ),
@@ -179,11 +181,10 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                     child: SizedBox(
                                       width: 50.0,
                                       height: 50.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                          FlutterFlowTheme.of(context).primary,
-                                        ),
+                                      child: SpinKitCircle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 50.0,
                                       ),
                                     ),
                                   );
@@ -298,11 +299,15 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                   Expanded(
                                                                     flex: 5,
                                                                     child: Text(
-                                                                      getJsonField(
-                                                                        subscribeItemsItemByIdResponse
-                                                                            .jsonBody,
-                                                                        r'''$.name''',
-                                                                      ).toString(),
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        getJsonField(
+                                                                          subscribeItemsItemByIdResponse
+                                                                              .jsonBody,
+                                                                          r'''$.name''',
+                                                                        )?.toString(),
+                                                                        '- - -',
+                                                                      ),
                                                                       maxLines:
                                                                           2,
                                                                       style: FlutterFlowTheme.of(
@@ -324,11 +329,15 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                     decoration:
                                                                         const BoxDecoration(),
                                                                     child: Text(
-                                                                      'रु ${getJsonField(
-                                                                        subscribeItemsItemByIdResponse
-                                                                            .jsonBody,
-                                                                        r'''$.price''',
-                                                                      ).toString()}',
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        'रु ${getJsonField(
+                                                                          subscribeItemsItemByIdResponse
+                                                                              .jsonBody,
+                                                                          r'''$.price''',
+                                                                        ).toString()}',
+                                                                        ' - - -',
+                                                                      ),
                                                                       textAlign:
                                                                           TextAlign
                                                                               .end,
@@ -361,11 +370,15 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                         .start,
                                                                 children: [
                                                                   Text(
-                                                                    getJsonField(
-                                                                      subscribeItemsItemByIdResponse
-                                                                          .jsonBody,
-                                                                      r'''$.weight''',
-                                                                    ).toString(),
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      getJsonField(
+                                                                        subscribeItemsItemByIdResponse
+                                                                            .jsonBody,
+                                                                        r'''$.weight''',
+                                                                      )?.toString(),
+                                                                      '- - -',
+                                                                    ),
                                                                     maxLines: 1,
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
@@ -493,6 +506,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           token:
                                                                               currentAuthenticationToken,
                                                                         );
+
                                                                         shouldSetState =
                                                                             true;
                                                                         if (!(_model.everyapiResulta5j?.succeeded ??
@@ -503,6 +517,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                             refreshToken:
                                                                                 currentAuthRefreshToken,
                                                                           );
+
                                                                           shouldSetState =
                                                                               true;
                                                                           if ((_model.everyapiResultrefreshtoken?.succeeded ??
@@ -566,9 +581,8 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           }
                                                                           return;
                                                                         } else {
-                                                                          context
-                                                                              .pushNamed('HomePage');
-
+                                                                          Navigator.pop(
+                                                                              context);
                                                                           if (shouldSetState) {
                                                                             setState(() {});
                                                                           }
@@ -576,6 +590,14 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                         }
                                                                       }
 
+                                                                      FFAppState()
+                                                                              .evarydaycalculetion =
+                                                                          false;
+                                                                      FFAppState()
+                                                                              .everydayshow =
+                                                                          false;
+                                                                      setState(
+                                                                          () {});
                                                                       await showModalBottomSheet(
                                                                         isScrollControlled:
                                                                             true,
@@ -613,14 +635,14 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                       shouldSetState =
                                                                           true;
                                                                       FFAppState()
-                                                                              .everydayshow =
-                                                                          true;
-                                                                      FFAppState()
                                                                               .customdatesshow =
                                                                           false;
                                                                       FFAppState()
                                                                               .sudscribeType =
                                                                           'daily';
+                                                                      FFAppState()
+                                                                              .evarydaycalculetion =
+                                                                          false;
                                                                       setState(
                                                                           () {});
                                                                       if (shouldSetState) {
@@ -700,6 +722,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           token:
                                                                               currentAuthenticationToken,
                                                                         );
+
                                                                         shouldSetState =
                                                                             true;
                                                                         if (!(_model.custapiResulta5j?.succeeded ??
@@ -710,6 +733,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                             refreshToken:
                                                                                 currentAuthRefreshToken,
                                                                           );
+
                                                                           shouldSetState =
                                                                               true;
                                                                           if ((_model.custapiResultrefreshtoken?.succeeded ??
@@ -773,9 +797,8 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                           }
                                                                           return;
                                                                         } else {
-                                                                          context
-                                                                              .pushNamed('HomePage');
-
+                                                                          Navigator.pop(
+                                                                              context);
                                                                           if (shouldSetState) {
                                                                             setState(() {});
                                                                           }
@@ -803,16 +826,16 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                               .customCalculate =
                                                                           false;
                                                                       FFAppState().customdatesjson = functions
-                                                                          .customDatesMap(
+                                                                          .convertlisttojson(
                                                                               FFAppState()
                                                                                   .selectedDate
                                                                                   .map((e) => dateTimeFormat(
-                                                                                        'yMd',
+                                                                                        'd/M/y',
                                                                                         e,
                                                                                         locale: FFLocalizations.of(context).languageCode,
                                                                                       ))
                                                                                   .toList(),
-                                                                              FFAppState().selectedqty.toList())!
+                                                                              1)
                                                                           .toList()
                                                                           .cast<dynamic>();
                                                                       setState(
@@ -1274,10 +1297,12 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                             _model.calapiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
                                                                                               token: currentAuthenticationToken,
                                                                                             );
+
                                                                                             if (!(_model.calapiResulta5j?.succeeded ?? true)) {
                                                                                               _model.calapiResultrefreshtoken = await KMartAPIsGroup.refreshTokenCall.call(
                                                                                                 refreshToken: currentAuthRefreshToken,
                                                                                               );
+
                                                                                               if ((_model.calapiResultrefreshtoken?.succeeded ?? true)) {
                                                                                                 authManager.updateAuthUserData(
                                                                                                   authenticationToken: getJsonField(
@@ -1313,6 +1338,12 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                             }
                                                                                           }
                                                                                           FFAppState().customCalculate = true;
+                                                                                          FFAppState().selectedqty = _model.customdateselectionModels
+                                                                                              .getValues(
+                                                                                                (m) => m.countControllerValue,
+                                                                                              )
+                                                                                              .toList()
+                                                                                              .cast<int>();
                                                                                           setState(() {});
 
                                                                                           setState(() {});
@@ -1371,10 +1402,9 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                 child: SizedBox(
                                                                                   width: 50.0,
                                                                                   height: 50.0,
-                                                                                  child: CircularProgressIndicator(
-                                                                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                                                                      FlutterFlowTheme.of(context).primary,
-                                                                                    ),
+                                                                                  child: SpinKitCircle(
+                                                                                    color: FlutterFlowTheme.of(context).primary,
+                                                                                    size: 50.0,
                                                                                   ),
                                                                                 ),
                                                                               );
@@ -1555,6 +1585,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                     token:
                                                         currentAuthenticationToken,
                                                   );
+
                                                   shouldSetState = true;
                                                   if (!(_model.dailyapiResulta5j
                                                           ?.succeeded ??
@@ -1566,6 +1597,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                       refreshToken:
                                                           currentAuthRefreshToken,
                                                     );
+
                                                     shouldSetState = true;
                                                     if ((_model
                                                             .dailyapiResultrefreshtoken
@@ -1664,12 +1696,22 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                   totalPrice: FFAppState()
                                                       .EvarydayAmount,
                                                 );
+
                                                 shouldSetState = true;
                                                 if ((_model
                                                         .apisubscribeitemresult
                                                         ?.succeeded ??
                                                     true)) {
+                                                  FFAppState().everydayshow =
+                                                      false;
+                                                  FFAppState().startDate = '';
+                                                  FFAppState().endDate = '';
+                                                  FFAppState().EvarydayQty = 0;
+                                                  FFAppState().EvarydayAmount =
+                                                      0.0;
+                                                  setState(() {});
                                                   await showDialog(
+                                                    barrierDismissible: false,
                                                     context: context,
                                                     builder: (dialogContext) {
                                                       return Dialog(
@@ -1866,6 +1908,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                   token:
                                                                       currentAuthenticationToken,
                                                                 );
+
                                                                 shouldSetState =
                                                                     true;
                                                                 if (!(_model
@@ -1879,6 +1922,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                     refreshToken:
                                                                         currentAuthRefreshToken,
                                                                   );
+
                                                                   shouldSetState =
                                                                       true;
                                                                   if ((_model
@@ -1976,13 +2020,26 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                 token:
                                                                     currentAuthenticationToken,
                                                               );
+
                                                               shouldSetState =
                                                                   true;
                                                               if ((_model
                                                                       .customapisubscribeitemresult
                                                                       ?.succeeded ??
                                                                   true)) {
+                                                                FFAppState()
+                                                                    .customdatesjson = [];
+                                                                FFAppState()
+                                                                    .selectedDate = [];
+                                                                FFAppState()
+                                                                    .selectedqty = [];
+                                                                FFAppState()
+                                                                        .customdatesshow =
+                                                                    false;
+                                                                setState(() {});
                                                                 await showDialog(
+                                                                  barrierDismissible:
+                                                                      false,
                                                                   context:
                                                                       context,
                                                                   builder:
@@ -2027,14 +2084,6 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
 
                                                                 context.goNamed(
                                                                     'ProductsPage');
-
-                                                                FFAppState()
-                                                                    .customdatesjson = [];
-                                                                FFAppState()
-                                                                    .selectedDate = [];
-                                                                FFAppState()
-                                                                    .selectedqty = [];
-                                                                setState(() {});
                                                               } else {
                                                                 await showDialog(
                                                                   context:

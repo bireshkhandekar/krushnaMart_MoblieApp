@@ -9,6 +9,7 @@ import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'everyday_model.dart';
@@ -80,10 +81,9 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                   child: SizedBox(
                     width: 50.0,
                     height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
+                    child: SpinKitCircle(
+                      color: FlutterFlowTheme.of(context).primary,
+                      size: 50.0,
                     ),
                   ),
                 );
@@ -307,69 +307,70 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      final datePicked2Date =
-                                          await showDatePicker(
-                                        context: context,
-                                        initialDate: (functions.dailystartdate(
-                                                getCurrentTimestamp) ??
-                                            DateTime.now()),
-                                        firstDate: (functions.dailystartdate(
-                                                getCurrentTimestamp) ??
-                                            DateTime(1900)),
-                                        lastDate: (functions.limitDateselect(
-                                                getCurrentTimestamp) ??
-                                            DateTime(2050)),
-                                        builder: (context, child) {
-                                          return wrapInMaterialDatePickerTheme(
-                                            context,
-                                            child!,
-                                            headerBackgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            headerForegroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .info,
-                                            headerTextStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .headlineLarge
-                                                    .override(
-                                                      fontFamily: 'Outfit',
-                                                      fontSize: 32.0,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                            pickerBackgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondaryBackground,
-                                            pickerForegroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                            selectedDateTimeBackgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            selectedDateTimeForegroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .info,
-                                            actionButtonForegroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                            iconSize: 24.0,
-                                          );
-                                        },
-                                      );
+                                      if (_model.datePicked1 != null) {
+                                        final datePicked2Date =
+                                            await showDatePicker(
+                                          context: context,
+                                          initialDate: (_model.datePicked1 ??
+                                              DateTime.now()),
+                                          firstDate: (_model.datePicked1 ??
+                                              DateTime(1900)),
+                                          lastDate: (functions.limitDateselect(
+                                                  _model.datePicked1!) ??
+                                              DateTime(2050)),
+                                          builder: (context, child) {
+                                            return wrapInMaterialDatePickerTheme(
+                                              context,
+                                              child!,
+                                              headerBackgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              headerForegroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .info,
+                                              headerTextStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineLarge
+                                                      .override(
+                                                        fontFamily: 'Outfit',
+                                                        fontSize: 32.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                              pickerBackgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              pickerForegroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              selectedDateTimeBackgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              selectedDateTimeForegroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .info,
+                                              actionButtonForegroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                              iconSize: 24.0,
+                                            );
+                                          },
+                                        );
 
-                                      if (datePicked2Date != null) {
-                                        safeSetState(() {
-                                          _model.datePicked2 = DateTime(
-                                            datePicked2Date.year,
-                                            datePicked2Date.month,
-                                            datePicked2Date.day,
-                                          );
-                                        });
+                                        if (datePicked2Date != null) {
+                                          safeSetState(() {
+                                            _model.datePicked2 = DateTime(
+                                              datePicked2Date.year,
+                                              datePicked2Date.month,
+                                              datePicked2Date.day,
+                                            );
+                                          });
+                                        }
+                                        FFAppState().evarydaycalculetion =
+                                            false;
+                                        setState(() {});
                                       }
-                                      FFAppState().evarydaycalculetion = false;
-                                      setState(() {});
                                     },
                                     child: Container(
                                       width: 140.0,
@@ -469,7 +470,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                                 .primary
                                             : FlutterFlowTheme.of(context)
                                                 .alternate,
-                                        size: 20.0,
+                                        size: 24.0,
                                       ),
                                       incrementIconBuilder: (enabled) => FaIcon(
                                         FontAwesomeIcons.plus,
@@ -478,7 +479,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                                 .primary
                                             : FlutterFlowTheme.of(context)
                                                 .alternate,
-                                        size: 20.0,
+                                        size: 24.0,
                                       ),
                                       countBuilder: (count) => Text(
                                         count.toString(),
@@ -502,7 +503,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                         setState(() {});
                                       },
                                       stepSize: 1,
-                                      minimum: 0,
+                                      minimum: 1,
                                       contentPadding:
                                           const EdgeInsetsDirectional.fromSTEB(
                                               12.0, 4.0, 12.0, 4.0),
@@ -519,6 +520,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                         .call(
                                       token: currentAuthenticationToken,
                                     );
+
                                     if (!(_model.apiResulta5j?.succeeded ??
                                         true)) {
                                       _model.apiResultrefreshtoken =
@@ -526,6 +528,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                               .call(
                                         refreshToken: currentAuthRefreshToken,
                                       );
+
                                       if ((_model.apiResultrefreshtoken
                                               ?.succeeded ??
                                           true)) {
@@ -644,6 +647,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
+                                showLoadingIndicator: false,
                               ),
                             ],
                           ),
@@ -686,10 +690,13 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               Align(
                                 alignment: const AlignmentDirectional(-1.0, -1.0),
                                 child: Text(
-                                  '₹ ${getJsonField(
-                                    columnGetWalletBalanceResponse.jsonBody,
-                                    r'''$.data.wallet_balance''',
-                                  ).toString()}',
+                                  '₹ ${valueOrDefault<String>(
+                                    getJsonField(
+                                      columnGetWalletBalanceResponse.jsonBody,
+                                      r'''$.data.wallet_balance''',
+                                    )?.toString(),
+                                    '- - -',
+                                  )}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -709,7 +716,13 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               Align(
                                 alignment: const AlignmentDirectional(-1.0, -1.0),
                                 child: Text(
-                                  'Order Amount : ${_model.daysresult?.toString()} x ${widget.itemPrice?.toString()}',
+                                  'Order Amount : ${valueOrDefault<String>(
+                                    _model.daysresult?.toString(),
+                                    '- - -',
+                                  )} x ${valueOrDefault<String>(
+                                    widget.itemPrice?.toString(),
+                                    '- - -',
+                                  )}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -723,7 +736,13 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               Align(
                                 alignment: const AlignmentDirectional(-1.0, -1.0),
                                 child: Text(
-                                  '- ₹ ${functions.evarydayqtyintoprice(_model.daysresult, widget.itemPrice).toString()}',
+                                  '- ₹ ${valueOrDefault<String>(
+                                    functions
+                                        .evarydayqtyintoprice(
+                                            _model.daysresult, widget.itemPrice)
+                                        .toString(),
+                                    '- - -',
+                                  )}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -761,10 +780,20 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                               Align(
                                 alignment: const AlignmentDirectional(-1.0, -1.0),
                                 child: Text(
-                                  ' ₹ ${functions.evarydayTotalAmount(getJsonField(
-                                        columnGetWalletBalanceResponse.jsonBody,
-                                        r'''$.data.wallet_balance''',
-                                      ), functions.evarydayqtyintoprice(_model.daysresult, widget.itemPrice)).toString()}',
+                                  ' ₹ ${valueOrDefault<String>(
+                                    functions
+                                        .evarydayTotalAmount(
+                                            getJsonField(
+                                              columnGetWalletBalanceResponse
+                                                  .jsonBody,
+                                              r'''$.data.wallet_balance''',
+                                            ),
+                                            functions.evarydayqtyintoprice(
+                                                _model.daysresult,
+                                                widget.itemPrice))
+                                        .toString(),
+                                    '- - -',
+                                  )}',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
@@ -837,6 +866,7 @@ class _EverydayWidgetState extends State<EverydayWidget> {
                                             functions.evarydayqtyintoprice(
                                                 _model.daysresult,
                                                 widget.itemPrice)!;
+                                        FFAppState().everydayshow = true;
                                         setState(() {});
                                         Navigator.pop(context,
                                             _model.countControllerValue);

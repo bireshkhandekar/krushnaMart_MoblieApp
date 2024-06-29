@@ -52,7 +52,9 @@ class _EntryPageWidgetState extends State<EntryPageWidget> {
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: const BoxDecoration(),
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +62,7 @@ class _EntryPageWidgetState extends State<EntryPageWidget> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
-                    'assets/images/service.png',
+                    'assets/images/rajasTech.jpg',
                     width: double.infinity,
                     height: 200.0,
                     fit: BoxFit.contain,

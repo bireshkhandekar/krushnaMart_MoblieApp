@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'profile_page_model.dart';
 export 'profile_page_model.dart';
 
@@ -38,11 +39,13 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         _model.apiResulta5j = await KMartAPIsGroup.tokenValidetionCall.call(
           token: currentAuthenticationToken,
         );
+
         if (!(_model.apiResulta5j?.succeeded ?? true)) {
           _model.apiResultrefreshtoken =
               await KMartAPIsGroup.refreshTokenCall.call(
             refreshToken: currentAuthRefreshToken,
           );
+
           if ((_model.apiResultrefreshtoken?.succeeded ?? true)) {
             authManager.updateAuthUserData(
               authenticationToken: getJsonField(
@@ -79,36 +82,60 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
       }
     });
 
-    _model.nameTextController ??=
-        TextEditingController(text: currentUserData?.userName);
+    _model.nameTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.userName,
+      '- - -',
+    ));
     _model.nameFocusNode ??= FocusNode();
 
-    _model.moblienoTextController ??=
-        TextEditingController(text: currentUserData?.moblieNumber);
+    _model.moblienoTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.moblieNumber,
+      '- - -',
+    ));
     _model.moblienoFocusNode ??= FocusNode();
 
-    _model.housenoTextController ??=
-        TextEditingController(text: currentUserData?.houseNo);
+    _model.housenoTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.houseNo,
+      '- - -',
+    ));
     _model.housenoFocusNode ??= FocusNode();
 
-    _model.lanenoTextController ??=
-        TextEditingController(text: currentUserData?.lineNo);
+    _model.lanenoTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.lineNo,
+      '- - -',
+    ));
     _model.lanenoFocusNode ??= FocusNode();
 
-    _model.landmarkTextController ??=
-        TextEditingController(text: currentUserData?.landMark);
+    _model.landmarkTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.landMark,
+      '- - -',
+    ));
     _model.landmarkFocusNode ??= FocusNode();
 
-    _model.cityTextController ??=
-        TextEditingController(text: currentUserData?.city);
+    _model.cityTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.city,
+      '- - -',
+    ));
     _model.cityFocusNode ??= FocusNode();
 
-    _model.stateTextController ??=
-        TextEditingController(text: currentUserData?.state);
+    _model.stateTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.state,
+      '- - -',
+    ));
     _model.stateFocusNode ??= FocusNode();
 
-    _model.pincodeTextController ??=
-        TextEditingController(text: currentUserData?.pincode);
+    _model.pincodeTextController ??= TextEditingController(
+        text: valueOrDefault<String>(
+      currentUserData?.pincode,
+      '- - -',
+    ));
     _model.pincodeFocusNode ??= FocusNode();
   }
 
@@ -159,8 +186,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
-                                child: Image.network(
-                                  'https://picsum.photos/seed/566/600',
+                                child: Image.asset(
+                                  'assets/images/325-3256540_black-and-white-flame-logo.png',
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -623,10 +650,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           child: SizedBox(
                             width: 50.0,
                             height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
+                            child: SpinKitCircle(
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 50.0,
                             ),
                           ),
                         );
@@ -668,6 +694,33 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           onPressed: () async {
                             if (badgeCountitemsRowList.first.rowCount != 0) {
                               context.pushNamed('MyCartPage');
+                            } else {
+                              var confirmDialogResponse =
+                                  await showDialog<bool>(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: const Text(
+                                                'Your cart is empty. Plz start shopping now'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, false),
+                                                child: const Text('Cancel'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext, true),
+                                                child: const Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      ) ??
+                                      false;
+                              if (confirmDialogResponse) {
+                                context.pushNamed('ProductsPage');
+                              }
                             }
                           },
                         ),
@@ -696,39 +749,52 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            FFButtonWidget(
-                              onPressed: () async {
-                                context.pushNamed(
-                                  'LoginPage',
-                                  queryParameters: {
-                                    'pageName': serializeParam(
-                                      'profilePage',
-                                      ParamType.String,
-                                    ),
-                                  }.withoutNulls,
-                                );
-                              },
-                              text: 'login',
-                              options: FFButtonOptions(
-                                height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 0.0, 24.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context).primary,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Readex Pro',
-                                      color: Colors.white,
-                                      letterSpacing: 0.0,
-                                    ),
-                                elevation: 3.0,
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
+                            Text(
+                              'You are not logged in',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: 'Readex Pro',
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  context.pushNamed(
+                                    'LoginPage',
+                                    queryParameters: {
+                                      'pageName': serializeParam(
+                                        'profilePage',
+                                        ParamType.String,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+                                },
+                                text: 'login',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Readex Pro',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        letterSpacing: 0.0,
+                                      ),
+                                  borderSide: const BorderSide(
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
                               ),
                             ),
                           ],
@@ -1645,6 +1711,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                   .landmarkTextController.text,
                                               token: currentAuthenticationToken,
                                             );
+
                                             if ((_model.apiResultuserupdate
                                                     ?.succeeded ??
                                                 true)) {

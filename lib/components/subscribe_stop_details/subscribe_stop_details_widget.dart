@@ -348,6 +348,7 @@ class _SubscribeStopDetailsWidgetState
                                     .call(
                                   token: currentAuthenticationToken,
                                 );
+
                                 shouldSetState = true;
                                 if (!(_model.apiResulta5j?.succeeded ?? true)) {
                                   _model.apiResultrefreshtoken =
@@ -355,6 +356,7 @@ class _SubscribeStopDetailsWidgetState
                                           .call(
                                     refreshToken: currentAuthRefreshToken,
                                   );
+
                                   shouldSetState = true;
                                   if ((_model
                                           .apiResultrefreshtoken?.succeeded ??
@@ -396,6 +398,7 @@ class _SubscribeStopDetailsWidgetState
                                 subid: widget.subid,
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if ((_model.subdisable?.succeeded ?? true)) {
                                 Navigator.pop(context);
@@ -486,6 +489,7 @@ class _SubscribeStopDetailsWidgetState
                                         .call(
                                   token: currentAuthenticationToken,
                                 );
+
                                 shouldSetState = true;
                                 if (!(_model.pauseapiResulta5jCopy?.succeeded ??
                                     true)) {
@@ -494,6 +498,7 @@ class _SubscribeStopDetailsWidgetState
                                           .call(
                                     refreshToken: currentAuthRefreshToken,
                                   );
+
                                   shouldSetState = true;
                                   if ((_model.pauseapiResultrefreshtoken
                                           ?.succeeded ??
@@ -576,6 +581,7 @@ class _SubscribeStopDetailsWidgetState
                                       ),
                                 token: currentAuthenticationToken,
                               );
+
                               shouldSetState = true;
                               if ((_model.pauseapiresult?.succeeded ?? true)) {
                                 Navigator.pop(context);

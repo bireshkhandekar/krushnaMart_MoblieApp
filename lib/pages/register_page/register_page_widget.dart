@@ -27,7 +27,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
 
     _model.nameTextController ??= TextEditingController();
     _model.nameFocusNode ??= FocusNode();
-
+    _model.nameFocusNode!.addListener(() => setState(() {}));
     _model.mobileNumberTextController ??= TextEditingController();
     _model.mobileNumberFocusNode ??= FocusNode();
 
@@ -174,11 +174,11 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                           .nameTextController,
                                                       focusNode:
                                                           _model.nameFocusNode,
-                                                      autofocus: true,
+                                                      autofocus: false,
                                                       obscureText: false,
                                                       decoration:
                                                           InputDecoration(
-                                                        hintText: 'Name:',
+                                                        hintText: 'Name',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -297,7 +297,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                       0.0,
                                                                 ),
                                                         hintText:
-                                                            'Mobile Number :',
+                                                            'Mobile Number ',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -420,6 +420,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                               focusNode: _model
                                                                   .flatnoFocusNode,
                                                               autofocus: false,
+                                                              textCapitalization:
+                                                                  TextCapitalization
+                                                                      .none,
                                                               obscureText:
                                                                   false,
                                                               decoration:
@@ -434,7 +437,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           0.0,
                                                                     ),
                                                                 hintText:
-                                                                    'Flat No / Name :',
+                                                                    'Flat No / Name ',
                                                                 hintStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelMedium
@@ -558,7 +561,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           0.0,
                                                                     ),
                                                                 hintText:
-                                                                    'Lane No :',
+                                                                    'Lane No ',
                                                                 hintStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelMedium
@@ -666,6 +669,9 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                       focusNode: _model
                                                           .landMarkFocusNode,
                                                       autofocus: false,
+                                                      textCapitalization:
+                                                          TextCapitalization
+                                                              .none,
                                                       obscureText: false,
                                                       decoration:
                                                           InputDecoration(
@@ -679,7 +685,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                   letterSpacing:
                                                                       0.0,
                                                                 ),
-                                                        hintText: 'Land Mark:',
+                                                        hintText: 'Land Mark',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -809,7 +815,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           0.0,
                                                                     ),
                                                                 hintText:
-                                                                    'City :',
+                                                                    'City ',
                                                                 hintStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelMedium
@@ -953,7 +959,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                           0.0,
                                                                     ),
                                                                 hintText:
-                                                                    'Pin Code :',
+                                                                    'Pin Code ',
                                                                 hintStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .labelMedium
@@ -1141,7 +1147,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                           decoration:
                                                               InputDecoration(
                                                             hintText:
-                                                                'Set 4 Digit PIN :',
+                                                                'Set 4 Digit PIN',
                                                             hintStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -1174,7 +1180,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                   BorderSide(
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .primary,
+                                                                    .alternate,
                                                                 width: 2.0,
                                                               ),
                                                               borderRadius:
@@ -1313,7 +1319,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                           decoration:
                                                               InputDecoration(
                                                             hintText:
-                                                                'Conform PIN :',
+                                                                'Conform PIN',
                                                             hintStyle:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -1353,7 +1359,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                         .pinMatch!
                                                                     ? FlutterFlowTheme.of(
                                                                             context)
-                                                                        .primary
+                                                                        .alternate
                                                                     : FlutterFlowTheme.of(
                                                                             context)
                                                                         .error,
@@ -1511,7 +1517,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                           const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
-                                                                  8.0,
+                                                                  16.0,
                                                                   0.0,
                                                                   0.0),
                                                       child: FFButtonWidget(
@@ -1562,10 +1568,32 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                   .conformpinTextController
                                                                   .text,
                                                             );
+
                                                             if ((_model
                                                                     .registerApiResponce
                                                                     ?.succeeded ??
                                                                 true)) {
+                                                              await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (alertDialogContext) {
+                                                                  return AlertDialog(
+                                                                    title: const Text(
+                                                                        'Registration successful! Please log in now.'),
+                                                                    actions: [
+                                                                      TextButton(
+                                                                        onPressed:
+                                                                            () =>
+                                                                                Navigator.pop(alertDialogContext),
+                                                                        child: const Text(
+                                                                            'Ok'),
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              );
+
                                                               context.goNamed(
                                                                 'LoginPage',
                                                                 queryParameters:
@@ -1605,7 +1633,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                         TextStyle(
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .primaryText,
+                                                                          .secondaryBackground,
                                                                     ),
                                                                   ),
                                                                   duration: const Duration(
@@ -1614,7 +1642,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                                                                   backgroundColor:
                                                                       FlutterFlowTheme.of(
                                                                               context)
-                                                                          .secondary,
+                                                                          .error,
                                                                 ),
                                                               );
                                                             }

@@ -72,3 +72,17 @@ SELECT SUM(quantity * price) AS totalprice FROM cart_add;
 }
 
 /// END TOTALPRICE
+
+/// BEGIN ADD DATES
+Future performAddDates(
+  Database database, {
+  String? dates,
+  int? qty,
+}) {
+  final query = '''
+INSERT INTO customDates (dates,qty) VALUES ('$dates',$qty)
+''';
+  return database.rawQuery(query);
+}
+
+/// END ADD DATES

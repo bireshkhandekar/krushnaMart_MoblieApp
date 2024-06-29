@@ -104,7 +104,16 @@ class _SubscribeSuccessWidgetState extends State<SubscribeSuccessWidget> {
             padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 8.0),
             child: FFButtonWidget(
               onPressed: () async {
-                Navigator.pop(context);
+                context.goNamed(
+                  'ProductsPage',
+                  extra: <String, dynamic>{
+                    kTransitionInfoKey: const TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 0),
+                    ),
+                  },
+                );
               },
               text: 'Done',
               options: FFButtonOptions(

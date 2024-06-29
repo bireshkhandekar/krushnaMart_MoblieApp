@@ -41,6 +41,10 @@ class SQLiteManager {
         _database,
       );
 
+  Future<List<GetDatesRow>> getDates() => performGetDates(
+        _database,
+      );
+
   /// END READ QUERY CALLS
 
   /// START UPDATE QUERY CALLS
@@ -91,6 +95,16 @@ class SQLiteManager {
       performTotalprice(
         _database,
         totalprice: totalprice,
+      );
+
+  Future addDates({
+    String? dates,
+    int? qty,
+  }) =>
+      performAddDates(
+        _database,
+        dates: dates,
+        qty: qty,
       );
 
   /// END UPDATE QUERY CALLS

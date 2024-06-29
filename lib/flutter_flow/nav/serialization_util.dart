@@ -227,6 +227,8 @@ dynamic deserializeParam<T>(
             return GetTotalpriceRow(data);
           case CountitemsRow:
             return CountitemsRow(data);
+          case GetDatesRow:
+            return GetDatesRow(data);
           default:
             return null;
         }
