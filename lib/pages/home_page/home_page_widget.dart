@@ -3,6 +3,7 @@ import '/backend/api_requests/api_calls.dart';
 import '/backend/sqlite/sqlite_manager.dart';
 import '/components/connection_lose/connection_lose_widget.dart';
 import '/components/empty_tr_list/empty_tr_list_widget.dart';
+import '/components/homepageloading/homepageloading_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -14,8 +15,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:octo_image/octo_image.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -666,9 +669,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 2.0),
                         child: Container(
-                          height: MediaQuery.sizeOf(context).height * 0.27,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).alternate,
+                          decoration: const BoxDecoration(
                             shape: BoxShape.rectangle,
                           ),
                           child: Align(
@@ -738,12 +739,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   topRight:
                                                       Radius.circular(0.0),
                                                 ),
-                                                child: CachedNetworkImage(
-                                                  fadeInDuration:
-                                                      const Duration(milliseconds: 0),
-                                                  fadeOutDuration:
-                                                      const Duration(milliseconds: 0),
-                                                  imageUrl: heroimageItem,
+                                                child: OctoImage(
+                                                  placeholderBuilder: (_) =>
+                                                      const SizedBox.expand(
+                                                    child: Image(
+                                                      image: BlurHashImage(
+                                                          'LrO:^4WGo}oy.lobWBa#VsocjFn%'),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                  image:
+                                                      CachedNetworkImageProvider(
+                                                    heroimageItem,
+                                                  ),
                                                   width: 300.0,
                                                   height: 200.0,
                                                   fit: BoxFit.fill,
@@ -797,27 +805,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         scrollDirection: Axis.vertical,
                         builderDelegate: PagedChildBuilderDelegate<dynamic>(
                           // Customize what your widget looks like when it's loading the first page.
-                          firstPageProgressIndicatorBuilder: (_) => Center(
-                            child: SizedBox(
-                              width: 1.0,
-                              height: 1.0,
-                              child: SpinKitCircle(
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 1.0,
-                              ),
-                            ),
-                          ),
+                          firstPageProgressIndicatorBuilder: (_) =>
+                              const HomepageloadingWidget(),
                           // Customize what your widget looks like when it's loading another page.
-                          newPageProgressIndicatorBuilder: (_) => Center(
-                            child: SizedBox(
-                              width: 1.0,
-                              height: 1.0,
-                              child: SpinKitCircle(
-                                color: FlutterFlowTheme.of(context).primary,
-                                size: 1.0,
-                              ),
-                            ),
-                          ),
+                          newPageProgressIndicatorBuilder: (_) =>
+                              const HomepageloadingWidget(),
                           noItemsFoundIndicatorBuilder: (_) => SizedBox(
                             height: MediaQuery.sizeOf(context).height * 0.84,
                             child: const ConnectionLoseWidget(),
@@ -883,11 +875,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           8.0),
-                                                  child: Image.network(
-                                                    getJsonField(
-                                                      eachItemsItem,
-                                                      r'''$.image''',
-                                                    ).toString(),
+                                                  child: OctoImage(
+                                                    placeholderBuilder: (_) =>
+                                                        const SizedBox.expand(
+                                                      child: Image(
+                                                        image: BlurHashImage(
+                                                            'LcS5-Lt7yYfRo~bGjFjFuPaeZ#kB'),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                    image: NetworkImage(
+                                                      getJsonField(
+                                                        eachItemsItem,
+                                                        r'''$.image''',
+                                                      ).toString(),
+                                                    ),
                                                     width: 140.0,
                                                     height: 200.0,
                                                     fit: BoxFit.fill,

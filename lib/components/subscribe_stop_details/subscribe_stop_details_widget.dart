@@ -217,8 +217,8 @@ class _SubscribeStopDetailsWidgetState
                         onTap: () async {
                           final datePicked2Date = await showDatePicker(
                             context: context,
-                            initialDate: getCurrentTimestamp,
-                            firstDate: (getCurrentTimestamp ?? DateTime(1900)),
+                            initialDate: (_model.datePicked1 ?? DateTime.now()),
+                            firstDate: (_model.datePicked1 ?? DateTime(1900)),
                             lastDate: DateTime(2050),
                             builder: (context, child) {
                               return wrapInMaterialDatePickerTheme(
@@ -408,12 +408,13 @@ class _SubscribeStopDetailsWidgetState
                                       'Subscription cancelled successfully',
                                       style: TextStyle(
                                         color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                            .secondaryBackground,
                                       ),
                                     ),
                                     duration: const Duration(milliseconds: 4000),
                                     backgroundColor:
-                                        FlutterFlowTheme.of(context).secondary,
+                                        FlutterFlowTheme.of(context)
+                                            .secondaryText,
                                   ),
                                 );
                               }
@@ -594,12 +595,13 @@ class _SubscribeStopDetailsWidgetState
                                       ).toString(),
                                       style: TextStyle(
                                         color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                            .secondaryBackground,
                                       ),
                                     ),
                                     duration: const Duration(milliseconds: 4000),
                                     backgroundColor:
-                                        FlutterFlowTheme.of(context).secondary,
+                                        FlutterFlowTheme.of(context)
+                                            .secondaryText,
                                   ),
                                 );
                               }

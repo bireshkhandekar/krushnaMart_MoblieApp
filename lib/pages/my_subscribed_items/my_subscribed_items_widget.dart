@@ -11,7 +11,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'my_subscribed_items_model.dart';
 export 'my_subscribed_items_model.dart';
 
@@ -128,239 +127,86 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
             builder: (context) {
               if (currentAuthenticationToken != null &&
                   currentAuthenticationToken != '') {
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 8.0, 0.0, 0.0),
-                          child: PagedListView<ApiPagingParams, dynamic>(
-                            pagingController: _model.setListViewController(
-                              (nextPageMarker) =>
-                                  KMartAPIsGroup.getsubscriptionsCall.call(
-                                userId: currentUserData?.id,
-                                token: currentAuthenticationToken,
-                                limit: 10,
-                                page: nextPageMarker.nextPageNumber + 1,
-                              ),
-                            ),
-                            padding: EdgeInsets.zero,
-                            primary: false,
-                            shrinkWrap: true,
-                            reverse: false,
-                            scrollDirection: Axis.vertical,
-                            builderDelegate: PagedChildBuilderDelegate<dynamic>(
-                              // Customize what your widget looks like when it's loading the first page.
-                              firstPageProgressIndicatorBuilder: (_) => Center(
-                                child: SizedBox(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  child: SpinKitCircle(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 40.0,
-                                  ),
-                                ),
-                              ),
-                              // Customize what your widget looks like when it's loading another page.
-                              newPageProgressIndicatorBuilder: (_) => Center(
-                                child: SizedBox(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  child: SpinKitCircle(
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    size: 40.0,
-                                  ),
-                                ),
-                              ),
-                              noItemsFoundIndicatorBuilder: (_) => SizedBox(
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.84,
-                                child: const EmptySubscriptionsWidget(),
-                              ),
-                              itemBuilder: (context, _, allitemsIndex) {
-                                final allitemsItem = _model
-                                    .listViewPagingController!
-                                    .itemList![allitemsIndex];
-                                return Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      4.0, 0.0, 4.0, 0.0),
-                                  child: Card(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
+                return FutureBuilder<ApiCallResponse>(
+                  future: KMartAPIsGroup.getsubscriptionsCall.call(
+                    userId: currentUserData?.id,
+                    token: currentAuthenticationToken,
+                    limit: 10,
+                    page: _model.pageno,
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: SpinKitCircle(
+                            color: FlutterFlowTheme.of(context).primary,
+                            size: 50.0,
+                          ),
+                        ),
+                      );
+                    }
+                    final columnGetsubscriptionsResponse = snapshot.data!;
+                    return SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Align(
+                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 8.0, 0.0, 0.0),
+                              child: Builder(
+                                builder: (context) {
+                                  final allitems =
+                                      KMartAPIsGroup.getsubscriptionsCall
+                                              .data(
+                                                columnGetsubscriptionsResponse
+                                                    .jsonBody,
+                                              )
+                                              ?.toList() ??
+                                          [];
+                                  if (allitems.isEmpty) {
+                                    return SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.84,
+                                      child: const EmptySubscriptionsWidget(),
+                                    );
+                                  }
+                                  return ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: allitems.length,
+                                    itemBuilder: (context, allitemsIndex) {
+                                      final allitemsItem =
+                                          allitems[allitemsIndex];
+                                      return Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            4.0, 0.0, 4.0, 0.0),
+                                        child: Card(
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 4.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Text(
-                                                      'Subscribe id : ',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Readex Pro',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryText,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                    ),
-                                                    Text(
-                                                      valueOrDefault<String>(
-                                                        getJsonField(
-                                                          allitemsItem,
-                                                          r'''$.id''',
-                                                        )?.toString(),
-                                                        '- - -',
-                                                      ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Readex Pro',
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Divider(
-                                            height: 1.0,
-                                            thickness: 0.2,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 4.0, 0.0, 0.0),
+                                                    8.0, 8.0, 8.0, 8.0),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 4.0, 0.0, 4.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 7,
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Text(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                getJsonField(
-                                                                  allitemsItem,
-                                                                  r'''$.item_details.name''',
-                                                                )?.toString(),
-                                                                '- - -',
-                                                              ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Readex Pro',
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Text(
-                                                            'Price : ',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                          ),
-                                                          Text(
-                                                            valueOrDefault<
-                                                                String>(
-                                                              getJsonField(
-                                                                allitemsItem,
-                                                                r'''$.item_details.price''',
-                                                              )?.toString(),
-                                                              '00',
-                                                            ),
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
                                                 Padding(
                                                   padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
@@ -377,7 +223,7 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                             MainAxisSize.max,
                                                         children: [
                                                           Text(
-                                                            'Unit : ',
+                                                            'Subscribe id : ',
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium
@@ -396,7 +242,7 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                                 String>(
                                                               getJsonField(
                                                                 allitemsItem,
-                                                                r'''$.item_details.weight''',
+                                                                r'''$.id''',
                                                               )?.toString(),
                                                               '- - -',
                                                             ),
@@ -415,6 +261,231 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                           ),
                                                         ],
                                                       ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Divider(
+                                                  height: 1.0,
+                                                  thickness: 0.2,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 4.0, 0.0, 0.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    4.0,
+                                                                    0.0,
+                                                                    4.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 7,
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      getJsonField(
+                                                                        allitemsItem,
+                                                                        r'''$.item_details.name''',
+                                                                      )?.toString(),
+                                                                      '- - -',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          fontSize:
+                                                                              16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  'Price : ',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryText,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                ),
+                                                                Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    getJsonField(
+                                                                      allitemsItem,
+                                                                      r'''$.item_details.price''',
+                                                                    )?.toString(),
+                                                                    '00',
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    4.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  'Unit : ',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryText,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                ),
+                                                                Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    getJsonField(
+                                                                      allitemsItem,
+                                                                      r'''$.item_details.weight''',
+                                                                    )?.toString(),
+                                                                    '- - -',
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Readex Pro',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                      ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          4.0),
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Text(
+                                                                    'Total Qty : ',
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).secondaryText,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                  ),
+                                                                  Text(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      getJsonField(
+                                                                        allitemsItem,
+                                                                        r'''$.quantity''',
+                                                                      )?.toString(),
+                                                                      '- - -',
+                                                                    ),
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Readex Pro',
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w600,
+                                                                        ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
                                                       Padding(
                                                         padding:
                                                             const EdgeInsetsDirectional
@@ -428,7 +499,7 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                               MainAxisSize.max,
                                                           children: [
                                                             Text(
-                                                              'Total Qty : ',
+                                                              'Sub Type : ',
                                                               style: FlutterFlowTheme
                                                                       .of(context)
                                                                   .bodyMedium
@@ -447,7 +518,7 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                                   String>(
                                                                 getJsonField(
                                                                   allitemsItem,
-                                                                  r'''$.quantity''',
+                                                                  r'''$.subscribe_type''',
                                                                 )?.toString(),
                                                                 '- - -',
                                                               ),
@@ -467,292 +538,199 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                                           ],
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 0.0, 0.0, 4.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Text(
-                                                        'Sub Type : ',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
-                                                      Text(
-                                                        valueOrDefault<String>(
-                                                          getJsonField(
-                                                            allitemsItem,
-                                                            r'''$.subscribe_type''',
-                                                          )?.toString(),
-                                                          '- - -',
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Readex Pro',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 8.0, 0.0, 4.0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 3,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    8.0,
+                                                                    0.0,
+                                                                    4.0),
                                                         child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .spaceAround,
+                                                                  .spaceBetween,
                                                           children: [
-                                                            Builder(
-                                                              builder:
-                                                                  (context) =>
-                                                                      InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  if (currentAuthenticationToken !=
-                                                                          null &&
-                                                                      currentAuthenticationToken !=
-                                                                          '') {
-                                                                    _model.detailsapiResulta5j =
-                                                                        await KMartAPIsGroup
-                                                                            .tokenValidetionCall
-                                                                            .call(
-                                                                      token:
-                                                                          currentAuthenticationToken,
-                                                                    );
-
-                                                                    if (!(_model
-                                                                            .detailsapiResulta5j
-                                                                            ?.succeeded ??
-                                                                        true)) {
-                                                                      _model.detailsapiResultrefreshtoken = await KMartAPIsGroup
-                                                                          .refreshTokenCall
-                                                                          .call(
-                                                                        refreshToken:
-                                                                            currentAuthRefreshToken,
-                                                                      );
-
-                                                                      if ((_model
-                                                                              .detailsapiResultrefreshtoken
-                                                                              ?.succeeded ??
-                                                                          true)) {
-                                                                        authManager
-                                                                            .updateAuthUserData(
-                                                                          authenticationToken:
-                                                                              getJsonField(
-                                                                            (_model.detailsapiResultrefreshtoken?.jsonBody ??
-                                                                                ''),
-                                                                            r'''$.data.access_token''',
-                                                                          ).toString(),
-                                                                          refreshToken:
-                                                                              currentAuthRefreshToken,
-                                                                          authUid:
-                                                                              currentUserUid,
-                                                                          userData:
-                                                                              UserStruct(
-                                                                            id: currentUserData?.id,
-                                                                            userName:
-                                                                                currentUserData?.userName,
-                                                                            moblieNumber:
-                                                                                currentUserData?.moblieNumber,
-                                                                            shippingAddress:
-                                                                                currentUserData?.shippingAddress,
-                                                                            houseNo:
-                                                                                currentUserData?.houseNo,
-                                                                            lineNo:
-                                                                                currentUserData?.lineNo,
-                                                                            landMark:
-                                                                                currentUserData?.landMark,
-                                                                            city:
-                                                                                currentUserData?.city,
-                                                                            state:
-                                                                                currentUserData?.state,
-                                                                            pincode:
-                                                                                currentUserData?.pincode,
-                                                                          ),
-                                                                        );
-                                                                      } else {
-                                                                        context.pushNamed(
-                                                                            'LoginPage');
-                                                                      }
-                                                                    }
-                                                                  }
-                                                                  await showDialog(
-                                                                    context:
-                                                                        context,
+                                                            Expanded(
+                                                              flex: 3,
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceAround,
+                                                                children: [
+                                                                  Builder(
                                                                     builder:
-                                                                        (dialogContext) {
-                                                                      return Dialog(
-                                                                        elevation:
-                                                                            0,
-                                                                        insetPadding:
-                                                                            EdgeInsets.zero,
-                                                                        backgroundColor:
-                                                                            Colors.transparent,
-                                                                        alignment:
-                                                                            const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                              : FocusScope.of(context).unfocus(),
-                                                                          child:
-                                                                              SubscriptionDetailsWidget(
-                                                                            subId:
-                                                                                getJsonField(
-                                                                              allitemsItem,
-                                                                              r'''$.id''',
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) =>
-                                                                      setState(
-                                                                          () {}));
+                                                                        (context) =>
+                                                                            InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        if (currentAuthenticationToken !=
+                                                                                null &&
+                                                                            currentAuthenticationToken !=
+                                                                                '') {
+                                                                          _model.detailsapiResulta5j = await KMartAPIsGroup
+                                                                              .tokenValidetionCall
+                                                                              .call(
+                                                                            token:
+                                                                                currentAuthenticationToken,
+                                                                          );
 
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                child: Text(
-                                                                  'Details',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .secondaryText,
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        decoration:
-                                                                            TextDecoration.underline,
-                                                                      ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Builder(
-                                                              builder:
-                                                                  (context) =>
-                                                                      InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  await showDialog(
-                                                                    context:
-                                                                        context,
-                                                                    builder:
-                                                                        (dialogContext) {
-                                                                      return Dialog(
-                                                                        elevation:
-                                                                            0,
-                                                                        insetPadding:
-                                                                            EdgeInsets.zero,
-                                                                        backgroundColor:
-                                                                            Colors.transparent,
-                                                                        alignment:
-                                                                            const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                        child:
-                                                                            GestureDetector(
-                                                                          onTap: () => _model.unfocusNode.canRequestFocus
-                                                                              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-                                                                              : FocusScope.of(context).unfocus(),
-                                                                          child:
-                                                                              SizedBox(
-                                                                            width:
-                                                                                340.0,
-                                                                            child:
-                                                                                SubscribeStopDetailsWidget(
-                                                                              subid: getJsonField(
-                                                                                allitemsItem,
-                                                                                r'''$.id''',
+                                                                          if (!(_model.detailsapiResulta5j?.succeeded ??
+                                                                              true)) {
+                                                                            _model.detailsapiResultrefreshtoken =
+                                                                                await KMartAPIsGroup.refreshTokenCall.call(
+                                                                              refreshToken: currentAuthRefreshToken,
+                                                                            );
+
+                                                                            if ((_model.detailsapiResultrefreshtoken?.succeeded ??
+                                                                                true)) {
+                                                                              authManager.updateAuthUserData(
+                                                                                authenticationToken: getJsonField(
+                                                                                  (_model.detailsapiResultrefreshtoken?.jsonBody ?? ''),
+                                                                                  r'''$.data.access_token''',
+                                                                                ).toString(),
+                                                                                refreshToken: currentAuthRefreshToken,
+                                                                                authUid: currentUserUid,
+                                                                                userData: UserStruct(
+                                                                                  id: currentUserData?.id,
+                                                                                  userName: currentUserData?.userName,
+                                                                                  moblieNumber: currentUserData?.moblieNumber,
+                                                                                  shippingAddress: currentUserData?.shippingAddress,
+                                                                                  houseNo: currentUserData?.houseNo,
+                                                                                  lineNo: currentUserData?.lineNo,
+                                                                                  landMark: currentUserData?.landMark,
+                                                                                  city: currentUserData?.city,
+                                                                                  state: currentUserData?.state,
+                                                                                  pincode: currentUserData?.pincode,
+                                                                                ),
+                                                                              );
+                                                                            } else {
+                                                                              context.pushNamed('LoginPage');
+                                                                            }
+                                                                          }
+                                                                        }
+                                                                        await showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (dialogContext) {
+                                                                            return Dialog(
+                                                                              elevation: 0,
+                                                                              insetPadding: EdgeInsets.zero,
+                                                                              backgroundColor: Colors.transparent,
+                                                                              alignment: const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                              child: GestureDetector(
+                                                                                onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                child: SubscriptionDetailsWidget(
+                                                                                  subId: getJsonField(
+                                                                                    allitemsItem,
+                                                                                    r'''$.id''',
+                                                                                  ),
+                                                                                ),
                                                                               ),
+                                                                            );
+                                                                          },
+                                                                        ).then((value) =>
+                                                                            setState(() {}));
+
+                                                                        setState(
+                                                                            () {});
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        'Details',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                                              fontSize: 16.0,
+                                                                              letterSpacing: 0.0,
+                                                                              decoration: TextDecoration.underline,
                                                                             ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ).then((value) =>
-                                                                      setState(
-                                                                          () {}));
-                                                                },
-                                                                child: Text(
-                                                                  'Stop',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .start,
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .secondaryText,
-                                                                        fontSize:
-                                                                            16.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        decoration:
-                                                                            TextDecoration.underline,
                                                                       ),
-                                                                ),
+                                                                    ),
+                                                                  ),
+                                                                  Builder(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        await showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (dialogContext) {
+                                                                            return Dialog(
+                                                                              elevation: 0,
+                                                                              insetPadding: EdgeInsets.zero,
+                                                                              backgroundColor: Colors.transparent,
+                                                                              alignment: const AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                              child: GestureDetector(
+                                                                                onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
+                                                                                child: SizedBox(
+                                                                                  width: 340.0,
+                                                                                  child: SubscribeStopDetailsWidget(
+                                                                                    subid: getJsonField(
+                                                                                      allitemsItem,
+                                                                                      r'''$.id''',
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ).then((value) =>
+                                                                            setState(() {}));
+                                                                      },
+                                                                      child:
+                                                                          Text(
+                                                                        'Stop',
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Readex Pro',
+                                                                              color: FlutterFlowTheme.of(context).secondaryText,
+                                                                              fontSize: 16.0,
+                                                                              letterSpacing: 0.0,
+                                                                              decoration: TextDecoration.underline,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
                                                             ),
                                                           ],
@@ -764,18 +742,131 @@ class _MySubscribedItemsWidgetState extends State<MySubscribedItemsWidget> {
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
+                          if ('1' !=
+                              valueOrDefault<String>(
+                                getJsonField(
+                                  columnGetsubscriptionsResponse.jsonBody,
+                                  r'''$.total_pages''',
+                                )?.toString(),
+                                '1',
+                              ))
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 8.0),
+                              child: Container(
+                                decoration: const BoxDecoration(),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      8.0, 0.0, 8.0, 0.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      FFButtonWidget(
+                                        onPressed: (_model.pageno == 1)
+                                            ? null
+                                            : () async {
+                                                _model.pageno =
+                                                    _model.pageno + -1;
+                                                setState(() {});
+                                              },
+                                        text: 'Back',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 0.0, 8.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          disabledTextColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                        ),
+                                      ),
+                                      FFButtonWidget(
+                                        onPressed: (_model.pageno ==
+                                                getJsonField(
+                                                  columnGetsubscriptionsResponse
+                                                      .jsonBody,
+                                                  r'''$.total_pages''',
+                                                ))
+                                            ? null
+                                            : () async {
+                                                _model.pageno =
+                                                    _model.pageno + 1;
+                                                setState(() {});
+                                              },
+                                        text: 'More',
+                                        options: FFButtonOptions(
+                                          height: 30.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  8.0, 0.0, 8.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily: 'Readex Pro',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          disabledTextColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryText,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 );
               } else {
                 return Container(

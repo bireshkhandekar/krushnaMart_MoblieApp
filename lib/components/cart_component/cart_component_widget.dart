@@ -3,7 +3,9 @@ import '/flutter_flow/flutter_flow_count_controller.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:octo_image/octo_image.dart';
 import 'cart_component_model.dart';
 export 'cart_component_model.dart';
 
@@ -68,8 +70,16 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 6.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  widget.image!,
+                child: OctoImage(
+                  placeholderBuilder: (_) => const SizedBox.expand(
+                    child: Image(
+                      image: BlurHashImage('LcS5-Lt7yYfRo~bGjFjFuPaeZ#kB'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  image: NetworkImage(
+                    widget.image!,
+                  ),
                   width: 140.0,
                   height: 200.0,
                   fit: BoxFit.fill,
@@ -105,26 +115,6 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w600,
                                   ),
-                        ),
-                      ),
-                      InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await SQLiteManager.instance.deleteCart(
-                            id: widget.id!,
-                          );
-                          if (Navigator.of(context).canPop()) {
-                            context.pop();
-                          }
-                          context.pushNamed('MyCartPage');
-                        },
-                        child: Icon(
-                          Icons.delete_outline,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 30.0,
                         ),
                       ),
                     ],
@@ -233,9 +223,15 @@ class _CartComponentWidgetState extends State<CartComponentWidget> {
                                       context.pop();
                                     }
                                     context.pushNamed('MyCartPage');
+
+                                    if (_model.countControllerValue == 0) {
+                                      await SQLiteManager.instance.deleteCart(
+                                        id: widget.id!,
+                                      );
+                                    }
                                   },
                                   stepSize: 1,
-                                  minimum: 1,
+                                  minimum: 0,
                                   contentPadding:
                                       const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 4.0, 12.0, 4.0),

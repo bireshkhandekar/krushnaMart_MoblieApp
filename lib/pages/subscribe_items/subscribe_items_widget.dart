@@ -14,7 +14,9 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:provider/provider.dart';
 import 'subscribe_items_model.dart';
 export 'subscribe_items_model.dart';
@@ -250,13 +252,25 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                 BorderRadius
                                                                     .circular(
                                                                         8.0),
-                                                            child:
-                                                                Image.network(
-                                                              getJsonField(
-                                                                subscribeItemsItemByIdResponse
-                                                                    .jsonBody,
-                                                                r'''$.image''',
-                                                              ).toString(),
+                                                            child: OctoImage(
+                                                              placeholderBuilder:
+                                                                  (_) => const SizedBox
+                                                                      .expand(
+                                                                child: Image(
+                                                                  image: BlurHashImage(
+                                                                      'LcS5-Lt7yYfRo~bGjFjFuPaeZ#kB'),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                              image:
+                                                                  NetworkImage(
+                                                                getJsonField(
+                                                                  subscribeItemsItemByIdResponse
+                                                                      .jsonBody,
+                                                                  r'''$.image''',
+                                                                ).toString(),
+                                                              ),
                                                               width: 140.0,
                                                               height: 200.0,
                                                               fit: BoxFit.fill,
@@ -617,7 +631,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                                 Padding(
                                                                               padding: MediaQuery.viewInsetsOf(context),
                                                                               child: SizedBox(
-                                                                                height: 480.0,
+                                                                                height: 484.0,
                                                                                 child: EverydayWidget(
                                                                                   itemPrice: getJsonField(
                                                                                     subscribeItemsItemByIdResponse.jsonBody,
@@ -2195,7 +2209,7 @@ class _SubscribeItemsWidgetState extends State<SubscribeItemsWidget> {
                                                                     0.0,
                                                                     16.0,
                                                                     0.0,
-                                                                    0.0),
+                                                                    8.0),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,

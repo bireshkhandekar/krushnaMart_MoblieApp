@@ -1827,10 +1827,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                       r'''$.message''',
                                                     ).toString(),
                                                     style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
                                                     ),
                                                   ),
                                                   duration: const Duration(
@@ -1838,7 +1837,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                   backgroundColor:
                                                       FlutterFlowTheme.of(
                                                               context)
-                                                          .secondary,
+                                                          .secondaryText,
                                                 ),
                                               );
                                             } else {
@@ -1853,10 +1852,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                                       r'''$.message''',
                                                     ).toString(),
                                                     style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
                                                     ),
                                                   ),
                                                   duration: const Duration(

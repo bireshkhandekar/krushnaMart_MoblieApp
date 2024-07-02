@@ -875,22 +875,27 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 8.0, 8.0, 0.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Row(
+                                  child: Form(
+                                    key: _model.formKey,
+                                    autovalidateMode: AutovalidateMode.disabled,
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 0.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 8.0),
-                                              child: Text(
-                                                'Deposit money in wallet',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 8.0),
+                                                  child: Text(
+                                                    'Deposit money in wallet',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily:
@@ -900,410 +905,485 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                           fontWeight:
                                                               FontWeight.w600,
                                                         ),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 8.0),
-                                          child: TextFormField(
-                                            controller:
-                                                _model.addAmountTextController,
-                                            focusNode:
-                                                _model.addAmountFocusNode,
-                                            autofocus: false,
-                                            textCapitalization:
-                                                TextCapitalization.none,
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              labelStyle: FlutterFlowTheme.of(
-                                                      context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Readex Pro',
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 8.0),
+                                              child: TextFormField(
+                                                controller: _model
+                                                    .addAmountTextController,
+                                                focusNode:
+                                                    _model.addAmountFocusNode,
+                                                autofocus: false,
+                                                textCapitalization:
+                                                    TextCapitalization.none,
+                                                obscureText: false,
+                                                decoration: InputDecoration(
+                                                  labelStyle: FlutterFlowTheme
+                                                          .of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                  alignLabelWithHint: false,
+                                                  hintText: '000',
+                                                  hintStyle: FlutterFlowTheme
+                                                          .of(context)
+                                                      .labelMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Readex Pro',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        fontSize: 18.0,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                                  enabledBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  errorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  focusedErrorBorder:
+                                                      OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error,
+                                                      width: 2.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  prefixIcon: Icon(
+                                                    Icons.currency_rupee,
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .primaryText,
-                                                    letterSpacing: 0.0,
                                                   ),
-                                              alignLabelWithHint: false,
-                                              hintText: '000',
-                                              hintStyle: FlutterFlowTheme.of(
-                                                      context)
-                                                  .labelMedium
-                                                  .override(
-                                                    fontFamily: 'Readex Pro',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    fontSize: 18.0,
-                                                    letterSpacing: 0.0,
-                                                  ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .alternate,
-                                                  width: 2.0,
                                                 ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primary,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .error,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              prefixIcon: Icon(
-                                                Icons.currency_rupee,
-                                                color:
+                                                style:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryText,
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Readex Pro',
+                                                          fontSize: 18.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                validator: _model
+                                                    .addAmountTextControllerValidator
+                                                    .asValidator(context),
                                               ),
                                             ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily: 'Readex Pro',
-                                                  fontSize: 18.0,
-                                                  letterSpacing: 0.0,
-                                                ),
-                                            keyboardType: TextInputType.number,
-                                            validator: _model
-                                                .addAmountTextControllerValidator
-                                                .asValidator(context),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 8.0, 0.0, 8.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              FFButtonWidget(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _model
-                                                        .addAmountTextController
-                                                        ?.text = '100';
-                                                    _model.addAmountTextController
-                                                            ?.selection =
-                                                        TextSelection.collapsed(
-                                                            offset: _model
-                                                                .addAmountTextController!
-                                                                .text
-                                                                .length);
-                                                  });
-                                                },
-                                                text: '₹ 100.00',
-                                                options: FFButtonOptions(
-                                                  height: 35.0,
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 0.0, 8.0, 0.0),
-                                                  iconPadding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 0.0,
-                                                              0.0, 0.0),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 8.0, 0.0, 8.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _model
+                                                            .addAmountTextController
+                                                            ?.text = '100';
+                                                        _model.addAmountTextController
+                                                                ?.selection =
+                                                            TextSelection.collapsed(
+                                                                offset: _model
+                                                                    .addAmountTextController!
+                                                                    .text
+                                                                    .length);
+                                                      });
+                                                    },
+                                                    text: '₹ 100.00',
+                                                    options: FFButtonOptions(
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                      iconPadding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      textStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                      borderSide: BorderSide(
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
-                                                        fontSize: 12.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        width: 0.5,
                                                       ),
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    width: 0.5,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                              ),
-                                              FFButtonWidget(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _model
-                                                        .addAmountTextController
-                                                        ?.text = '200';
-                                                    _model.addAmountTextController
-                                                            ?.selection =
-                                                        TextSelection.collapsed(
-                                                            offset: _model
-                                                                .addAmountTextController!
-                                                                .text
-                                                                .length);
-                                                  });
-                                                },
-                                                text: '₹ 200.00',
-                                                options: FFButtonOptions(
-                                                  height: 35.0,
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 0.0, 8.0, 0.0),
-                                                  iconPadding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 0.0,
-                                                              0.0, 0.0),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _model
+                                                            .addAmountTextController
+                                                            ?.text = '200';
+                                                        _model.addAmountTextController
+                                                                ?.selection =
+                                                            TextSelection.collapsed(
+                                                                offset: _model
+                                                                    .addAmountTextController!
+                                                                    .text
+                                                                    .length);
+                                                      });
+                                                    },
+                                                    text: '₹ 200.00',
+                                                    options: FFButtonOptions(
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                      iconPadding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      textStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                      borderSide: BorderSide(
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
-                                                        fontSize: 12.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        width: 0.5,
                                                       ),
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    width: 0.5,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                              ),
-                                              FFButtonWidget(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _model
-                                                        .addAmountTextController
-                                                        ?.text = '300';
-                                                    _model.addAmountTextController
-                                                            ?.selection =
-                                                        TextSelection.collapsed(
-                                                            offset: _model
-                                                                .addAmountTextController!
-                                                                .text
-                                                                .length);
-                                                  });
-                                                },
-                                                text: '₹ 300.00',
-                                                options: FFButtonOptions(
-                                                  height: 35.0,
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 0.0, 8.0, 0.0),
-                                                  iconPadding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 0.0,
-                                                              0.0, 0.0),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _model
+                                                            .addAmountTextController
+                                                            ?.text = '300';
+                                                        _model.addAmountTextController
+                                                                ?.selection =
+                                                            TextSelection.collapsed(
+                                                                offset: _model
+                                                                    .addAmountTextController!
+                                                                    .text
+                                                                    .length);
+                                                      });
+                                                    },
+                                                    text: '₹ 300.00',
+                                                    options: FFButtonOptions(
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                      iconPadding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      textStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                      borderSide: BorderSide(
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
-                                                        fontSize: 12.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        width: 0.5,
                                                       ),
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    width: 0.5,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
-                                              ),
-                                              FFButtonWidget(
-                                                onPressed: () async {
-                                                  setState(() {
-                                                    _model
-                                                        .addAmountTextController
-                                                        ?.text = '500';
-                                                    _model.addAmountTextController
-                                                            ?.selection =
-                                                        TextSelection.collapsed(
-                                                            offset: _model
-                                                                .addAmountTextController!
-                                                                .text
-                                                                .length);
-                                                  });
-                                                },
-                                                text: '₹ 500.00',
-                                                options: FFButtonOptions(
-                                                  height: 35.0,
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 0.0, 8.0, 0.0),
-                                                  iconPadding:
-                                                      const EdgeInsetsDirectional
-                                                          .fromSTEB(0.0, 0.0,
-                                                              0.0, 0.0),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        _model
+                                                            .addAmountTextController
+                                                            ?.text = '500';
+                                                        _model.addAmountTextController
+                                                                ?.selection =
+                                                            TextSelection.collapsed(
+                                                                offset: _model
+                                                                    .addAmountTextController!
+                                                                    .text
+                                                                    .length);
+                                                      });
+                                                    },
+                                                    text: '₹ 500.00',
+                                                    options: FFButtonOptions(
+                                                      height: 35.0,
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  0.0,
+                                                                  8.0,
+                                                                  0.0),
+                                                      iconPadding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      textStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Readex Pro',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                      borderSide: BorderSide(
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
-                                                        fontSize: 12.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                        width: 0.5,
                                                       ),
-                                                  borderSide: BorderSide(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText,
-                                                    width: 0.5,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 16.0, 0.0, 8.0),
-                                          child: FFButtonWidget(
-                                            onPressed: () async {
-                                              var shouldSetState = false;
-                                              if (currentAuthenticationToken !=
-                                                      null &&
-                                                  currentAuthenticationToken !=
-                                                      '') {
-                                                _model.apiResultatokenvalid =
-                                                    await KMartAPIsGroup
-                                                        .tokenValidetionCall
-                                                        .call(
-                                                  token:
-                                                      currentAuthenticationToken,
-                                                );
-
-                                                shouldSetState = true;
-                                                if (!(_model
-                                                        .apiResultatokenvalid
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  _model.resultrefreshtoken =
-                                                      await KMartAPIsGroup
-                                                          .refreshTokenCall
-                                                          .call(
-                                                    refreshToken:
-                                                        currentAuthRefreshToken,
-                                                  );
-
-                                                  shouldSetState = true;
-                                                  if ((_model.resultrefreshtoken
-                                                          ?.succeeded ??
-                                                      true)) {
-                                                    authManager
-                                                        .updateAuthUserData(
-                                                      authenticationToken:
-                                                          getJsonField(
-                                                        (_model.resultrefreshtoken
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.data.access_token''',
-                                                      ).toString(),
-                                                      refreshToken:
-                                                          currentAuthRefreshToken,
-                                                      authUid: currentUserUid,
-                                                      userData: UserStruct(
-                                                        id: currentUserData?.id,
-                                                        userName:
-                                                            currentUserData
-                                                                ?.userName,
-                                                        moblieNumber:
-                                                            currentUserData
-                                                                ?.moblieNumber,
-                                                        shippingAddress:
-                                                            currentUserData
-                                                                ?.shippingAddress,
-                                                        houseNo: currentUserData
-                                                            ?.houseNo,
-                                                        lineNo: currentUserData
-                                                            ?.lineNo,
-                                                        landMark:
-                                                            currentUserData
-                                                                ?.landMark,
-                                                        city: currentUserData
-                                                            ?.city,
-                                                        state: currentUserData
-                                                            ?.state,
-                                                        pincode: currentUserData
-                                                            ?.pincode,
-                                                      ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 16.0, 0.0, 8.0),
+                                              child: FFButtonWidget(
+                                                onPressed: () async {
+                                                  var shouldSetState = false;
+                                                  if (currentAuthenticationToken !=
+                                                          null &&
+                                                      currentAuthenticationToken !=
+                                                          '') {
+                                                    _model.apiResultatokenvalid =
+                                                        await KMartAPIsGroup
+                                                            .tokenValidetionCall
+                                                            .call(
+                                                      token:
+                                                          currentAuthenticationToken,
                                                     );
+
+                                                    shouldSetState = true;
+                                                    if (!(_model
+                                                            .apiResultatokenvalid
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      _model.resultrefreshtoken =
+                                                          await KMartAPIsGroup
+                                                              .refreshTokenCall
+                                                              .call(
+                                                        refreshToken:
+                                                            currentAuthRefreshToken,
+                                                      );
+
+                                                      shouldSetState = true;
+                                                      if ((_model
+                                                              .resultrefreshtoken
+                                                              ?.succeeded ??
+                                                          true)) {
+                                                        authManager
+                                                            .updateAuthUserData(
+                                                          authenticationToken:
+                                                              getJsonField(
+                                                            (_model.resultrefreshtoken
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                            r'''$.data.access_token''',
+                                                          ).toString(),
+                                                          refreshToken:
+                                                              currentAuthRefreshToken,
+                                                          authUid:
+                                                              currentUserUid,
+                                                          userData: UserStruct(
+                                                            id: currentUserData
+                                                                ?.id,
+                                                            userName:
+                                                                currentUserData
+                                                                    ?.userName,
+                                                            moblieNumber:
+                                                                currentUserData
+                                                                    ?.moblieNumber,
+                                                            shippingAddress:
+                                                                currentUserData
+                                                                    ?.shippingAddress,
+                                                            houseNo:
+                                                                currentUserData
+                                                                    ?.houseNo,
+                                                            lineNo:
+                                                                currentUserData
+                                                                    ?.lineNo,
+                                                            landMark:
+                                                                currentUserData
+                                                                    ?.landMark,
+                                                            city:
+                                                                currentUserData
+                                                                    ?.city,
+                                                            state:
+                                                                currentUserData
+                                                                    ?.state,
+                                                            pincode:
+                                                                currentUserData
+                                                                    ?.pincode,
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        context.pushNamed(
+                                                            'LoginPage');
+
+                                                        if (shouldSetState) {
+                                                          setState(() {});
+                                                        }
+                                                        return;
+                                                      }
+                                                    }
                                                   } else {
                                                     context
                                                         .pushNamed('LoginPage');
@@ -1313,152 +1393,185 @@ class _WalletPageWidgetState extends State<WalletPageWidget> {
                                                     }
                                                     return;
                                                   }
-                                                }
-                                              } else {
-                                                context.pushNamed('LoginPage');
 
-                                                if (shouldSetState) {
-                                                  setState(() {});
-                                                }
-                                                return;
-                                              }
-
-                                              _model.paymentresult =
-                                                  await actions.razorpayaction(
-                                                context,
-                                                double.parse(_model
-                                                    .addAmountTextController
-                                                    .text),
-                                                'कृष्णा मार्ट ',
-                                                'Add in Wallet',
-                                                currentUserData!.moblieNumber,
-                                              );
-                                              shouldSetState = true;
-                                              if (functions.paymentcondition(
-                                                  getJsonField(
-                                                _model.paymentresult,
-                                                r'''$.status''',
-                                              ).toString())) {
-                                                _model.addamountwallet =
-                                                    await KMartAPIsGroup
-                                                        .addAmountWalletCall
-                                                        .call(
-                                                  userId: currentUserData?.id,
-                                                  amount: double.tryParse(_model
-                                                      .addAmountTextController
-                                                      .text),
-                                                  transactionId: getJsonField(
-                                                    _model.paymentresult,
-                                                    r'''$.paymentId''',
-                                                  ).toString(),
-                                                  transactionMode: 'CREDIT',
-                                                  token:
-                                                      currentAuthenticationToken,
-                                                );
-
-                                                shouldSetState = true;
-                                                if ((_model.addamountwallet
-                                                        ?.succeeded ??
-                                                    true)) {
-                                                  setState(() {});
-                                                  setState(() {
-                                                    _model
+                                                  _model.paymentresult =
+                                                      await actions
+                                                          .razorpayaction(
+                                                    context,
+                                                    double.parse(_model
                                                         .addAmountTextController
-                                                        ?.clear();
-                                                  });
-
-                                                  setState(() {});
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        getJsonField(
-                                                          (_model.addamountwallet
-                                                                  ?.jsonBody ??
-                                                              ''),
-                                                          r'''$.data.message''',
-                                                        ).toString(),
-                                                        style: TextStyle(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                        ),
-                                                      ),
-                                                      duration: const Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondary,
-                                                    ),
+                                                        .text),
+                                                    'कृष्णा मार्ट ',
+                                                    'Add in Wallet',
+                                                    currentUserData!
+                                                        .moblieNumber,
                                                   );
-                                                } else {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                        valueOrDefault<String>(
+                                                  shouldSetState = true;
+                                                  if (functions
+                                                      .paymentcondition(
                                                           getJsonField(
-                                                            (_model.addamountwallet
-                                                                    ?.jsonBody ??
-                                                                ''),
-                                                            r'''$.data.message''',
-                                                          )?.toString(),
-                                                          'Amount Not added in Wallet',
+                                                    _model.paymentresult,
+                                                    r'''$.status''',
+                                                  ).toString())) {
+                                                    _model.addamountwallet =
+                                                        await KMartAPIsGroup
+                                                            .addAmountWalletCall
+                                                            .call(
+                                                      userId:
+                                                          currentUserData?.id,
+                                                      amount: double.tryParse(_model
+                                                          .addAmountTextController
+                                                          .text),
+                                                      transactionId:
+                                                          getJsonField(
+                                                        _model.paymentresult,
+                                                        r'''$.paymentId''',
+                                                      ).toString(),
+                                                      transactionMode: 'CREDIT',
+                                                      token:
+                                                          currentAuthenticationToken,
+                                                    );
+
+                                                    shouldSetState = true;
+                                                    if ((_model.addamountwallet
+                                                            ?.succeeded ??
+                                                        true)) {
+                                                      setState(() {});
+                                                      setState(() {
+                                                        _model
+                                                            .addAmountTextController
+                                                            ?.clear();
+                                                      });
+
+                                                      setState(() {});
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            getJsonField(
+                                                              (_model.addamountwallet
+                                                                      ?.jsonBody ??
+                                                                  ''),
+                                                              r'''$.data.message''',
+                                                            ).toString(),
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: const Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryText,
                                                         ),
-                                                        style: TextStyle(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryText,
+                                                      );
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              getJsonField(
+                                                                (_model.addamountwallet
+                                                                        ?.jsonBody ??
+                                                                    ''),
+                                                                r'''$.data.message''',
+                                                              )?.toString(),
+                                                              'Amount Not added in Wallet',
+                                                            ),
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondaryBackground,
+                                                            ),
+                                                          ),
+                                                          duration: const Duration(
+                                                              milliseconds:
+                                                                  4000),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .error,
                                                         ),
+                                                      );
+                                                    }
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Enter correct amount.',
+                                                          style: TextStyle(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontSize: 14.0,
+                                                          ),
+                                                        ),
+                                                        duration: const Duration(
+                                                            milliseconds: 4000),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
                                                       ),
-                                                      duration: const Duration(
-                                                          milliseconds: 4000),
-                                                      backgroundColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .error,
-                                                    ),
-                                                  );
-                                                }
-                                              }
-                                              if (shouldSetState) {
-                                                setState(() {});
-                                              }
-                                            },
-                                            text: 'Add money',
-                                            options: FFButtonOptions(
-                                              width: double.infinity,
-                                              height: 40.0,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      24.0, 0.0, 24.0, 0.0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
+                                                    );
+                                                  }
+
+                                                  if (shouldSetState) {
+                                                    setState(() {});
+                                                  }
+                                                },
+                                                text: 'Add money',
+                                                options: FFButtonOptions(
+                                                  width: double.infinity,
+                                                  height: 40.0,
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          24.0, 0.0, 24.0, 0.0),
+                                                  iconPadding:
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(0.0, 0.0,
+                                                              0.0, 0.0),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
                                                       .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily:
-                                                            'Readex Pro',
-                                                        color: Colors.white,
-                                                        fontSize: 18.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                              elevation: 3.0,
-                                              borderSide: const BorderSide(
-                                                color: Colors.transparent,
-                                                width: 1.0,
+                                                  textStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            fontFamily:
+                                                                'Readex Pro',
+                                                            color: Colors.white,
+                                                            fontSize: 18.0,
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                  elevation: 3.0,
+                                                  borderSide: const BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1.0,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),

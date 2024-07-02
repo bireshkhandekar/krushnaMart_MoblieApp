@@ -4,7 +4,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:octo_image/octo_image.dart';
 import 'subscription_details_model.dart';
 export 'subscription_details_model.dart';
 
@@ -307,11 +309,20 @@ class _SubscriptionDetailsWidgetState extends State<SubscriptionDetailsWidget> {
                                     0.0, 6.0, 0.0, 6.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    getJsonField(
-                                      containerGetSubByIdResponse.jsonBody,
-                                      r'''$.data.item_details.image''',
-                                    ).toString(),
+                                  child: OctoImage(
+                                    placeholderBuilder: (_) => const SizedBox.expand(
+                                      child: Image(
+                                        image: BlurHashImage(
+                                            'LcS5-Lt7yYfRo~bGjFjFuPaeZ#kB'),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    image: NetworkImage(
+                                      getJsonField(
+                                        containerGetSubByIdResponse.jsonBody,
+                                        r'''$.data.item_details.image''',
+                                      ).toString(),
+                                    ),
                                     width: 140.0,
                                     height: 59.0,
                                     fit: BoxFit.contain,

@@ -20,6 +20,10 @@ Future<List<String>?> showCustomDatePicker(BuildContext context) async {
   final config = CalendarDatePicker2Config(
     calendarType: CalendarDatePicker2Type.multi,
     selectedDayHighlightColor: Colors.indigo,
+
+    // pastDatesTextStyle:
+    //     TextStyle(color: Colors.grey), // Define past dates text style
+    // futureDatesTextStyle: TextStyle(color: Colors.black),
   );
 
   List<String>? selectedDates;
@@ -31,6 +35,7 @@ Future<List<String>?> showCustomDatePicker(BuildContext context) async {
         builder: (BuildContext context, StateSetter setState) {
           return Scaffold(
             body: SingleChildScrollView(
+              primary: true,
               child: Center(
                 child: SizedBox(
                   width: 375,
